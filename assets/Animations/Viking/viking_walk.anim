@@ -1,0 +1,67 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_walk",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.6,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "63737999-f7be-48c8-86e7-34f08de18819"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "b960b98c-2300-4d41-9c8c-4d2849e2d0bb"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "35faaae1-6ced-4be6-81cc-dbe234ab6f50"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "6c31fc09-be82-497f-aa58-5c6b557cad5f"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "9cc64d45-14b2-49de-8746-c4564dad2b9f"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "52941d4b-881c-46e2-bca0-eabcd723deaf"
+            }
+          },
+          {
+            "frame": 1.2,
+            "value": {
+              "__uuid__": "c0ff904f-c385-42c0-841c-f78b561c4cfb"
+            }
+          },
+          {
+            "frame": 1.4,
+            "value": {
+              "__uuid__": "b1e0180e-7144-4832-a799-7589b1c9e33d"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

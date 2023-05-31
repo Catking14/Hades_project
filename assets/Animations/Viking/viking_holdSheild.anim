@@ -1,0 +1,67 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_holdSheild",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.6,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "0af3c211-5bfd-4dfb-bc54-4aaf6ec20bcd"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "89af203c-4539-422a-a938-ccd29d45e2a9"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "b48a976c-16b0-4d97-a96d-f86456852ffd"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "4e9c5f93-ce0a-474e-b464-7b35376bc466"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "5660e9dd-40e6-4a63-9bc6-da730579e275"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "9ad0609d-2383-4592-8004-ae0873e8ca94"
+            }
+          },
+          {
+            "frame": 1.2,
+            "value": {
+              "__uuid__": "cd066fbd-ec30-4320-9e5e-763ede5ea0e1"
+            }
+          },
+          {
+            "frame": 1.4,
+            "value": {
+              "__uuid__": "edf94109-0157-4242-914e-d8953745533b"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

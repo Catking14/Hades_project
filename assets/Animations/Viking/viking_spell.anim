@@ -1,0 +1,91 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_speel",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2.4,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "ff6e9886-8788-43d3-9df4-8ecd82629647"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "35d31fb5-d578-40f9-8af4-c3cfa91baf82"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "3ad213d9-336c-49ad-af2d-e8a8b9227551"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "eceba801-26b1-4ecb-995a-11dc172c674b"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "c05da1b3-ed25-48f8-bc63-c3e5ed926eda"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "813065c2-ace0-49bc-8cef-9f0d050eea40"
+            }
+          },
+          {
+            "frame": 1.2,
+            "value": {
+              "__uuid__": "1cb79ab8-7e1b-4efc-9b85-d399339dd857"
+            }
+          },
+          {
+            "frame": 1.4,
+            "value": {
+              "__uuid__": "c2bab583-a5a7-4845-babb-1535681c6d28"
+            }
+          },
+          {
+            "frame": 1.6,
+            "value": {
+              "__uuid__": "c42fc1b4-6140-4545-8650-b889de32a100"
+            }
+          },
+          {
+            "frame": 1.8,
+            "value": {
+              "__uuid__": "3b7f4f60-dd2d-4bbc-b9d8-f8a51b77b3e2"
+            }
+          },
+          {
+            "frame": 2,
+            "value": {
+              "__uuid__": "fb480132-210f-42d9-9b74-a8418f62d0c4"
+            }
+          },
+          {
+            "frame": 2.2,
+            "value": {
+              "__uuid__": "564863cb-4d5f-4ee5-b9fd-6d92aa61af8b"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
