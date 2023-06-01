@@ -695,7 +695,9 @@
     "root": {
       "__id__": 11
     },
-    "asset": null,
+    "asset": {
+      "__uuid__": "d4bfefcd-c005-4dcf-8ad8-5449cbd5d7a4"
+    },
     "fileId": "",
     "sync": false
   },
