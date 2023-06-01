@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "warrior_dash",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.18333333333333332,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "19a08931-b9dd-4bad-a4bc-d1669b5c3ef8"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "5c72d1a9-05db-481b-83e8-df37dce3880e"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "19a08931-b9dd-4bad-a4bc-d1669b5c3ef8"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "19a08931-b9dd-4bad-a4bc-d1669b5c3ef8"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

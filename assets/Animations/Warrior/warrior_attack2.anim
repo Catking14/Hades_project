@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "warrior_attack2",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.26666666666666666,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "70ffb186-9a1d-462f-814b-2af17d7b9dc2"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "e430a157-a55b-4bda-8131-472296edf10e"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "d0c5b9a8-b6b2-4bb4-8c14-e45907f76d04"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "f0152669-d15d-4beb-8d06-f6f11fd03e93"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "09deadd4-ea47-4233-abbf-b964ce9b61d8"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "4e5ffbad-29db-4c65-a654-4332e1ee0bfb"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "warrior_hit",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.11666666666666667,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "41382a1a-5ee7-4bcb-9dd0-6207f4140f1f"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "4d547957-cdc9-44db-9583-2089f16e7700"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "28698cf7-b225-43e2-8d57-01f37dee4643"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "warrior_attack1",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.31666666666666665,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "ff0247ed-0777-4266-893d-0be6d2a49271"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "e19bd9d9-c154-4a23-8e14-fff4aeb739f7"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "146b3246-f486-4c2d-8f4d-dcab4cabf657"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "99a96874-8429-4f53-8266-e173c6ceb9a7"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "080ce49a-ebb8-4599-bd5f-00853ca6f294"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "8a443d59-be6c-4374-9725-906f55684f11"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "e79d4e2b-5d4d-4bb1-b217-048598c28503"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
