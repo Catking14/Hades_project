@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "fireball_destroy",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.5,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "f15b0567-51c1-476f-b9b0-4c954d92aba2"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "012db048-f1ba-44c8-a9fc-09c773c5c52d"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "61fe8f2e-8dd6-4585-94e5-08897bdfe3ff"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
