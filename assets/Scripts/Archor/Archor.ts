@@ -23,6 +23,8 @@ export default class Archor extends cc.Component {
     private getHitting: boolean = false;
     private isDead: boolean = false;
 
+    private dashAction: any;
+
 
     onLoad(){
         this.sprite = this.node.getComponent(cc.Sprite);
@@ -42,7 +44,10 @@ export default class Archor extends cc.Component {
     }
 
     update(dt){
-        // If is dashing, player cannot do anything else.
+        // attack is prior to dash
+        if(this.isDashing && this.isAttacking) this.node.stopAction(this.dashAction);
+        
+        // If is dashing or attacking, player cannot do anything else.
         if(this.isDashing || this.isAttacking)  return; 
 
         // handle dash
@@ -111,8 +116,14 @@ export default class Archor extends cc.Component {
 
     dash(){
         console.log("Archor is dashing");
+        let direction = cc.v2(0, 0);
+
         this.isDashing = true;
-        this.node.runAction(cc.moveBy(0.5, this.node.scaleX * 50, this.direction.y * 50));
+        if(!this.direction.x && !this.direction.y) direction = cc.v2(this.node.scaleX, 0);
+        else direction = cc.v2(this.direction.x, this.direction.y);
+        
+        this.dashAction = cc.moveBy(0.5, direction.x * 50, direction.y * 50);
+        this.node.runAction(this.dashAction);
         this.scheduleOnce(()=>{
             this.isDashing = false;
             this.setState("stand");
