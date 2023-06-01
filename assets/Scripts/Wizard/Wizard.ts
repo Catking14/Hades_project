@@ -168,7 +168,7 @@ export default class NewClass extends cc.Component {
             this.anim.stop();
             this.animstate = this.anim.play("wizard_run");
         }
-        else if((this.move_dir.x == 0 && this.move_dir.y == 0) && (this.animstate.name != "warrior_idle" || !this.animstate.isPlaying))
+        else if((this.move_dir.x == 0 && this.move_dir.y == 0) && (this.animstate.name != "wizard_idle" || !this.animstate.isPlaying))
         {
             this.anim.stop();
             this.animstate = this.anim.play("wizard_idle");
