@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "wizard_death",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.3,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "383c9f38-4c76-4c9a-95f7-63e2899a0942"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "c2ba5a5d-9945-4bb6-a271-0885504cbcd2"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "a7d6ca52-517a-4259-9979-43fb85359b8e"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "12a230fe-756f-477d-9113-e85d49421916"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "2bfe4f34-e17f-4a7d-b04f-7f8f2bb23de9"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "6766c14c-983a-4c31-99c3-3475d6dcc123"
+            }
+          },
+          {
+            "frame": 1.2,
+            "value": {
+              "__uuid__": "c989484b-4403-47aa-a4db-0398a15ede26"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

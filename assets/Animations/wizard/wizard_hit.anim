@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "wizard_hit",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.7,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "b42ff8b7-ec36-4324-9ccd-816f3a55023e"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "25a7d7e6-7f23-4762-924f-502f76457ebc"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "c65d064f-265c-43c6-9413-7a4dc7808ca6"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "83b0aacc-f231-46d2-b577-419efab251cf"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
