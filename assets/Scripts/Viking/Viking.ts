@@ -3,12 +3,13 @@ const Input = {};
 
 @ccclass
 export default class Archor extends cc.Component {
-    @property(cc.Prefab)
-    Arrow: cc.Prefab = null;
+
     @property
     HP: number = 100;
+
     @property(cc.v2)
     speed = cc.v2(0, 0);
+
     @property(cc.v2)
     direction = cc.v2(0, 0);
 
@@ -16,6 +17,7 @@ export default class Archor extends cc.Component {
     private animation: cc.Animation;
     private rigidBody: cc.RigidBody;
     private collider: cc.PhysicsBoxCollider;
+
     private state: string = "";
     private isBegin: boolean = false;
     private isDashing: boolean = false;
@@ -23,14 +25,13 @@ export default class Archor extends cc.Component {
     private getHitting: boolean = false;
     private isDead: boolean = false;
 
-    private dashAction: any;
-
 
     onLoad(){
         this.sprite = this.node.getComponent(cc.Sprite);
         this.animation = this.node.getComponent(cc.Animation);
         this.rigidBody = this.node.getComponent(cc.RigidBody);
         this.collider = this.node.getComponent(cc.PhysicsBoxCollider);
+        
         this.HP = 100;
         this.speed = cc.v2(70, 40);
         this.direction = cc.v2(0, 0);
@@ -44,10 +45,7 @@ export default class Archor extends cc.Component {
     }
 
     update(dt){
-        // attack is prior to dash
-        if(this.isDashing && this.isAttacking) this.node.stopAction(this.dashAction);
-        
-        // If is dashing or attacking, player cannot do anything else.
+        // If is dashing, player cannot do anything else.
         if(this.isDashing || this.isAttacking)  return; 
 
         // handle dash
@@ -84,46 +82,33 @@ export default class Archor extends cc.Component {
         this.setState(newState);
     }
 
-    onKeyDown(event){
-        Input[event.keyCode] = 1;
-    }
-
-    onKeyUp(event){
-        Input[event.keyCode] = 0;
-    }
 
     setState(newState: string){
         if(this.state == newState)  return;
 
         this.animation.stop();
-        this.animation.play("archor_" + newState);
+        this.animation.play("viking_" + newState);
         this.state = newState;
 
-        if(this.state == "stand"){
+        // if(this.state == "stand"){
             
-        }else if(this.state == "run"){
+        // }else if(this.state == "run"){
             
-        }else if(this.state == "dash"){
+        // }else if(this.state == "dash"){
             
-        }else if(this.state == "attack"){
+        // }else if(this.state == "attack"){
             
-        }else if(this.state == "getHit"){
+        // }else if(this.state == "getHit"){
             
-        }else if(this.state == "death"){
+        // }else if(this.state == "death"){
             
-        }
+        // }
     }
 
     dash(){
-        console.log("Archor is dashing");
-        let direction = cc.v2(0, 0);
-
+        console.log("Viking is dashing");
         this.isDashing = true;
-        if(!this.direction.x && !this.direction.y) direction = cc.v2(this.node.scaleX, 0);
-        else direction = cc.v2(this.direction.x, this.direction.y);
-        
-        this.dashAction = cc.moveBy(0.5, direction.x * 50, direction.y * 50);
-        this.node.runAction(this.dashAction);
+        this.node.runAction(cc.moveBy(0.5, this.node.scaleX * 50, this.direction.y * 50));
         this.scheduleOnce(()=>{
             this.isDashing = false;
             this.setState("stand");
@@ -133,35 +118,39 @@ export default class Archor extends cc.Component {
     attack(event){
         if(this.isAttacking) return;
 
-        const mousePos = event.getLocation();
-        const arrow = cc.instantiate(this.Arrow);
-        let distance;
-        let direction = cc.v2(0, 0);
-        let rotation: number;
+        // const mousePos = event.getLocation();
+        // const arrow = cc.instantiate(this.Arrow);
+        // let distance;
+        // let direction = cc.v2(0, 0);
+        // let rotation: number;
 
-        direction = cc.v2(mousePos.x - 480 - this.node.position.x, mousePos.y - 320 - this.node.position.y);
-        distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
-        direction = cc.v2(direction.x / distance, direction.y / distance);
-        rotation = Math.atan(direction.y / direction.x) * (180 / Math.PI);
-        if(direction.x >= 0){
-            arrow.angle = rotation;
-            this.node.scaleX = 1;
-        }else{
-            arrow.angle = rotation + 180;
-            this.node.scaleX = -1;
-        }
+        // direction = cc.v2(mousePos.x - 480 - this.node.position.x, mousePos.y - 320 - this.node.position.y);
+        // distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
+        // direction = cc.v2(direction.x / distance, direction.y / distance);
+        // rotation = Math.atan(direction.y / direction.x) * (180 / Math.PI);
+        // if(direction.x >= 0){
+        //     arrow.angle = rotation;
+        //     this.node.scaleX = 1;
+        // }else{
+        //     arrow.angle = rotation + 180;
+        //     this.node.scaleX = -1;
+        // }
         this.isAttacking = true;
-        this.setState("attack");
+        this.setState("a1");
 
-        this.scheduleOnce(()=>{
-            arrow.setPosition(cc.v2(this.node.position.x, this.node.position.y));
-            cc.find("Canvas/New Node").addChild(arrow);
-            arrow.runAction(cc.moveBy(1, cc.v2(direction.x * 100, direction.y * 100)));
-        }, 0.5)
+        // this.scheduleOnce(()=>{
+        //     arrow.setPosition(cc.v2(this.node.position.x, this.node.position.y));
+        //     cc.find("Canvas/New Node").addChild(arrow);
+        //     arrow.runAction(cc.moveBy(1, cc.v2(direction.x * 100, direction.y * 100)));
+        // }, 0.5)
 
         this.scheduleOnce(()=>{
             this.setState("stand");
             this.isAttacking = false;
         }, 1)
     }
+
+    
+    onKeyDown(event){ Input[event.keyCode] = 1; }
+    onKeyUp(event){ Input[event.keyCode] = 0; }
 }

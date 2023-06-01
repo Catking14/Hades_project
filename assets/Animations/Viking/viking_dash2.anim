@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_dash",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "606aeed2-22dc-458f-8b47-e7a20c3428ae"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "fdd871bb-c4f8-4f14-b007-ddccb3192700"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "6961ba60-2f3b-4742-bf1f-0da0ec8cfa9e"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

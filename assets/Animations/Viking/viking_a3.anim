@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_a3",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "d8afc48f-4f95-45e2-bccb-65c1e5aa75b6"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "3be3b398-64cd-4111-b6e1-a8c4c708b166"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "a09f89da-ea89-470c-84d2-2aece80cee35"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "218b1e9e-ec69-4dc4-9cb8-1637eeceb021"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

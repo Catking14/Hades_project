@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_gethit",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "e39ebdb1-d996-4340-8c6f-531429719e4b"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "50fd92c5-29c2-4ddf-bab8-eddbe8877ad4"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "9795a973-d8cc-41e4-86c3-0f80f92d0d53"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "eea72e0e-7c0f-4a08-b8cd-519a274621cd"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

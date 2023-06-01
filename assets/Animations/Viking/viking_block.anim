@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_block",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "bcb351f4-3fc9-413a-a944-f2b30da1321c"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "eb496195-f296-4037-b6a2-59e8cb1ec2b5"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "affb51f6-3a5a-4362-a557-ead1e6642346"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "a78efe41-7f89-4f65-bdfb-d6a24d147cdc"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "bff37373-60a0-40cf-96fc-18b1058f0512"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

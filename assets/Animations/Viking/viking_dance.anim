@@ -1,0 +1,67 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "viking_dance",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.6,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "8f353ef8-9de1-46b4-ba03-5e2982eadc86"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "f30042f8-b521-4f0d-bce9-2ffbcd8a37fb"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "4e581535-6c72-48f8-ba7a-de1673fa3247"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "4ed4ca14-d51e-4e94-a62d-6b8b2637012a"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "30df4ca0-8891-4b5c-8a86-7c45bd536e1a"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "476a7668-0ed7-4cbc-8281-f348875ed257"
+            }
+          },
+          {
+            "frame": 1.2,
+            "value": {
+              "__uuid__": "5ac15508-8df6-401f-bea7-7f87ba0a0fb7"
+            }
+          },
+          {
+            "frame": 1.4,
+            "value": {
+              "__uuid__": "ac874b44-a88e-42ac-876c-3d113b8a7dc7"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
