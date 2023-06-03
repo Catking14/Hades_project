@@ -130,7 +130,7 @@ export default class Archor extends cc.Component {
         if(!this.direction.x && !this.direction.y) direction = cc.v2(this.node.scaleX, 0);
         else direction = cc.v2(this.direction.x, this.direction.y);
         
-        this.dashAction = cc.moveBy(0.5, direction.x * 50, direction.y * 50);
+        this.dashAction = cc.moveBy(0.5, direction.x * 200, direction.y * 200);
         this.node.runAction(this.dashAction);
         this.scheduleOnce(()=>{
             this.isDashing = false;

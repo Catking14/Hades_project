@@ -2,7 +2,7 @@
   "group-list": [
     "default",
     "player",
-    "enermy",
+    "enemy",
     "player_attack",
     "enermy_attack"
   ],

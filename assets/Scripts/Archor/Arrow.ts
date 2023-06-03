@@ -30,7 +30,7 @@ export default class Arrow extends cc.Component {
     // update (dt) {}
     onBeginContact(contact, self, other){
         if(other.node.group == "default"){
-            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 11.1;
+            this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
             this.node.getComponent(cc.PhysicsBoxCollider).apply();
             this.node.getComponent(cc.Animation).stop();
             this.node.getComponent(cc.Sprite).spriteFrame = this.half_arrow;
@@ -43,6 +43,11 @@ export default class Arrow extends cc.Component {
             this.scheduleOnce(()=>{
                 this.node.destroy();
             }, 5)
+        }
+
+        if(other.node.group == "enemy"){
+            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+            this.node.destroy();
         }
     }
     
