@@ -142,10 +142,9 @@ export default class Archor extends cc.Component {
         if(this.isAttacking) return;
 
         this.mousePos = event.getLocation();
-        let cameraPos = cc.find("Canvas/Main Camera").position;
         let distance: number;
         let direction = cc.v2(0, 0);
-        direction = cc.v2(this.mousePos.x + cameraPos.x - 480 - this.node.position.x, this.mousePos.y + cameraPos.y - 320 - this.node.position.y);
+        direction = cc.v2(this.mousePos.x - 480 - this.node.position.x, this.mousePos.y - 320 - this.node.position.y);
         distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
         direction = cc.v2(direction.x / distance, direction.y / distance);
 
@@ -157,8 +156,8 @@ export default class Archor extends cc.Component {
 
         this.scheduleOnce(()=>{
             const arrow = cc.instantiate(this.Arrow);
-            arrow.setPosition(cc.v2(0, 0));
-            cc.find("Canvas/New Node/Archor").addChild(arrow);
+            arrow.setPosition(cc.v2(this.node.position.x, this.node.position.y));
+            cc.find("Canvas/New Node").addChild(arrow);
         }, 0.5)
 
         this.scheduleOnce(()=>{
