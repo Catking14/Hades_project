@@ -18,6 +18,6 @@ export default class Blade extends cc.Component {
     onBeginContact(contact, self, other) {
         console.log("hit player");
         contact.disabled = true;
-        other.damage(this.damage_val);
+        other.node.getComponent(other.node.name).damage();
     }
 }

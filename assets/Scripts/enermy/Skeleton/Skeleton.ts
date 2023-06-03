@@ -18,7 +18,7 @@ export default class Skeleton extends cc.Component {
 
     // 速度
     @property(cc.v2)
-    speed = cc.v2(0, 0);
+    speed = cc.v2(250, 200);
 
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
@@ -58,7 +58,7 @@ export default class Skeleton extends cc.Component {
         this.attack_counter = this.attack_counter > dt ? this.attack_counter - dt : 0;
 
         // caculate scaleX
-        this.node.scaleX = this.direction.x > 0 ? 0.8 : -0.8;
+        this.node.scaleX = this.direction.x > 0 ? 1 : -1;
 
         // calculate displacement (depends on direction and speed)
         if (this.direction.x && !this.isDead && !this.isAttacking) this.node.x += this.direction.x * this.speed.x * dt;
@@ -131,9 +131,11 @@ export default class Skeleton extends cc.Component {
 
         let blade = cc.instantiate(this.blade);
         blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
+        blade.setContentSize(cc.size(this.node.width * 1.5, this.node.height));
+        blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 1.5, this.node.height);
         blade.getComponents("blade")[0].duration_time = this.attack_time - this.attack_delay;
         blade.getComponents("blade")[0].damage_val = this.attack_damage;
-
+        
         this.scheduleOnce(() => {
             cc.find("Canvas/New Node").addChild(blade);
         }, this.attack_delay);
