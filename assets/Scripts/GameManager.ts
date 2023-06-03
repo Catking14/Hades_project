@@ -8,17 +8,17 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
-
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
+export default class GameManager extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () 
+    {
+        let physics_manager = cc.director.getPhysicsManager();
+
+        physics_manager.enabled = true;
+        physics_manager.debugDrawFlags = 1;
+    }
 
     start () {
 

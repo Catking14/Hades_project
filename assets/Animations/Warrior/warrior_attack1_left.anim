@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "warrior_attack1",
+  "_name": "warrior_attack1_left",
   "_objFlags": 0,
   "_native": "",
   "_duration": 0.31666666666666665,
@@ -61,15 +61,15 @@
             "frame": 0,
             "value": {
               "__type__": "cc.Vec2",
-              "x": -0.3,
-              "y": -10.2
+              "x": 2.2,
+              "y": -10.3
             }
           },
           {
             "frame": 0.05,
             "value": {
               "__type__": "cc.Vec2",
-              "x": 9,
+              "x": -13.8,
               "y": -10.1
             }
           },
@@ -77,40 +77,40 @@
             "frame": 0.1,
             "value": {
               "__type__": "cc.Vec2",
-              "x": 18.6,
-              "y": -2.6
+              "x": -18.2,
+              "y": -3.1
             }
           },
           {
             "frame": 0.15,
             "value": {
               "__type__": "cc.Vec2",
-              "x": 18.6,
-              "y": -2.6
+              "x": -16.8,
+              "y": -3.2
             }
           },
           {
             "frame": 0.2,
             "value": {
               "__type__": "cc.Vec2",
-              "x": -13.1,
-              "y": -26.9
+              "x": 15.5,
+              "y": -26.6
             }
           },
           {
             "frame": 0.25,
             "value": {
               "__type__": "cc.Vec2",
-              "x": -10.9,
-              "y": 0.3
+              "x": 14,
+              "y": 0.1
             }
           },
           {
             "frame": 0.3,
             "value": {
               "__type__": "cc.Vec2",
-              "x": 4.1,
-              "y": 0.2
+              "x": -2.3,
+              "y": 0
             }
           }
         ],
@@ -119,56 +119,56 @@
             "frame": 0,
             "value": {
               "__type__": "cc.Size",
-              "width": 25.4,
-              "height": 39
+              "width": 23.6,
+              "height": 41.3
             }
           },
           {
             "frame": 0.05,
             "value": {
               "__type__": "cc.Size",
-              "width": 25.4,
-              "height": 42.9
+              "width": 23,
+              "height": 44.8
             }
           },
           {
             "frame": 0.1,
             "value": {
               "__type__": "cc.Size",
-              "width": 27.1,
-              "height": 48.8
+              "width": 29.3,
+              "height": 48.9
             }
           },
           {
             "frame": 0.15,
             "value": {
               "__type__": "cc.Size",
-              "width": 27.1,
-              "height": 48.8
+              "width": 29.3,
+              "height": 48.7
             }
           },
           {
             "frame": 0.2,
             "value": {
               "__type__": "cc.Size",
-              "width": 30.1,
-              "height": 25.8
+              "width": 34,
+              "height": 25.9
             }
           },
           {
             "frame": 0.25,
             "value": {
               "__type__": "cc.Size",
-              "width": 31.1,
-              "height": 27.2
+              "width": 34.5,
+              "height": 26.7
             }
           },
           {
             "frame": 0.3,
             "value": {
               "__type__": "cc.Size",
-              "width": 31.3,
-              "height": 26.6
+              "width": 35,
+              "height": 26.4
             }
           }
         ]
