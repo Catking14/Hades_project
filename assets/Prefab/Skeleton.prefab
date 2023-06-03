@@ -60,8 +60,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        109.579,
-        45.4,
+        47,
+        -148,
         0,
         0,
         0,
@@ -69,7 +69,7 @@
         1,
         0.8,
         0.8,
-        0.2
+        0.8
       ]
     },
     "_eulerAngles": {
@@ -165,7 +165,7 @@
     "_enabled": true,
     "_type": 2,
     "_allowSleep": true,
-    "_gravityScale": 1,
+    "_gravityScale": 0,
     "_linearDamping": 0,
     "_angularDamping": 0,
     "_linearVelocity": {
@@ -175,7 +175,7 @@
     },
     "_angularVelocity": 0,
     "_fixedRotation": false,
-    "enabledContactListener": false,
+    "enabledContactListener": true,
     "bullet": false,
     "awakeOnLoad": true,
     "_id": ""
@@ -216,7 +216,7 @@
     "_enabled": true,
     "target": null,
     "blade": {
-      "__uuid__": "c7c49484-a249-460e-b3a5-c38a5cd695ee"
+      "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
     },
     "HP": 100,
     "Shield": 100,
@@ -225,7 +225,6 @@
       "x": 20,
       "y": 20
     },
-    "debug_mode": false,
     "_id": ""
   },
   {

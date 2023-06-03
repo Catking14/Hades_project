@@ -20,9 +20,6 @@ export default class Skeleton extends cc.Component {
     @property(cc.v2)
     speed = cc.v2(0, 0);
 
-    @property
-    debug_mode: boolean = false;
-
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
 
@@ -51,6 +48,7 @@ export default class Skeleton extends cc.Component {
     }
 
     start() {
+        
     }
 
     update(dt) {
@@ -135,7 +133,6 @@ export default class Skeleton extends cc.Component {
         blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
         blade.getComponents("blade")[0].duration_time = this.attack_time - this.attack_delay;
         blade.getComponents("blade")[0].damage_val = this.attack_damage;
-        blade.getComponents("blade")[0].debug_mode = this.debug_mode;
 
         this.scheduleOnce(() => {
             cc.find("Canvas/New Node").addChild(blade);

@@ -60,8 +60,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        423.451,
-        349.678,
+        -0.254,
+        42.611,
         0,
         0,
         0,
@@ -81,8 +81,8 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
+    "_groupIndex": 1,
+    "groupIndex": 1,
     "_id": ""
   },
   {
@@ -198,8 +198,8 @@
     "body": null,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": -0.2,
-      "y": 0.5
+      "x": -4.3,
+      "y": 0.1
     },
     "_size": {
       "__type__": "cc.Size",

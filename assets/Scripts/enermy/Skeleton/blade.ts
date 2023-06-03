@@ -4,12 +4,8 @@ const {ccclass, property} = cc._decorator;
 export default class Blade extends cc.Component {
     duration_time: number = 0;
     damage_val: number = 0;
-    debug_mode: boolean = false;
 
     start() {
-        if (this.debug_mode) {
-            this.node.opacity = 100;
-        }
     }
 
     update(dt) {
@@ -21,6 +17,7 @@ export default class Blade extends cc.Component {
 
     onBeginContact(contact, self, other) {
         console.log("hit player");
+        contact.disabled = true;
         other.damage(this.damage_val);
     }
 }
