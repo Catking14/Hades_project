@@ -4,6 +4,9 @@ const Input = {};
 @ccclass
 export default class Viking extends cc.Component {
 
+    @property(cc.Prefab)
+    bladePrefab: cc.Prefab = null;
+
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
@@ -139,15 +142,24 @@ export default class Viking extends cc.Component {
 
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
 
-        let blade = new cc.Node;
+        // let blade = new cc.Node;
+        // blade.group = "player_attack";
+        // blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
+        // blade.addComponent(cc.PhysicsBoxCollider);
+        // blade.getComponent(cc.RigidBody).gravityScale = 0;
+        // blade.getComponent(cc.RigidBody).fixedRotation = true;
+        // blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 1, this.node.height * 1.2);
+        // this.scheduleOnce(() => { cc.find("Canvas/New Node").addChild(blade); }, this.attack_delay);
+        // this.scheduleOnce(() => { cc.find("Canvas/New Node").removeChild(blade); }, this.attack_time);
+
+        let blade = cc.instantiate(this.bladePrefab);
+        blade.setPosition(0, 0);
         blade.group = "player_attack";
-        blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
-        blade.addComponent(cc.PhysicsBoxCollider);
-        blade.getComponent(cc.RigidBody).gravityScale = 0;
-        blade.getComponent(cc.RigidBody).fixedRotation = true;
-        blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 1, this.node.height * 1.2);
-        this.scheduleOnce(() => { cc.find("Canvas/New Node").addChild(blade); }, this.attack_delay);
-        this.scheduleOnce(() => { cc.find("Canvas/New Node").removeChild(blade); }, this.attack_time);
+        blade.getComponent("blade").duration_time = this.attack_time - this.attack_delay;
+        blade.getComponent("blade").damage_val = this.attack_damage;
+        blade.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(10 * this.node.scaleX, 6.3);
+        blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(32, 50);
+        this.scheduleOnce(() => {this.node.addChild(blade);}, this.attack_delay);
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
@@ -171,9 +183,10 @@ export default class Viking extends cc.Component {
                 }, 0.3);
             } else {
                 this.isDead = true;
-                this.scheduleOnce(() => {
-                    this.destroy();
-                }, 0.35);
+                this.getComponent(cc.Animation).play("viking_death");
+                this.getComponent(cc.Animation).on("finished", () => {
+                    this.node.destroy();
+                }, this);
             }
         }
     }

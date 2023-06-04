@@ -190,8 +190,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "HP": 100,
-    "speed": 300,
+    "bladePrefab": {
+      "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
+    },
     "_id": ""
   },
   {
