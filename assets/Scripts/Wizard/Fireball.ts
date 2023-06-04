@@ -8,7 +8,7 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Fireball extends cc.Component {
 
     onLoad(){
         this.node.getComponent(cc.Animation).play("fireball_move");
@@ -19,14 +19,28 @@ export default class NewClass extends cc.Component {
         //     this.node.destroy();
         // }, 1.5)
         this.scheduleOnce(()=>{
+            this.node.scale = 2;
             this.node.getComponent(cc.Animation).stop();
-            this.node.getComponent(cc.Animation).play("fireball_destroy");
+            this.node.getComponent(cc.Animation).play("fireball_exlode");
             this.node.getComponent(cc.Animation).on("finished",()=>{
                 this.node.destroy();
             },this);
             
-        }, 10)
+        }, 5)
     }
-
+    onBeginContact(contact, self, other) {
+        // console.log("hit player");
+        console.log("hit enemy");
+        // contact.disabled = true;
+        this.node.scale = 2;
+        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0,0);
+        this.node.getComponent(cc.Animation).stop();
+        this.node.getComponent(cc.Animation).play("fireball_explode");
+        contact.disabled = true;
+        this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
+        this.node.getComponent(cc.Animation).on("finished",()=>{
+            this.node.destroy();
+        },this);
+    }
     // update (dt) {}
 }
