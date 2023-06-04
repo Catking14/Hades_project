@@ -3,7 +3,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Skeleton extends cc.Component {
     @property(cc.Node)
-    target: cc.Node = null;
+    target_set: cc.Node = null;
 
     @property(cc.Prefab)
     blade: cc.Prefab = null;
@@ -22,6 +22,11 @@ export default class Skeleton extends cc.Component {
 
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
+
+    private target: cc.Node = null;
+    private target_time: number = 0;      // 重新找目標的計時器
+    private target_colddown: number = 5;  // 重新找目標的冷卻
+    private target_distance: number = 1000; // 小於這個距離會觸發怪物的追擊
 
     private attack_distance: number = 50; // 低於這個距離 會進行攻擊
     private attack_counter: number = 0;   // 攻擊的計時器
@@ -52,7 +57,7 @@ export default class Skeleton extends cc.Component {
     }
 
     update(dt) {
-        this.find_target();
+        this.find_target(dt);
 
         // caculate attack time
         this.attack_counter = this.attack_counter > dt ? this.attack_counter - dt : 0;
@@ -129,7 +134,27 @@ export default class Skeleton extends cc.Component {
         }, this.attack_delay);
     }
 
-    find_target() {
+    find_target(dt) {
+        this.target_time = this.target_time > dt ? this.target_time - dt : 0;
+        if (this.target_time == 0) {
+            this.target_time = this.target_colddown;
+            this.target = null;
+            console.log(this.target_set.children);
+            let mn = -1, mn_val = this.target_distance; // mn代表最近player的index, mn_val代表最近player距離當前節點的距離
+            for (let i = 0; i < this.target_set.childrenCount; i++) {
+                if (this.target_set.children[i].group == 'player') {
+                    let distance = Math.sqrt(Math.pow(this.target_set.children[i].position.x - this.node.position.x, 2) +
+                    Math.pow(this.target_set.children[i].position.y - this.node.position.y, 2));
+                    if (distance < mn_val) {
+                        mn = i;
+                        mn_val = distance;
+                    }
+                }
+            }
+            if (mn != -1) {
+                this.target = this.target_set.children[mn];
+            }
+        }
         if (cc.isValid(this.target)) {
             if (this.isAttacking || this.isDead || this.getHitting) return;
             let x_diff = this.target.position.x - this.node.position.x;
