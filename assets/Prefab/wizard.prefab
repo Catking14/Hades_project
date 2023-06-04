@@ -149,6 +149,9 @@
       },
       {
         "__uuid__": "7abd70e9-2f34-4655-85ea-ba7fdbeb4586"
+      },
+      {
+        "__uuid__": "5e5a515d-e50b-4e14-a0f6-c619255cf671"
       }
     ],
     "playOnLoad": true,
@@ -165,8 +168,17 @@
     "fireballPrefab": {
       "__uuid__": "1649f957-c8da-4590-a3e5-a68dc75f2fb0"
     },
-    "move_speed": 100,
-    "dash_speed": 1000,
+    "move_speed": {
+      "__type__": "cc.Vec2",
+      "x": 200,
+      "y": 160
+    },
+    "dash_speed": {
+      "__type__": "cc.Vec2",
+      "x": 1000,
+      "y": 800
+    },
+    "HP": 100,
     "_id": ""
   },
   {
