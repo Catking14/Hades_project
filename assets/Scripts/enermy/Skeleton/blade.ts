@@ -1,4 +1,4 @@
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Blade extends cc.Component {
@@ -18,6 +18,8 @@ export default class Blade extends cc.Component {
     onBeginContact(contact, self, other) {
         console.log("hit player");
         contact.disabled = true;
-        other.node.getComponent(other.node.name).damage();
+        if (other.node.group == "player") {
+            other.node.getComponent(other.node.name).damage(this.damage_val);
+        }
     }
 }

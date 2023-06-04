@@ -48,7 +48,7 @@ export default class Skeleton extends cc.Component {
     }
 
     start() {
-        
+
     }
 
     update(dt) {
@@ -61,8 +61,8 @@ export default class Skeleton extends cc.Component {
         this.node.scaleX = this.direction.x > 0 ? 1 : -1;
 
         // calculate displacement (depends on direction and speed)
-        if (this.direction.x && !this.isDead && !this.isAttacking) this.node.x += this.direction.x * this.speed.x * dt;
-        if (this.direction.y && !this.isDead && !this.isAttacking) this.node.y += this.direction.y * this.speed.y * dt;
+        if (this.direction.x && !this.isDead && !this.isAttacking && !this.getHitting) this.node.x += this.direction.x * this.speed.x * dt;
+        if (this.direction.y && !this.isDead && !this.isAttacking && !this.getHitting) this.node.y += this.direction.y * this.speed.y * dt;
 
         // refresh state (depends on x direction)
         let newState = "";
@@ -80,20 +80,6 @@ export default class Skeleton extends cc.Component {
         this.animation.stop();
         this.animation.play(newState);
         this.state = newState;
-
-        // if (this.state == "stand") {
-
-        // } else if (this.state == "run") {
-
-        // } else if (this.state == "dash") {
-
-        // } else if (this.state == "attack") {
-
-        // } else if (this.state == "getHit") {
-
-        // } else if (this.state == "death") {
-
-        // }
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
@@ -105,18 +91,19 @@ export default class Skeleton extends cc.Component {
         }
         else {
             // 扣血量
+            this.isAttacking = false;
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
                 this.scheduleOnce(() => {
                     this.getHitting = false;
-                }, 0.3);
+                }, 0.35);
             }
             else {
                 this.isDead = true;
                 this.scheduleOnce(() => {
-                    this.destroy();
-                }, 0.35);
+                    this.node.destroy();
+                }, 0.6);
             }
         }
     }
@@ -129,26 +116,33 @@ export default class Skeleton extends cc.Component {
             this.setState("idle");
         }, this.attack_time);
 
-        let blade = cc.instantiate(this.blade);
-        blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
-        blade.setContentSize(cc.size(this.node.width * 1.5, this.node.height));
-        blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 1.5, this.node.height);
-        blade.getComponents("blade")[0].duration_time = this.attack_time - this.attack_delay;
-        blade.getComponents("blade")[0].damage_val = this.attack_damage;
-        
         this.scheduleOnce(() => {
-            cc.find("Canvas/New Node").addChild(blade);
+            if (this.isAttacking) {
+                let blade = cc.instantiate(this.blade);
+                blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
+                blade.setContentSize(cc.size(this.node.width * 2 / 3, this.node.height));
+                blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 2 / 3, this.node.height);
+                blade.getComponent("blade").duration_time = this.attack_time - this.attack_delay;
+                blade.getComponent("blade").damage_val = this.attack_damage;
+                cc.find("Canvas/New Node").addChild(blade);
+            }
         }, this.attack_delay);
     }
 
     find_target() {
-        if (this.isAttacking || this.isDead || this.getHitting) return;
-        let distance = Math.sqrt(Math.pow(this.target.position.x - this.node.position.x, 2) +
-            Math.pow(this.target.position.y - this.node.position.y, 2));
-        this.direction.x = (this.target.position.x - this.node.position.x) / distance;
-        this.direction.y = (this.target.position.y - this.node.position.y) / distance;
-        if (distance < this.attack_distance && this.attack_counter == 0) {
-            this.attack();
+        if (cc.isValid(this.target)) {
+            if (this.isAttacking || this.isDead || this.getHitting) return;
+            let x_diff = this.target.position.x - this.node.position.x;
+            let y_diff = this.target.position.y - this.node.position.y;
+            let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+            this.direction.x = (x_diff) / distance;
+            this.direction.y = (y_diff) / distance;
+            if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 20) {
+                this.attack();
+            }
+        }
+        else {
+            this.direction.x = 0, this.direction.y = 0;
         }
     }
 }
