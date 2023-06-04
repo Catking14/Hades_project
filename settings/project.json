@@ -4,7 +4,8 @@
     "player",
     "enermy",
     "player_attack",
-    "enermy_attack"
+    "enermy_attack",
+    "UI"
   ],
   "collision-matrix": [
     [
@@ -36,6 +37,14 @@
     [
       true,
       true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
       false,
       false,
       false
