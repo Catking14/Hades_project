@@ -4,7 +4,8 @@
     "player",
     "enemy",
     "player_attack",
-    "enermy_attack"
+    "enemy_attack",
+    "UI"
   ],
   "collision-matrix": [
     [
@@ -39,6 +40,14 @@
       false,
       false,
       false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
     ]
   ],
   "excluded-modules": [
@@ -66,6 +75,5 @@
     "audience": {
       "enable": false
     }
-  },
-  "start-scene": "current"
+  }
 }

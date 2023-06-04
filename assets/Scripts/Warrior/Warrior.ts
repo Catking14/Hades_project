@@ -16,6 +16,9 @@ export default class Warrior extends cc.Component {
     @property
     dash_speed: number = 1000;
 
+    @property(cc.Prefab)
+    attack_hitbox: cc.Prefab = null;
+
     // animations
     _anim: cc.Animation = null;
     _anim_state: cc.AnimationState = null;
@@ -26,7 +29,12 @@ export default class Warrior extends cc.Component {
 
     // player actions
     _firing: boolean = false;
+
     _dashing: boolean = false;
+    _dash_ready: boolean = true;
+    _dash_cd: number = 1;
+
+    _died: boolean = false;
 
     // keyboard status
     _w_pressed: boolean = false;
@@ -37,6 +45,9 @@ export default class Warrior extends cc.Component {
 
     // physicsBox Collider
     _collider: cc.PhysicsBoxCollider = null;
+
+    // player status
+    _hp: number = 100;
 
 
     fire()
@@ -64,13 +75,36 @@ export default class Warrior extends cc.Component {
                 this._anim_state = this._anim.play("warrior_attack1_left");
             }
 
+            // attack hitbox instantiate
+            let attack_range = cc.instantiate(this.attack_hitbox);
+
+            // set hitbox property
+            attack_range.setPosition(0, 0);
+            attack_range.group = "player_attack";
+            attack_range.getComponent("blade").duration_time = 0.1;
+            attack_range.getComponent("blade").damage_val = 30;
+
+            
+            if(this._facing_dir == 1)
+            {
+                attack_range.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(22, 6.3);
+                attack_range.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(43.7, 67.9);
+            }
+            else
+            {
+                attack_range.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(-22, 6.3);
+                attack_range.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(43.7, 67.9);
+            }
+
+            this.scheduleOnce(() => {this.node.addChild(attack_range);}, 0.2);
+
             this.scheduleOnce(() => 
             {
                 this._firing = false;
 
-                // return to idle hitbox
+                // return to idle hitbox and destroy attack hitbox
                 this.hit_box_fix();
-            }, 0.45)
+            }, 0.4)
         }
     }
 
@@ -104,9 +138,16 @@ export default class Warrior extends cc.Component {
         }
     }
 
+    die()
+    {
+        this._died = true;
+        this._anim.stop();
+        this._anim_state = this._anim.play("warrior_die");
+    }
+
     animation_controller()
     {
-        if(this._firing || this._dashing)
+        if(this._firing || this._dashing || this._died)
         {
             // console.log("?");
             // empty for nop
@@ -135,6 +176,16 @@ export default class Warrior extends cc.Component {
         else
         {
             this._collider.offset = cc.v2(1.3, 0.1);
+        }
+    }
+
+    damage(damage_val: number, damage_effect: Array<string>)
+    {
+        this._hp -= damage_val;
+
+        if(this._hp <= 0)
+        {
+            this.die();
         }
     }
 
@@ -167,7 +218,7 @@ export default class Warrior extends cc.Component {
         switch(event.keyCode)
         {
             case cc.macro.KEY.w:
-                this._move_dir.y = 1;
+                this._move_dir.y = 0.8;
                 this._w_pressed = true;
                 break;
             case cc.macro.KEY.a:
@@ -179,7 +230,7 @@ export default class Warrior extends cc.Component {
                 this.hit_box_fix();
                 break;
             case cc.macro.KEY.s:
-                this._move_dir.y = -1;
+                this._move_dir.y = -0.8;
                 this._s_pressed = true;
                 break;
             case cc.macro.KEY.d:
@@ -191,10 +242,14 @@ export default class Warrior extends cc.Component {
                 this.hit_box_fix();
                 break;
             case cc.macro.KEY.space:
-                if(!this._space_pressed)
+                if(!this._space_pressed && this._dash_ready)
                 {
                     this._space_pressed = true;
+                    this._dash_ready = false;
                     this.dash();
+
+                    // set dash CD time
+                    this.scheduleOnce(() => {this._dash_ready = true;}, this._dash_cd);
                 }
                 break;
         }

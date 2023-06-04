@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "warrior",
+    "_name": "Blood",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -27,16 +27,10 @@
       },
       {
         "__id__": 4
-      },
-      {
-        "__id__": 5
-      },
-      {
-        "__id__": 6
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 5
     },
     "_opacity": 255,
     "_color": {
@@ -48,20 +42,20 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 44,
-      "height": 39
+      "width": 72.6,
+      "height": 39.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -0.254,
-        42.611,
+        -24.432,
+        -48.435,
         0,
         0,
         0,
@@ -81,8 +75,8 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
-    "_groupIndex": 1,
-    "groupIndex": 1,
+    "_groupIndex": 0,
+    "groupIndex": 0,
     "_id": ""
   },
   {
@@ -100,11 +94,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "4c2953ca-84d2-4b87-9930-83c38d753dff"
-    },
+    "_spriteFrame": null,
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -126,98 +118,33 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "be336b17-3041-4ee4-bfcd-cf3d998c2c07"
+      "__uuid__": "1ab17087-3c75-4684-8346-24cab2ab2288"
     },
     "_clips": [
       {
-        "__uuid__": "be336b17-3041-4ee4-bfcd-cf3d998c2c07"
+        "__uuid__": "1ab17087-3c75-4684-8346-24cab2ab2288"
       },
       {
-        "__uuid__": "219685b0-1976-48c1-802e-41fafb4b593d"
+        "__uuid__": "af7f09c1-ee84-402b-906b-61a4aac7ebb1"
       },
       {
-        "__uuid__": "0cc12cdf-fb59-4a46-baf6-76303408a35e"
-      },
-      {
-        "__uuid__": "262b2b65-0740-487d-b784-68a7a28316eb"
-      },
-      {
-        "__uuid__": "85d15fe8-d634-470e-a89d-d98468104e7a"
-      },
-      {
-        "__uuid__": "e8c6ee02-7e20-4dab-bf13-bba2d21ef763"
-      },
-      {
-        "__uuid__": "45bcdc37-f29d-44ab-8168-9485a398794c"
-      },
-      {
-        "__uuid__": "282aadc2-7c08-4329-9a24-1128134ca295"
+        "__uuid__": "48e32b09-966e-46ff-84c6-67a1372d3b77"
       }
     ],
-    "playOnLoad": true,
+    "playOnLoad": false,
     "_id": ""
   },
   {
-    "__type__": "cc.RigidBody",
+    "__type__": "d26c84iXwtLb465sK9wde7/",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "_type": 2,
-    "_allowSleep": false,
-    "_gravityScale": 0,
-    "_linearDamping": 0,
-    "_angularDamping": 0,
-    "_linearVelocity": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+    "blood_pool": {
+      "__uuid__": "a4cabb8c-9f53-48d0-a5ab-74945207b269"
     },
-    "_angularVelocity": 0,
-    "_fixedRotation": true,
-    "enabledContactListener": true,
-    "bullet": false,
-    "awakeOnLoad": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PhysicsBoxCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "tag": 0,
-    "_density": 1,
-    "_sensor": false,
-    "_friction": 0.2,
-    "_restitution": 0,
-    "body": null,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": -4.3,
-      "y": 0.1
-    },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 24,
-      "height": 37.6
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "5a0a6GSoxJHd6J5c1/8ceTg",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "move_speed": 200,
-    "dash_speed": 1000,
     "_id": ""
   },
   {
