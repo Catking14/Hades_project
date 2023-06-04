@@ -34,6 +34,17 @@ export default class GameManager extends cc.Component {
     _map_row: number = 1;
     _map_column: number = 1;
 
+    // Music and audio effects
+    @property
+    volume: number = 0.1;
+
+    // source: https://www.youtube.com/watch?v=9X7I3bW49S8
+    @property(cc.AudioClip)
+    Megalovania: cc.AudioClip = null;
+
+    // music ids'
+    _BGM: number = 0;
+
 
     camera_follow()
     {
@@ -255,11 +266,16 @@ export default class GameManager extends cc.Component {
 
         // enable physics function
         physics_manager.enabled = true;
-        // physics_manager.debugDrawFlags = 1;
+        physics_manager.debugDrawFlags = 1;
 
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
         this._minimap_camera = cc.find("Canvas/Minimap");
+
+        // play BGM
+        this._BGM = cc.audioEngine.playMusic(this.Megalovania, true);
+        cc.audioEngine.setMusicVolume(this.volume);
+        cc.audioEngine.setEffectsVolume(this.volume + 0.05);
     }
 
     start () 

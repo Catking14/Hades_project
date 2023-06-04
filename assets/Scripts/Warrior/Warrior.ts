@@ -19,6 +19,9 @@ export default class Warrior extends cc.Component {
     @property(cc.Prefab)
     attack_hitbox: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    blood: cc.Prefab = null;
+
     // animations
     _anim: cc.Animation = null;
     _anim_state: cc.AnimationState = null;
@@ -49,8 +52,28 @@ export default class Warrior extends cc.Component {
     // player status
     _hp: number = 100;
 
+    // Music effects
+    @property(cc.AudioClip)
+    attack_effect: cc.AudioClip = null;
 
-    fire()
+    @property(cc.AudioClip)
+    damage_effect: cc.AudioClip = null;
+
+    // source: https://www.youtube.com/watch?v=NO_OQ926ctE
+    @property(cc.AudioClip)
+    death_effect: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    dash_effect: cc.AudioClip = null;
+
+    // music ids'
+    _ATK: number = null;
+    _DMG: number = null;
+    _DIE: number = null;
+    _DASH: number = null;
+
+
+    fire(event)
     {
         // console.log("?");
         if(!this._firing)
@@ -65,13 +88,18 @@ export default class Warrior extends cc.Component {
 
             // play attack animation
             this._anim.stop();
+
+            // console.log(event.getLocation().x, this.node.x);
             
-            if(this._facing_dir == 1)
+            // if(this._facing_dir == 1)
+            if(event.getLocation().x > 960 / 2)     // half of the canvas size!
             {
+                this._facing_dir = 1;
                 this._anim_state = this._anim.play("warrior_attack1");
             }
             else
             {
+                this._facing_dir = -1;
                 this._anim_state = this._anim.play("warrior_attack1_left");
             }
 
@@ -83,6 +111,9 @@ export default class Warrior extends cc.Component {
             attack_range.group = "player_attack";
             attack_range.getComponent("blade").duration_time = 0.1;
             attack_range.getComponent("blade").damage_val = 30;
+
+            // play effect
+            this._ATK = cc.audioEngine.playEffect(this.attack_effect, false);
 
             
             if(this._facing_dir == 1)
@@ -135,6 +166,10 @@ export default class Warrior extends cc.Component {
             // play dash animation
             this._anim.stop();
             this._anim_state = this._anim.play("warrior_dash");
+
+            // play effect
+            this._DASH = cc.audioEngine.playEffect(this.dash_effect, false);
+            cc.audioEngine.setVolume(this._DASH, 0.15);  // dash is a little too quiet
         }
     }
 
@@ -143,6 +178,8 @@ export default class Warrior extends cc.Component {
         this._died = true;
         this._anim.stop();
         this._anim_state = this._anim.play("warrior_die");
+
+        this._DIE = cc.audioEngine.playEffect(this.death_effect, false);
     }
 
     animation_controller()
@@ -181,6 +218,17 @@ export default class Warrior extends cc.Component {
 
     damage(damage_val: number, damage_effect: Array<string>)
     {
+        console.log(damage_val);
+
+        let blood_effect = cc.instantiate(this.blood);
+
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+        cc.find("Canvas/New Node").addChild(blood_effect);
+
+        // play hit sound
+        this._DMG = cc.audioEngine.playEffect(this.damage_effect, false);
+
         this._hp -= damage_val;
 
         if(this._hp <= 0)
@@ -326,7 +374,7 @@ export default class Warrior extends cc.Component {
             this.node.x += this.dash_speed * this._move_dir.x * dt;
             this.node.y += this.dash_speed * this._move_dir.y * dt;
         }
-        else if(!this._firing)
+        else if(!this._firing && !this._died)
         {
             this.node.x += this.move_speed * this._move_dir.x * dt;
             this.node.y += this.move_speed * this._move_dir.y * dt;
