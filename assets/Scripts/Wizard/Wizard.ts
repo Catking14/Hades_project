@@ -177,11 +177,7 @@ export default class Wizard extends cc.Component {
     }
     private playerAnimation() {
         if(this.isdead){
-            if(this.animstate.name != "wizard_death" || !this.animstate.isPlaying)
-                this.animstate = this.anim.play("wizard_death");
         }else if(this.ishit){
-            if(this.animstate.name != "wizard_hit" || !this.animstate.isPlaying)
-            this.animstate = this.anim.play("wizard_hit");
         }else if (this.isfiring || this.isdashing) {
             // console.log("?");
             // empty for nop
@@ -224,14 +220,17 @@ export default class Wizard extends cc.Component {
         this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
         if (this.HP > 0) {
             this.ishit = true;
+            this.animstate = this.anim.play("wizard_hit");
             this.scheduleOnce(() => {
                 this.ishit = false;
             }, 0.3);
         } else {
             this.isdead = true;
+            this.animstate = this.anim.play("wizard_death");
             this.scheduleOnce(() => {
-                this.destroy();
-            }, 0.35);
+                console.log("die");
+                this.node.destroy();
+            }, 1);
         }
     }
 }
