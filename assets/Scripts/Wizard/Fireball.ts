@@ -18,15 +18,15 @@ export default class Fireball extends cc.Component {
         // this.scheduleOnce(()=>{
         //     this.node.destroy();
         // }, 1.5)
-        this.scheduleOnce(()=>{
-            this.node.scale = 2;
-            this.node.getComponent(cc.Animation).stop();
-            this.node.getComponent(cc.Animation).play("fireball_exlode");
-            this.node.getComponent(cc.Animation).on("finished",()=>{
-                this.node.destroy();
-            },this);
+        // this.scheduleOnce(()=>{
+        //     this.node.scale = 2;
+        //     this.node.getComponent(cc.Animation).stop();
+        //     this.node.getComponent(cc.Animation).play("fireball_exlode");
+        //     this.node.getComponent(cc.Animation).on("finished",()=>{
+        //         this.node.destroy();
+        //     },this);
             
-        }, 5)
+        // }, 5)
     }
     onBeginContact(contact, self, other) {
         // console.log("hit player");
@@ -37,10 +37,16 @@ export default class Fireball extends cc.Component {
         this.node.getComponent(cc.Animation).stop();
         this.node.getComponent(cc.Animation).play("fireball_explode");
         contact.disabled = true;
+        if(other.node.group == "enemy"){
+            other.node.getComponent(other.node.name).damage(50);
+        }
         this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
-        this.node.getComponent(cc.Animation).on("finished",()=>{
+        this.scheduleOnce(()=>{
             this.node.destroy();
-        },this);
+        },1.5);
+        // this.node.getComponent(cc.Animation).on("finished",()=>{
+        //     this.node.destroy();
+        // },this);
     }
     // update (dt) {}
 }

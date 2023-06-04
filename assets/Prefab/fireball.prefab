@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "fireball",
+    "_name": "Fireball",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
