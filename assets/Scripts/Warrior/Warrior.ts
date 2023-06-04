@@ -37,6 +37,7 @@ export default class Warrior extends cc.Component {
     _dash_ready: boolean = true;
     _dash_cd: number = 1;
 
+    _hit: boolean = false;
     _died: boolean = false;
 
     // keyboard status
@@ -133,6 +134,16 @@ export default class Warrior extends cc.Component {
             {
                 this._firing = false;
 
+                // restore facing direction by moving direction
+                if(this._move_dir.x == 1)
+                {
+                    this._facing_dir = 1;
+                }
+                else if(this._move_dir.x == -1)
+                {
+                    this._facing_dir = -1;
+                }
+
                 // return to idle hitbox and destroy attack hitbox
                 this.hit_box_fix();
             }, 0.4)
@@ -184,7 +195,7 @@ export default class Warrior extends cc.Component {
 
     animation_controller()
     {
-        if(this._firing || this._dashing || this._died)
+        if(this._firing || this._dashing || this._died || this._hit)
         {
             // console.log("?");
             // empty for nop
@@ -218,23 +229,37 @@ export default class Warrior extends cc.Component {
 
     damage(damage_val: number, damage_effect: Array<string>)
     {
-        console.log(damage_val);
+        // console.log(damage_val);
 
         let blood_effect = cc.instantiate(this.blood);
 
         blood_effect.setPosition(this.node.x, this.node.y);
         blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
-        cc.find("Canvas/New Node").addChild(blood_effect);
+
+        this._hit = true;
 
         // play hit sound
         this._DMG = cc.audioEngine.playEffect(this.damage_effect, false);
+
+        // play hit animation
+        this._anim.stop();
+        this._anim_state = this._anim.play("warrior_hit");
 
         this._hp -= damage_val;
 
         if(this._hp <= 0)
         {
+            blood_effect.getComponent("Blood").die = true;
             this.die();
         }
+
+        cc.find("Canvas/New Node").addChild(blood_effect);
+
+        this.scheduleOnce(() => 
+        {
+            this._hit = false;
+            this.node.color = new cc.Color(255, 255, 255);
+        }, 0.15);
     }
 
     // LIFE-CYCLE CALLBACKS:
@@ -271,8 +296,12 @@ export default class Warrior extends cc.Component {
                 break;
             case cc.macro.KEY.a:
                 this._move_dir.x = -1;
-                this._facing_dir = -1;
                 this._a_pressed = true;
+
+                if(!this._firing && !this._died)
+                {
+                    this._facing_dir = -1;
+                }
 
                 // fix hitbox offset
                 this.hit_box_fix();
@@ -283,8 +312,12 @@ export default class Warrior extends cc.Component {
                 break;
             case cc.macro.KEY.d:
                 this._move_dir.x = 1;
-                this._facing_dir = 1;
                 this._d_pressed = true;
+
+                if(!this._firing && !this._died)
+                {
+                    this._facing_dir = 1;
+                }
 
                 // fix hitbox offset
                 this.hit_box_fix();
@@ -348,12 +381,20 @@ export default class Warrior extends cc.Component {
         else if(this._d_pressed)
         {
             this._move_dir.x = 1;
-            this._facing_dir = 1;
+            
+            if(!this._firing)
+            {
+                this._facing_dir = 1;
+            }
         }
         else
         {
             this._move_dir.x = -1;
-            this._facing_dir = -1;
+            
+            if(!this._firing)
+            {
+                this._facing_dir = -1;
+            }
         }
 
         // fix hitbox offset
@@ -367,7 +408,10 @@ export default class Warrior extends cc.Component {
         this.animation_controller();
 
         // update collider change anytime
-        this._collider.apply();
+        if(this._firing)
+        {
+            this._collider.apply();
+        }
 
         if(this._dashing)
         {

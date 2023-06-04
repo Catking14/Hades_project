@@ -38,6 +38,7 @@ export default class Blood extends cc.Component {
         {
             case 0:
                 this._anim.play("blood1");
+                this.node.anchorX = 0.5;
 
                 if(this.die)
                 {
@@ -51,7 +52,8 @@ export default class Blood extends cc.Component {
                 }
                 else
                 {
-                    this.scheduleOnce(() => {this.node.destroy();}, 0.45);
+                    this.node.zIndex -= 5;
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 break;
             case 1:
@@ -62,6 +64,7 @@ export default class Blood extends cc.Component {
                     this.scheduleOnce(() => 
                     {
                         this._sprite.spriteFrame = this.blood_pool;
+                        this.node.anchorX = 0.5;
                         this._anim.stop();
                     }, 0.32);
 
@@ -69,7 +72,8 @@ export default class Blood extends cc.Component {
                 }
                 else
                 {
-                    this.scheduleOnce(() => {this.node.destroy();}, 0.35);
+                    this.node.zIndex -= 5;
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 break;
             default:
@@ -80,6 +84,7 @@ export default class Blood extends cc.Component {
                     this.scheduleOnce(() => 
                     {
                         this._sprite.spriteFrame = this.blood_pool;
+                        this.node.anchorX = 0.5;
                         this._anim.stop();
                     }, 0.35);
 
@@ -87,7 +92,8 @@ export default class Blood extends cc.Component {
                 }
                 else
                 {
-                    this.scheduleOnce(() => {this.node.destroy();}, 0.38);
+                    this.node.zIndex -= 5;
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 break;
         }

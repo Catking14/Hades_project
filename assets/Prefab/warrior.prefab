@@ -216,8 +216,26 @@
       "__id__": 1
     },
     "_enabled": true,
-    "move_speed": 200,
-    "dash_speed": 1000,
+    "move_speed": 250,
+    "dash_speed": 700,
+    "attack_hitbox": {
+      "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
+    },
+    "blood": {
+      "__uuid__": "019df291-f6a5-42df-ab80-46acab53bdbf"
+    },
+    "attack_effect": {
+      "__uuid__": "206c8e8c-1e0a-42bc-84c6-6344382ed9a9"
+    },
+    "damage_effect": {
+      "__uuid__": "dca41a70-62d3-41cc-a8a4-0ac16bb0d05a"
+    },
+    "death_effect": {
+      "__uuid__": "bbb41125-13d2-413e-8b47-6229c2292055"
+    },
+    "dash_effect": {
+      "__uuid__": "babab930-1431-4e20-a36d-e38dc2482378"
+    },
     "_id": ""
   },
   {
