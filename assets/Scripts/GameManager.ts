@@ -17,6 +17,7 @@ export default class GameManager extends cc.Component {
     max_map_row_or_column: number = 9;
 
     _camera: cc.Node = null;
+    _minimap_camera: cc.Node = null;
 
     // camera follow object
     @property(cc.Node)
@@ -38,10 +39,13 @@ export default class GameManager extends cc.Component {
     {
         let player_pos = this.follow.getPosition();
         let camera_pos = this._camera.getPosition();
+        let minimap_pos = this._minimap_camera.getPosition();
     
         camera_pos.lerp(player_pos, 0.1, camera_pos);
+        minimap_pos.lerp(player_pos, 0.1, minimap_pos);
 
         this._camera.setPosition(camera_pos);
+        this._minimap_camera.setPosition(minimap_pos);
     }
 
     generate_map()
@@ -66,7 +70,7 @@ export default class GameManager extends cc.Component {
         this._map_column = random;
 
         // generate outside air wall
-        for(let i = -1;i <= this._map_row + 1;i++)
+        for(let i = -1;i <= this._map_row;i++)
         {
             for(let j = -1;j <= this._map_column;j++)
             {
@@ -83,53 +87,164 @@ export default class GameManager extends cc.Component {
 
         // instinate map with some kind of random BFS
         let queue = [{x: 0, y: 0}];
-        let visited = Array(this._map_row).fill(Array(this._map_column).fill(false));   // init 2D array
+        let visited = [];
         let visited_count = 0;
+        let min_blocks = Math.floor(Math.random() * this._map_row * this._map_column) / 2;
 
-        while(queue.length)
+        console.log(this._map_row, this._map_column);
+        console.log(visited);
+
+        for(let k = 0;k < this._map_row * this._map_column;k++)
         {
-            let current = queue.shift();
-
-            visited[current.x][current.y] = true;
-            visited_count++;
-            
-            // top
-            if(current.y + 1 < this._map_row)
-            {
-                if(!visited[current.x][current.y + 1])
-                {
-                    queue.push({x: current.x, y: current.y + 1});
-                }
-            }
-
-            // bottom
-            if(current.y - 1 >= 0)
-            {
-
-            }
-
-            // left
-            if(current.x - 1 >= 0)
-            {
-
-            }
-
-            // right
-            if(current.x + 1 < this._map_column)
-            {
-
-            }
-
+            visited.push(0);
         }
 
+        while(min_blocks < 8)
+        {
+            min_blocks = Math.floor(Math.random() * this._map_row * this._map_column) / 2;
+        }
 
-        // for(let i = 0;i < this._map_row;i++)
-        // {
-        //     for(let j = 0;j < this._map_column;j++)
-        //     {
+        // random select blocks
+        while(queue.length > 0)
+        {
+            let current = queue.shift();
+            let temp_seq = Math.floor(Math.random() * 4);
 
-        //     }
-        // }
+            visited[current.x * this._map_column + current.y] = 1;
+            visited_count++;
+
+            switch(temp_seq)
+            {
+                case 0:
+                    if(current.y + 1 < this._map_column && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y + 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y + 1});
+                        continue;
+                    }
+
+                    if(current.y - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y - 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y - 1});
+                        continue;
+                    }
+                        
+                    if(current.x + 1 < this._map_row && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x + 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x + 1, y: current.y});
+                        continue;
+                    }
+
+                    if(current.x - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x - 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x - 1, y: current.y});
+                        continue;
+                    }
+                    break;
+                case 1:
+                    if(current.y - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y - 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y - 1});
+                        continue;
+                    }
+                        
+                    if(current.x + 1 < this._map_row && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x + 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x + 1, y: current.y});
+                        continue;
+                    }
+
+                    if(current.x - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x - 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x - 1, y: current.y});
+                        continue;
+                    }
+
+                    if(current.y + 1 < this._map_column && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y + 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y + 1});
+                        continue;
+                    }
+                    break;
+                case 2:
+                    if(current.x + 1 < this._map_row && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x + 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x + 1, y: current.y});
+                        continue;
+                    }
+
+                    if(current.x - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x - 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x - 1, y: current.y});
+                        continue;
+                    }
+
+                    if(current.y + 1 < this._map_column && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y + 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y + 1});
+                        continue;
+                    }
+
+                    if(current.y - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y - 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y - 1});
+                        continue;
+                    }
+                    break;
+                default:
+                    if(current.x - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x - 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x - 1, y: current.y});
+                        continue;
+                    }
+
+                    if(current.y + 1 < this._map_column && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y + 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y + 1});
+                        continue;
+                    }
+
+                    if(current.y - 1 >= 0 && (Math.random() > 0.6 || visited_count < min_blocks) && visited[current.x * this._map_column + current.y - 1] == 0)
+                    {
+                        queue.push({x: current.x, y: current.y - 1});
+                        continue;
+                    }
+                        
+                    if(current.x + 1 < this._map_row && (Math.random() > 0.6 || visited_count < min_blocks) && visited[(current.x + 1) * this._map_column + current.y] == 0)
+                    {
+                        queue.push({x: current.x + 1, y: current.y});
+                        continue;
+                    }
+                    break;
+            }
+
+            
+        }
+
+        // instantiate map by random
+        for(let i = 0;i < this._map_row;i++)
+        {
+            for(let j = 0;j < this._map_column;j++)
+            {
+                // if(visited[i * this._map_column + j])
+                if(visited[i * this._map_column + j] == 1)
+                {
+                    let new_block = cc.instantiate(this.map1);
+                    
+                    new_block.setPosition(j * this.size_of_map_block, i * this.size_of_map_block);
+
+                    cc.find("Canvas/map").addChild(new_block);
+                }
+                else
+                {
+                    let wall = cc.instantiate(this.air_wall);
+
+                    wall.setPosition(j * this.size_of_map_block, i * this.size_of_map_block);
+
+                    cc.find("Canvas/map").addChild(wall);
+                }
+            }
+        }
+        
     }
 
     // LIFE-CYCLE CALLBACKS:
@@ -140,10 +255,11 @@ export default class GameManager extends cc.Component {
 
         // enable physics function
         physics_manager.enabled = true;
-        physics_manager.debugDrawFlags = 1;
+        // physics_manager.debugDrawFlags = 1;
 
-        // get main camera
+        // get cameras
         this._camera = cc.find("Canvas/Main Camera");
+        this._minimap_camera = cc.find("Canvas/Minimap");
     }
 
     start () 
