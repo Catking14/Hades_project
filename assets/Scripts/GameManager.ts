@@ -266,7 +266,7 @@ export default class GameManager extends cc.Component {
 
         // enable physics function
         physics_manager.enabled = true;
-        physics_manager.debugDrawFlags = 1;
+        // physics_manager.debugDrawFlags = 1;
 
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
