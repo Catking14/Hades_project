@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Fireball",
+    "_name": "Explosion",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -48,7 +48,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
+      "width": 40,
       "height": 30
     },
     "_anchorPoint": {
@@ -101,7 +101,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "88ab142e-1f47-43c8-a897-1095d7042a08"
+      "__uuid__": "b2df3e7d-252a-4475-9025-128dd3aff25a"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -128,32 +128,16 @@
     "_defaultClip": null,
     "_clips": [
       {
-        "__uuid__": "c4b8294a-084d-4daa-b2c6-17715ba41f15"
+        "__uuid__": "ff6c1ba6-4b45-4812-8815-a7149f01072b"
       },
       {
-        "__uuid__": "5130b2f8-ac58-476d-9d9a-d57985df35c3"
+        "__uuid__": "f6819480-7250-4186-92ad-4418535cd2a2"
       },
       {
-        "__uuid__": "5e5a515d-e50b-4e14-a0f6-c619255cf671"
+        "__uuid__": "27775bf3-2dfc-4a4e-9251-38fa0159ec56"
       }
     ],
     "playOnLoad": false,
-    "_id": ""
-  },
-  {
-    "__type__": "64d7bBVI/VAFL1H0zyZtuE+",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "hit_effect": {
-      "__uuid__": "071c2e23-149e-497c-bee6-15d909368912"
-    },
-    "nothit_effect": {
-      "__uuid__": "8fb10c4a-81b3-43a9-a5ed-5af86aaec0e3"
-    },
     "_id": ""
   },
   {
@@ -205,6 +189,18 @@
       "width": 30,
       "height": 30
     },
+    "_id": ""
+  },
+  {
+    "__type__": "8214dqF6mNAho0NPepP6q2d",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "hit_effect": null,
+    "nothit_effect": null,
     "_id": ""
   },
   {
