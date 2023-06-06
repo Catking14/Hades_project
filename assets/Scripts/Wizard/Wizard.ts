@@ -127,7 +127,7 @@ export default class Wizard extends cc.Component {
         // play attack animation
         this.animstate = this.anim.play("wizard_attack2");
         this.scheduleOnce(() => {
-            fireball.setPosition(cc.v2(0,0));
+            fireball.setPosition(cc.v2(20,0));
             this.node.addChild(fireball);
             fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
             // fireball.runAction(cc.moveBy(10, cc.v2(direction.x * 2000, direction.y * 2000)));
@@ -140,15 +140,16 @@ export default class Wizard extends cc.Component {
     private dash() {
         if (this.dashbtn && !this.isdashing) {
             this.isdashing = true;
-            if (this.move_dir == cc.v2(0, 0)) {
-                this.move_dir = cc.v2(this.face_dir, 0);
+            if (this.move_dir.x == 0 && this.move_dir.y == 0) {
+                this.move_dir.x = this.face_dir;
+                console.log(this.move_dir);
             }
             // play dash animation
             this.anim.stop();
             this.animstate = this.anim.play("wizard_dash");
             this.scheduleOnce(() => {
                 this.isdashing = false;
-                this.move_dir = cc.v2(0, 0);  // reset moving direction
+                // this.move_dir = cc.v2(0, 0);  // reset moving direction
             }, 0.2);
         }
     }
