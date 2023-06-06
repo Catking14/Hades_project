@@ -2028,9 +2028,7 @@
       "__id__": 50
     },
     "_enabled": true,
-    "target": {
-      "__id__": 4
-    },
+    "target_set": null,
     "blade": {
       "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
     },
