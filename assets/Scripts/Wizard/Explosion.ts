@@ -11,10 +11,8 @@ const {ccclass, property} = cc._decorator;
 export default class Fireball extends cc.Component {
 
     @property(cc.AudioClip)
-    hit_effect:cc.AudioClip = null;
+    sound_effect:cc.AudioClip = null;
 
-    @property(cc.AudioClip)
-    nothit_effect:cc.AudioClip = null;
 
     private scale:number = 0;
     private anim = null;
@@ -26,6 +24,7 @@ export default class Fireball extends cc.Component {
     start () {
         this.scale = 0;
         this.animstate = this.anim.play("explosion_create");
+        console.log("play explosion audio");
         // this.scheduleOnce(()=>{
         //     this.node.destroy();
         // }, 1.5)
@@ -49,6 +48,8 @@ export default class Fireball extends cc.Component {
     anim_control(){
         if(this.animstate.name == "explosion_create" && !this.animstate.isPlaying){
             this.animstate = this.anim.play("explosion_stay");
+            cc.audioEngine.setEffectsVolume(1);
+            cc.audioEngine.playEffect(this.sound_effect,false);
         }else if(this.scale>=20){
             if(this.animstate.name!="explosion_destroy"||!this.animstate.isPlaying){
                 this.animstate = this.anim.play("explosion_destroy");
@@ -62,7 +63,7 @@ export default class Fireball extends cc.Component {
         this.anim_control();
         this.schedule(()=>{
             this.scale = this.scale + 0.1;
-            console.log(this.scale);
+            // console.log(this.scale);
         },1);
         if(this.scale>=5) this.node.scale = 5;
         else this.node.scale = this.scale;

@@ -171,6 +171,9 @@
     "ultimatePrefab": {
       "__uuid__": "d0627d6d-0961-40a2-8057-b94cdcdd2f6f"
     },
+    "sound_effect": {
+      "__uuid__": "7844c752-e80f-46bb-b695-4ce8f38849c2"
+    },
     "move_speed": {
       "__type__": "cc.Vec2",
       "x": 200,

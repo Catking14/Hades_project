@@ -16,6 +16,9 @@ export default class Wizard extends cc.Component {
     @property(cc.Prefab)
     ultimatePrefab: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    sound_effect:cc.AudioClip = null;
+
     @property
     move_speed: cc.Vec2 = cc.v2(200, 160);
 
@@ -45,6 +48,8 @@ export default class Wizard extends cc.Component {
     private ultbtn:boolean = false;      //key for ult
     //CD
     private ultCD:number = 0;
+    //other
+    private mouse_Pos;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -56,8 +61,11 @@ export default class Wizard extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.fire, this);
+        cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.get_mousePos, this);
     }
-
+    get_mousePos(event){
+        this.mouse_Pos = event.getLocation();
+    }
     onKeyDown(event) {
         switch (event.keyCode) {
             case cc.macro.KEY.w:
@@ -88,10 +96,23 @@ export default class Wizard extends cc.Component {
         }
     }
     ultimate(){
+        if (this.isfiring) return;
+        this.isfiring = true;
+        // break dash if fire
+        if (this.isdashing) this.isdashing = false;
         console.log("explosion");
         const explosion =  cc.instantiate(this.ultimatePrefab); 
-        explosion.setPosition(cc.v2(0,0));
+        let camerapos = cc.find("Canvas/Main Camera").position;
+        console.log(this.mouse_Pos);
+        console.log(camerapos);
+        let position = cc.v2(this.mouse_Pos.x + camerapos.x - 480 - this.node.position.x, this.mouse_Pos.y + camerapos.y - 320 - this.node.position.y)
+        this.anim.stop();
+        this.animstate = this.anim.play("wizard_attack1");
+        explosion.setPosition(cc.v2(position.x*this.face_dir,position.y));
         this.node.addChild(explosion);
+        this.anim.on('finished', () => {
+            this.isfiring = false;
+        }, this);
 
     }
     onKeyUp(event) {

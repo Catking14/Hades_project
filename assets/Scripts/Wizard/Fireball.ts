@@ -36,7 +36,7 @@ export default class Fireball extends cc.Component {
     }
     onBeginContact(contact, self, other) {
         // console.log("hit player");
-        console.log("hit enemy");
+        // console.log("hit enemy");
         // contact.disabled = true;
         this.node.scale = 2;
         this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0,0);
