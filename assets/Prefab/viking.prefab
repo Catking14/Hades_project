@@ -193,6 +193,9 @@
     "bladePrefab": {
       "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
     },
+    "shieldPrefab": {
+      "__uuid__": "166cd12a-6bd5-4595-b720-c1d1356d9d5c"
+    },
     "_id": ""
   },
   {

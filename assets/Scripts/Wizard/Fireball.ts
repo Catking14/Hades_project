@@ -10,6 +10,12 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Fireball extends cc.Component {
 
+    @property(cc.AudioClip)
+    hit_effect:cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    nothit_effect:cc.AudioClip = null;
+
     onLoad(){
         this.node.getComponent(cc.Animation).play("fireball_move");
     }
@@ -36,9 +42,13 @@ export default class Fireball extends cc.Component {
         this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0,0);
         this.node.getComponent(cc.Animation).stop();
         this.node.getComponent(cc.Animation).play("fireball_explode");
+        
         contact.disabled = true;
         if(other.node.group == "enemy"){
+            cc.audioEngine.playEffect(this.hit_effect,false);
             other.node.getComponent(other.node.name).damage(50);
+        }else{
+            cc.audioEngine.playEffect(this.nothit_effect,false);
         }
         this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
         this.scheduleOnce(()=>{
@@ -48,5 +58,7 @@ export default class Fireball extends cc.Component {
         //     this.node.destroy();
         // },this);
     }
-    // update (dt) {}
+//     update (dt) {
+//         // this.node.scaleX = this.node.parent.scaleX;
+//     }
 }

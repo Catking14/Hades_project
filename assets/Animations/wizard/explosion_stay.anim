@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "explosion_stay",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.35,
+  "sample": 20,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "17ad1d64-ca64-47c3-b393-d7b0eb7383ba"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "b2df3e7d-252a-4475-9025-128dd3aff25a"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "0992ad83-7c71-4fbc-beaf-3896855b6f35"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "0992ad83-7c71-4fbc-beaf-3896855b6f35"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -45,6 +45,7 @@ export default class Blood extends cc.Component {
                     this.scheduleOnce(() => 
                     {
                         this._sprite.spriteFrame = this.blood_pool;
+                        this.node.zIndex -= 5;
                         this._anim.stop();
                     }, 0.42);
 
@@ -64,6 +65,7 @@ export default class Blood extends cc.Component {
                     this.scheduleOnce(() => 
                     {
                         this._sprite.spriteFrame = this.blood_pool;
+                        this.node.zIndex -= 5;
                         this.node.anchorX = 0.5;
                         this._anim.stop();
                     }, 0.32);
@@ -84,6 +86,7 @@ export default class Blood extends cc.Component {
                     this.scheduleOnce(() => 
                     {
                         this._sprite.spriteFrame = this.blood_pool;
+                        this.node.zIndex -= 5;
                         this.node.anchorX = 0.5;
                         this._anim.stop();
                     }, 0.35);

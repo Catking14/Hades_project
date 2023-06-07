@@ -35,10 +35,15 @@ export default class Skeleton extends cc.Component {
     private attack_time: number = 1.17;   // 整個攻擊動作所需要的時間
     private attack_damage: number = 10;   // 攻擊傷害
 
+    private HP_val: number = 0;
+    private Shield_val: number = 0;
+
     private sprite: cc.Sprite;
     private animation: cc.Animation;
     private rigidBody: cc.RigidBody;
     private collider: cc.PhysicsBoxCollider;
+    private HP_bar: cc.ProgressBar;
+    private Shield_bar: cc.ProgressBar;
     private state: string = "";
     private isAttacking: boolean = false;
     private getHitting: boolean = false;
@@ -49,11 +54,14 @@ export default class Skeleton extends cc.Component {
         this.animation = this.node.getComponent(cc.Animation);
         this.rigidBody = this.node.getComponent(cc.RigidBody);
         this.collider = this.node.getComponent(cc.PhysicsBoxCollider);
+        this.HP_bar = this.node.children[0].getComponents(cc.ProgressBar)[0];
+        this.Shield_bar = this.node.children[0].getComponents(cc.ProgressBar)[1];
         this.state = "idle";
     }
 
     start() {
-
+        this.HP_val = this.HP;
+        this.Shield_val = this.Shield;
     }
 
     update(dt) {
@@ -64,6 +72,7 @@ export default class Skeleton extends cc.Component {
 
         // caculate scaleX
         this.node.scaleX = this.direction.x > 0 ? 1 : -1;
+        this.updateHPBar();
 
         // calculate displacement (depends on direction and speed)
         if (this.direction.x && !this.isDead && !this.isAttacking && !this.getHitting) this.node.x += this.direction.x * this.speed.x * dt;
@@ -79,6 +88,13 @@ export default class Skeleton extends cc.Component {
         this.setState(newState);
     }
 
+    updateHPBar() {
+        this.HP_bar.progress = this.HP_val / this.HP;
+        this.HP_bar.reverse = this.node.scaleX != 1;
+        this.Shield_bar.progress = this.Shield_val / this.Shield;
+        this.Shield_bar.reverse = this.node.scaleX != 1;
+    }
+
     setState(newState: string) {
         if (this.state == newState) return;
 
@@ -90,15 +106,15 @@ export default class Skeleton extends cc.Component {
     damage(damage_val: number, ...damage_effect: Array<string>) {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
-        if (this.Shield > 0) {
+        if (this.Shield_val > 0) {
             // 扣護盾
-            this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
+            this.Shield_val = this.Shield_val > damage_val ? this.Shield_val - damage_val : 0;
         }
         else {
             // 扣血量
             this.isAttacking = false;
-            this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
-            if (this.HP > 0) {
+            this.HP_val = this.HP_val > damage_val ? this.HP_val - damage_val : 0;
+            if (this.HP_val > 0) {
                 this.getHitting = true;
                 this.scheduleOnce(() => {
                     this.getHitting = false;
@@ -139,7 +155,6 @@ export default class Skeleton extends cc.Component {
         if (this.target_time == 0) {
             this.target_time = this.target_colddown;
             this.target = null;
-            console.log(this.target_set.children);
             let mn = -1, mn_val = this.target_distance; // mn代表最近player的index, mn_val代表最近player距離當前節點的距離
             for (let i = 0; i < this.target_set.childrenCount; i++) {
                 if (this.target_set.children[i].group == 'player') {
