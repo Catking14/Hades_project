@@ -168,6 +168,9 @@
     "fireballPrefab": {
       "__uuid__": "1649f957-c8da-4590-a3e5-a68dc75f2fb0"
     },
+    "ultimatePrefab": {
+      "__uuid__": "d0627d6d-0961-40a2-8057-b94cdcdd2f6f"
+    },
     "move_speed": {
       "__type__": "cc.Vec2",
       "x": 200,

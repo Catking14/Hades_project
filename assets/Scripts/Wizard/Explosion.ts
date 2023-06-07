@@ -16,11 +16,16 @@ export default class Fireball extends cc.Component {
     @property(cc.AudioClip)
     nothit_effect:cc.AudioClip = null;
 
+    private scale:number = 0;
+    private anim = null;
+    private animstate = null;
     onLoad(){
-        this.node.getComponent(cc.Animation).play("fireball_move");
+        this.anim = this.node.getComponent(cc.Animation);
     }
 
     start () {
+        this.scale = 0;
+        this.animstate = this.anim.play("explosion_create");
         // this.scheduleOnce(()=>{
         //     this.node.destroy();
         // }, 1.5)
@@ -35,30 +40,31 @@ export default class Fireball extends cc.Component {
         // }, 5)
     }
     onBeginContact(contact, self, other) {
-        // console.log("hit player");
-        console.log("hit enemy");
-        // contact.disabled = true;
-        this.node.scale = 2;
-        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0,0);
-        this.node.getComponent(cc.Animation).stop();
-        this.node.getComponent(cc.Animation).play("fireball_explode");
-        
-        contact.disabled = true;
         if(other.node.group == "enemy"){
-            cc.audioEngine.playEffect(this.hit_effect,false);
-            other.node.getComponent(other.node.name).damage(50);
+            other.node.getComponent(other.node.name).damage(10);
         }else{
-            cc.audioEngine.playEffect(this.nothit_effect,false);
+            contact.disabled = true;
         }
-        this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
-        this.scheduleOnce(()=>{
-            this.node.destroy();
-        },1.5);
-        // this.node.getComponent(cc.Animation).on("finished",()=>{
-        //     this.node.destroy();
-        // },this);
     }
-//     update (dt) {
-//         // this.node.scaleX = this.node.parent.scaleX;
-//     }
+    anim_control(){
+        if(this.animstate.name == "explosion_create" && !this.animstate.isPlaying){
+            this.animstate = this.anim.play("explosion_stay");
+        }else if(this.scale>=20){
+            if(this.animstate.name!="explosion_destroy"||!this.animstate.isPlaying){
+                this.animstate = this.anim.play("explosion_destroy");
+                this.anim.on("finished",()=>{
+                    this.node.destroy();
+                },this);
+            }
+        }
+    }
+    update (dt) {
+        this.anim_control();
+        this.schedule(()=>{
+            this.scale = this.scale + 0.1;
+            console.log(this.scale);
+        },1);
+        if(this.scale>=5) this.node.scale = 5;
+        else this.node.scale = this.scale;
+    }
 }

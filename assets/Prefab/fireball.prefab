@@ -148,6 +148,12 @@
       "__id__": 1
     },
     "_enabled": true,
+    "hit_effect": {
+      "__uuid__": "071c2e23-149e-497c-bee6-15d909368912"
+    },
+    "nothit_effect": {
+      "__uuid__": "8fb10c4a-81b3-43a9-a5ed-5af86aaec0e3"
+    },
     "_id": ""
   },
   {

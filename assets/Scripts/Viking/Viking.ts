@@ -7,6 +7,9 @@ export default class Viking extends cc.Component {
     @property(cc.Prefab)
     bladePrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    shieldPrefab: cc.Prefab = null;
+
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
@@ -15,6 +18,8 @@ export default class Viking extends cc.Component {
 
     // variable
     private state: string = "stand";
+    private nextAttack: string = "a1";
+    private doNextAttack: boolean = false;
     private isBegin: boolean = false;
     private isDashing: boolean = false;
     private isDashingCD: boolean = false;
@@ -24,19 +29,20 @@ export default class Viking extends cc.Component {
     private vecSpeed: cc.Vec2 = cc.v2(0, 0);
     private attack_time: number = 0.5;
     private attack_delay: number = 0.2;
-    private attack_damage: number = 10;
+    private attack_damage: number = 50;
+    private mousePos: any = null;
 
     start() {
-        cc.director.getPhysicsManager().debugDrawFlags = 1;
+        // cc.director.getPhysicsManager().debugDrawFlags = 1;
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
+        cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.updateShieldPosition, this);
     }
 
     update(dt) {
-        console.log(this.isDashingCD);
+        // console.log(this.nextAttack);
 
-        // If is dashing, player cannot do anything else.
         if (this.isDashing || this.isAttacking) return;
 
         this.vecSpeed = cc.v2(0, 0);
@@ -63,10 +69,6 @@ export default class Viking extends cc.Component {
         // give speed
         let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
         this.getComponent(cc.RigidBody).linearVelocity = (this.isDead || this.getHitting) ? cc.v2(0, 0) : giveSpeed;
-
-        // give speed (setPosition method)
-        // if(this.vecSpeed.x) this.node.x += this.vecSpeed.x * this.speed * dt;
-        // if(this.vecSpeed.y) this.node.y += this.vecSpeed.y * this.speed * dt * this.ratio;
 
         // update state
         if (this.isDead) {
@@ -109,12 +111,16 @@ export default class Viking extends cc.Component {
     dash() {
         if (this.isDashingCD) return;
 
-        console.log("Viking is dashing");
+        // console.log("Viking is dashing");
         this.isDashing = true;
 
         let curDir = (this.vecSpeed.x === 0 && this.vecSpeed.y === 0) ? this.node.scaleX : this.vecSpeed.x;
 
-        this.node.runAction(cc.moveBy(0.2, curDir * this.speed / 2, this.vecSpeed.y * this.speed * this.ratio / 2));
+        this.node.runAction(cc.moveBy(
+            0.2, 
+            curDir * this.speed / 2, 
+            this.vecSpeed.y * this.speed * this.ratio / 2
+        ));
 
         this.scheduleOnce(() => {
             this.isDashing = false;
@@ -128,38 +134,28 @@ export default class Viking extends cc.Component {
     }
 
     attack(event) {
-        console.log("Viking is attacking");
-
-        if (this.isAttacking) return;
+        // console.log("Viking is attacking");
+        if (this.isAttacking){
+            console.log("attackCD");
+            this.doNextAttack = true;
+            return;
+        } 
 
         this.isAttacking = true;
-        this.setState("a1");
+        this.setState(this.nextAttack);
+        this.bladeGen(this.nextAttack);
+        this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+
+        const attacks = ["a1", "a2", "a3", "ultimate"];
+        const currentIndex = attacks.indexOf(this.nextAttack);
+        this.nextAttack = attacks[(currentIndex + 1) % attacks.length];
+        // this.scheduleOnce(() => { this.nextAttack = "a1"; }, 2);
 
         this.scheduleOnce(() => {
             this.setState("stand");
             this.isAttacking = false;
-        }, 0.5)
+        }, this.attack_time);
 
-        this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-
-        // let blade = new cc.Node;
-        // blade.group = "player_attack";
-        // blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
-        // blade.addComponent(cc.PhysicsBoxCollider);
-        // blade.getComponent(cc.RigidBody).gravityScale = 0;
-        // blade.getComponent(cc.RigidBody).fixedRotation = true;
-        // blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 1, this.node.height * 1.2);
-        // this.scheduleOnce(() => { cc.find("Canvas/New Node").addChild(blade); }, this.attack_delay);
-        // this.scheduleOnce(() => { cc.find("Canvas/New Node").removeChild(blade); }, this.attack_time);
-
-        let blade = cc.instantiate(this.bladePrefab);
-        blade.setPosition(0, 0);
-        blade.group = "player_attack";
-        blade.getComponent("blade").duration_time = this.attack_time - this.attack_delay;
-        blade.getComponent("blade").damage_val = this.attack_damage;
-        blade.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(10 * this.node.scaleX, 6.3);
-        blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(32, 50);
-        this.scheduleOnce(() => {this.node.addChild(blade);}, this.attack_delay);
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
@@ -199,140 +195,49 @@ export default class Viking extends cc.Component {
     }
 
     skillE() {
+        if(!this.node.getChildByName("shield")){
+            let shield = cc.instantiate(this.shieldPrefab);
+            this.node.addChild(shield);
+            this.scheduleOnce(() => {
+                shield.destroy();
+            }, 5);
+        }
+    }
 
+    updateShieldPosition(event) {
+        let shield = this.node.getChildByName("shield");
+        if(shield){
+            let mousePos = event.getLocation();
+            let camerapos = cc.find("Canvas/Main Camera").position;
+            let direction = cc.v2(mousePos.x + camerapos.x - 480 - this.node.position.x, mousePos.y + camerapos.y - 320 - this.node.position.y);
+            let distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
+            direction = cc.v2(direction.x / distance, direction.y / distance);
+
+            shield.setPosition(cc.v2(direction.x * 20 * this.node.scaleX, direction.y * 10));
+            let angle = Math.abs(90 - Math.abs(Math.atan2(direction.y, direction.x * 2) * 180 / Math.PI));
+            console.log(angle);
+            shield.scaleX = (90 - angle) * (direction.x > 0 ? 1 : -1) * (direction.y > 0 ? -1 : 1) * this.node.scaleX / 600;
+            shield.skewY = angle * 0.3;
+        }
+    }
+
+    bladeGen(attackName: string){
+        console.log("bladeGen : " + attackName + "  damage : " + this.attack_damage);
+
+        let blade = cc.instantiate(this.bladePrefab);
+        blade.setPosition(0, 0);
+        blade.group = "player_attack";
+        blade.getComponent("blade").duration_time = this.attack_time - this.attack_delay;
+        blade.getComponent("blade").damage_val = this.attack_damage;
+        if(attackName !== "ultimate") {
+            blade.getComponent(cc.PhysicsBoxCollider).offset = cc.v2(10 * this.node.scaleX, 6.3);
+            blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(32, 50);
+        } else {
+            blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(100, 50);
+        }
+        this.scheduleOnce(() => {this.node.addChild(blade);}, this.attack_delay);
     }
 
     onKeyDown(event) { Input[event.keyCode] = 1; }
     onKeyUp(event) { Input[event.keyCode] = 0; }
 }
-
-
-
-
-
-// const { ccclass, property } = cc._decorator;
-// const Input = {};
-
-// @ccclass
-// export default class Viking extends cc.Component {
-
-//     @property
-//     HP: number = 100;
-
-//     @property
-//     speed = 300;
-
-//     private state: string = "stand";
-//     private isBegin: boolean = false;
-//     private isDashing: boolean = false;
-//     private isDashingCD: boolean = false;
-//     private isAttacking: boolean = false;
-//     private getHitting: boolean = false;
-//     private isDead: boolean = false;
-//     private vecSpeed: cc.Vec2 = cc.v2(0, 0);
-
-//     start() {
-//         cc.systemEvent.on("keydown", this.onKeyDown, this);
-//         cc.systemEvent.on("keyup", this.onKeyUp, this);
-//         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
-//     }
-
-//     update(dt) {
-//         // If is dashing, player cannot do anything else.
-//         if (this.isDashing || this.isAttacking) return;
-
-//         this.vecSpeed = cc.v2(0, 0);
-
-//         // wasd
-//         if (Input[cc.macro.KEY.w] || Input[cc.macro.KEY.up]) {
-//             this.vecSpeed.y = 1;
-//         }
-//         if (Input[cc.macro.KEY.s] || Input[cc.macro.KEY.down]) {
-//             this.vecSpeed.y = -1;
-//         }
-//         if (Input[cc.macro.KEY.a] || Input[cc.macro.KEY.left]) {
-//             this.node.scaleX = -1;
-//             this.vecSpeed.x = -1;
-//         }
-//         if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
-//             this.node.scaleX = 1;
-//             this.vecSpeed.x = 1;
-//         }
-
-//         // dash
-//         if (Input[cc.macro.KEY.space] && !this.isDashing) {
-//             this.dash();
-//         }
-        
-//         // give speed
-//         if(this.vecSpeed.x) this.node.x += this.vecSpeed.x * this.speed * dt;
-//         if(this.vecSpeed.y) this.node.y += this.vecSpeed.y * this.speed * dt;    
-
-//         if (this.isDashing) {
-//             this.setState("dash");
-//         } else if (this.vecSpeed.x !== 0 || this.vecSpeed.y !== 0) {
-//             this.setState("run");
-//         } else {
-//             this.setState("stand");
-//         }
-//     }
-
-
-//     setState(newState: string) {
-//         if (this.state == newState) return;
-
-//         let animation = this.node.getComponent(cc.Animation);
-//         animation.stop();
-//         animation.play("viking_" + newState);
-//         this.state = newState;
-    
-//         // if(this.state == "stand"){
-
-//         // }else if(this.state == "run"){
-
-//         // }else if(this.state == "dash"){
-
-//         // }else if(this.state == "attack"){
-
-//         // }else if(this.state == "getHit"){
-
-//         // }else if(this.state == "death"){
-
-//         // }
-//     }
-
-//     dash() {
-//         if(this.isDashingCD) return;
-        
-//         console.log("Viking is dashing");
-//         this.isDashing = true;
-
-//         this.node.runAction(cc.moveBy(0.5, this.vecSpeed.x * 200, this.vecSpeed.y * 200));
-//         this.scheduleOnce(() => {
-//             this.isDashing = false;
-//             this.isDashingCD = true;
-//             this.setState("stand");
-//         }, 0.5);
-
-//         this.scheduleOnce(() => {
-//             this.isDashingCD = false;
-//         }, 1);
-//     }
-
-//     attack(event) {
-//         console.log("attack");
-        
-//         if (this.isAttacking) return;
-
-//         this.isAttacking = true;
-//         this.setState("a1");
-
-//         this.scheduleOnce(() => {
-//             this.setState("stand");
-//             this.isAttacking = false;
-//         }, 0.5)
-//     }
-
-//     onKeyDown(event) { Input[event.keyCode] = 1; }
-//     onKeyUp(event) { Input[event.keyCode] = 0; }
-// }

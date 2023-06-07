@@ -13,6 +13,9 @@ export default class Wizard extends cc.Component {
     @property(cc.Prefab)
     fireballPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    ultimatePrefab: cc.Prefab = null;
+
     @property
     move_speed: cc.Vec2 = cc.v2(200, 160);
 
@@ -32,14 +35,16 @@ export default class Wizard extends cc.Component {
     private isdashing: boolean = false;
     private isdead: boolean = false;
     private ishit:boolean = false;
+    private isultCD:boolean = true;
     //keys
     private upbtn: boolean = false;      //key for up
     private downbtn: boolean = false;    //key for down
     private leftbtn: boolean = false;    //key for left
     private rightbtn: boolean = false;   //key for right
     private dashbtn: boolean = false;    //key for dash
-
-
+    private ultbtn:boolean = false;      //key for ult
+    //CD
+    private ultCD:number = 0;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
@@ -73,9 +78,22 @@ export default class Wizard extends cc.Component {
                     this.dash();
                 }
                 break;
+            case cc.macro.KEY.q:
+                if(!this.isultCD){
+                    this.ultbtn = true;
+                    this.isultCD = true;
+                    this.ultimate();
+                }
+                break;
         }
     }
+    ultimate(){
+        console.log("explosion");
+        const explosion =  cc.instantiate(this.ultimatePrefab); 
+        explosion.setPosition(cc.v2(0,0));
+        this.node.addChild(explosion);
 
+    }
     onKeyUp(event) {
         switch (event.keyCode) {
             case cc.macro.KEY.w:
@@ -127,7 +145,7 @@ export default class Wizard extends cc.Component {
         // play attack animation
         this.animstate = this.anim.play("wizard_attack2");
         this.scheduleOnce(() => {
-            fireball.setPosition(cc.v2(0,0));
+            fireball.setPosition(cc.v2(20,0));
             this.node.addChild(fireball);
             fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
             // fireball.runAction(cc.moveBy(10, cc.v2(direction.x * 2000, direction.y * 2000)));
@@ -140,15 +158,16 @@ export default class Wizard extends cc.Component {
     private dash() {
         if (this.dashbtn && !this.isdashing) {
             this.isdashing = true;
-            if (this.move_dir == cc.v2(0, 0)) {
-                this.move_dir = cc.v2(this.face_dir, 0);
+            if (this.move_dir.x == 0 && this.move_dir.y == 0) {
+                this.move_dir.x = this.face_dir;
+                console.log(this.move_dir);
             }
             // play dash animation
             this.anim.stop();
             this.animstate = this.anim.play("wizard_dash");
             this.scheduleOnce(() => {
                 this.isdashing = false;
-                this.move_dir = cc.v2(0, 0);  // reset moving direction
+                // this.move_dir = cc.v2(0, 0);  // reset moving direction
             }, 0.2);
         }
     }
@@ -211,8 +230,20 @@ export default class Wizard extends cc.Component {
         }
 
         this.node.scaleX = this.face_dir;
-    }
 
+        //ultCD
+        this.schedule(this.ultCD_controll, 1);
+    }
+    ultCD_controll(){
+        console.log(this.isultCD, this.ultCD);
+        if(this.isultCD){
+            this.ultCD = this.ultCD + 1;
+            if(this.ultCD>=10) this.isultCD = false;
+            else this.isultCD = true;
+        }else{
+            this.ultCD = 0;
+        }
+    }
     damage(damage_val: number, ...damage_effect: Array<string>) {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
