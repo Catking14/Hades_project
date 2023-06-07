@@ -1,14 +1,21 @@
+// Learn TypeScript:
+//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
+// Learn Attribute:
+//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
+// Learn life-cycle callbacks:
+//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class Arrow extends cc.Component {
+export default class IceArrow extends cc.Component {
     @property(cc.SpriteFrame)
-    half_arrow: cc.SpriteFrame = null;
+    half_ice_arrow: cc.SpriteFrame = null;
 
     private direction = cc.v2(0, 0);
 
     onLoad(){
-        this.node.getComponent(cc.Animation).play("arrow");
+        this.node.getComponent(cc.Animation).play("ice_arrow");
 
         const mousePos = cc.find("Canvas/New Node/Archor").getComponent("Archor").mousePos;
 
@@ -22,10 +29,11 @@ export default class Arrow extends cc.Component {
 
         if(this.direction.x >= 0) this.node.angle = rotation;
         else this.node.angle = rotation + 180;
+        console.log(this.direction.x, this.direction.y);
     }
 
     start(){
-        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(this.direction.x * 100, this.direction.y * 100);
+        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(this.direction.x * 80, this.direction.y * 80);
     }
 
     update (dt) {
@@ -33,13 +41,12 @@ export default class Arrow extends cc.Component {
     }
     onBeginContact(contact, self, other){
         if(other.node.group == "default"){
-            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 16;
+            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 52;
             this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
             this.node.getComponent(cc.PhysicsBoxCollider).apply();
             this.node.getComponent(cc.Animation).stop();
-            this.node.getComponent(cc.Sprite).spriteFrame = this.half_arrow;
+            this.node.getComponent(cc.Sprite).spriteFrame = this.half_ice_arrow;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-
             this.scheduleOnce(()=>{
                 this.node.runAction(cc.fadeOut(3));
             }, 2)

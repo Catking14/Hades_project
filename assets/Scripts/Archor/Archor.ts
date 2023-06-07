@@ -5,6 +5,8 @@ const Input = {};
 export default class Archor extends cc.Component {
     @property(cc.Prefab)
     Arrow: cc.Prefab = null;
+    @property(cc.Prefab)
+    IceArrow: cc.Prefab = null;
     @property
     HP: number = 100;
     @property(cc.v2)

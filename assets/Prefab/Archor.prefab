@@ -404,6 +404,9 @@
     "Arrow": {
       "__uuid__": "f7bb779e-31d8-45b3-a1b4-fe752a9cd3b0"
     },
+    "IceArrow": {
+      "__uuid__": "017d5770-916f-4cf2-9ca5-90f70b9b5cb7"
+    },
     "HP": 100,
     "speed": {
       "__type__": "cc.Vec2",
