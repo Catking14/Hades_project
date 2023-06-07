@@ -48,7 +48,6 @@ export default class Fireball extends cc.Component {
     anim_control(){
         if(this.animstate.name == "explosion_create" && !this.animstate.isPlaying){
             this.animstate = this.anim.play("explosion_stay");
-            cc.audioEngine.setEffectsVolume(1);
             cc.audioEngine.playEffect(this.sound_effect,false);
         }else if(this.scale>=20){
             if(this.animstate.name!="explosion_destroy"||!this.animstate.isPlaying){

@@ -17,7 +17,7 @@ export default class Wizard extends cc.Component {
     ultimatePrefab: cc.Prefab = null;
 
     @property(cc.AudioClip)
-    sound_effect:cc.AudioClip = null;
+    sound_effect: cc.AudioClip = null;
 
     @property
     move_speed: cc.Vec2 = cc.v2(200, 160);
@@ -37,17 +37,17 @@ export default class Wizard extends cc.Component {
     private isfiring: boolean = false;
     private isdashing: boolean = false;
     private isdead: boolean = false;
-    private ishit:boolean = false;
-    private isultCD:boolean = true;
+    private ishit: boolean = false;
+    private isultCD: boolean = true;
     //keys
     private upbtn: boolean = false;      //key for up
     private downbtn: boolean = false;    //key for down
     private leftbtn: boolean = false;    //key for left
     private rightbtn: boolean = false;   //key for right
     private dashbtn: boolean = false;    //key for dash
-    private ultbtn:boolean = false;      //key for ult
+    private ultbtn: boolean = false;      //key for ult
     //CD
-    private ultCD:number = 0;
+    private ultCD: number = 0;
     //other
     private mouse_Pos;
     // LIFE-CYCLE CALLBACKS:
@@ -63,7 +63,7 @@ export default class Wizard extends cc.Component {
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.fire, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.get_mousePos, this);
     }
-    get_mousePos(event){
+    get_mousePos(event) {
         this.mouse_Pos = event.getLocation();
     }
     onKeyDown(event) {
@@ -81,13 +81,13 @@ export default class Wizard extends cc.Component {
                 this.rightbtn = true;
                 break;
             case cc.macro.KEY.space:
-                if (!this.dashbtn){
+                if (!this.dashbtn) {
                     this.dashbtn = true;
                     this.dash();
                 }
                 break;
             case cc.macro.KEY.q:
-                if(!this.isultCD){
+                if (!this.isultCD) {
                     this.ultbtn = true;
                     this.isultCD = true;
                     this.ultimate();
@@ -95,20 +95,20 @@ export default class Wizard extends cc.Component {
                 break;
         }
     }
-    ultimate(){
+    ultimate() {
         if (this.isfiring) return;
         this.isfiring = true;
         // break dash if fire
         if (this.isdashing) this.isdashing = false;
         console.log("explosion");
-        const explosion =  cc.instantiate(this.ultimatePrefab); 
+        const explosion = cc.instantiate(this.ultimatePrefab);
         let camerapos = cc.find("Canvas/Main Camera").position;
         console.log(this.mouse_Pos);
         console.log(camerapos);
         let position = cc.v2(this.mouse_Pos.x + camerapos.x - 480 - this.node.position.x, this.mouse_Pos.y + camerapos.y - 320 - this.node.position.y)
         this.anim.stop();
         this.animstate = this.anim.play("wizard_attack1");
-        explosion.setPosition(cc.v2(position.x*this.face_dir,position.y));
+        explosion.setPosition(cc.v2(position.x * this.face_dir, position.y));
         this.node.addChild(explosion);
         this.anim.on('finished', () => {
             this.isfiring = false;
@@ -140,12 +140,12 @@ export default class Wizard extends cc.Component {
         // break dash if fire
         if (this.isdashing) this.isdashing = false;
         const mousePos = event.getLocation();
-        
+
         const fireball = cc.instantiate(this.fireballPrefab);
         let distance;
         let direction = cc.v2(0, 0);
         let rotation: number;
-        
+
         // console.log(mousePos.x,mousePos.y);
         // console.log(this.node.x,this.node.y);
         let camerapos = cc.find("Canvas/Main Camera").position;
@@ -166,7 +166,7 @@ export default class Wizard extends cc.Component {
         // play attack animation
         this.animstate = this.anim.play("wizard_attack2");
         this.scheduleOnce(() => {
-            fireball.setPosition(cc.v2(20,0));
+            fireball.setPosition(cc.v2(20, 0));
             this.node.addChild(fireball);
             fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
             // fireball.runAction(cc.moveBy(10, cc.v2(direction.x * 2000, direction.y * 2000)));
@@ -216,9 +216,9 @@ export default class Wizard extends cc.Component {
         }
     }
     private playerAnimation() {
-        if(this.isdead){
-        }else if(this.ishit){
-        }else if (this.isfiring || this.isdashing) {
+        if (this.isdead) {
+        } else if (this.ishit) {
+        } else if (this.isfiring || this.isdashing) {
             // console.log("?");
             // empty for nop
         }
@@ -255,13 +255,13 @@ export default class Wizard extends cc.Component {
         //ultCD
         this.schedule(this.ultCD_controll, 1);
     }
-    ultCD_controll(){
+    ultCD_controll() {
         console.log(this.isultCD, this.ultCD);
-        if(this.isultCD){
+        if (this.isultCD) {
             this.ultCD = this.ultCD + 1;
-            if(this.ultCD>=10) this.isultCD = false;
+            if (this.ultCD >= 10) this.isultCD = false;
             else this.isultCD = true;
-        }else{
+        } else {
             this.ultCD = 0;
         }
     }
@@ -271,11 +271,14 @@ export default class Wizard extends cc.Component {
         // 扣血量
         this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
         if (this.HP > 0) {
-            this.ishit = true;
-            this.animstate = this.anim.play("wizard_hit");
-            this.scheduleOnce(() => {
-                this.ishit = false;
-            }, 0.3);
+            if (!this.ishit) {
+                this.ishit = true;
+                this.animstate = this.anim.play("wizard_hit");
+                this.scheduleOnce(() => {
+                    this.ishit = false;
+                }, 0.5);
+            }
+
         } else {
             this.isdead = true;
             this.animstate = this.anim.play("wizard_death");

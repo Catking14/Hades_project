@@ -38,6 +38,7 @@ export default class Viking extends cc.Component {
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.updateShieldPosition, this);
+        this.node.scale = 0.6;
     }
 
     update(dt) {
