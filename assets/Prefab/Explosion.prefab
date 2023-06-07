@@ -199,8 +199,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "hit_effect": null,
-    "nothit_effect": null,
+    "sound_effect": {
+      "__uuid__": "7844c752-e80f-46bb-b695-4ce8f38849c2"
+    },
     "_id": ""
   },
   {
