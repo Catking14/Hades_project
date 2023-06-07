@@ -33,13 +33,16 @@ export default class Arrow extends cc.Component {
     }
     onBeginContact(contact, self, other){
         if(other.node.group == "default"){
+            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 16;
             this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
             this.node.getComponent(cc.PhysicsBoxCollider).apply();
             this.node.getComponent(cc.Animation).stop();
             this.node.getComponent(cc.Sprite).spriteFrame = this.half_arrow;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
 
-            this.node.runAction(cc.fadeOut(3));
+            this.scheduleOnce(()=>{
+                this.node.runAction(cc.fadeOut(3));
+            }, 2)
             this.scheduleOnce(()=>{
                 this.node.destroy();
             }, 5);

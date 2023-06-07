@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "1ff9a4bd-955a-4eff-b7f1-bb07a8d21810",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 517,
+  "height": 246,
+  "platformSettings": {},
+  "subMetas": {
+    "Effect_DitheredFire_1_008": {
+      "ver": "1.0.6",
+      "uuid": "c476bc78-d77b-4f89-9616-7f82451f5a43",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "1ff9a4bd-955a-4eff-b7f1-bb07a8d21810",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": -4,
+      "trimX": 2,
+      "trimY": 11,
+      "width": 512,
+      "height": 232,
+      "rawWidth": 517,
+      "rawHeight": 246,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
