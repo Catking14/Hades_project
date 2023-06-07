@@ -22,6 +22,9 @@ export default class Warrior extends cc.Component {
     @property(cc.Prefab)
     blood: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    extreme: cc.Prefab = null;
+
     // animations
     _anim: cc.Animation = null;
     _anim_state: cc.AnimationState = null;
@@ -40,6 +43,10 @@ export default class Warrior extends cc.Component {
     _hit: boolean = false;
     _died: boolean = false;
 
+    _ultimate: boolean = false;
+    _ultimate_ready: boolean = true;
+    _ultimate_cd: number = 10;
+
     // keyboard status
     _w_pressed: boolean = false;
     _a_pressed: boolean = false;
@@ -52,6 +59,7 @@ export default class Warrior extends cc.Component {
 
     // player status
     _hp: number = 100;
+    _dmg: number = 60;
 
     // Music effects
     @property(cc.AudioClip)
@@ -111,7 +119,7 @@ export default class Warrior extends cc.Component {
             attack_range.setPosition(0, 0);
             attack_range.group = "player_attack";
             attack_range.getComponent("blade").duration_time = 0.1;
-            attack_range.getComponent("blade").damage_val = 30;
+            attack_range.getComponent("blade").damage_val = this._dmg;
 
             // play effect
             this._ATK = cc.audioEngine.playEffect(this.attack_effect, false);
@@ -191,6 +199,33 @@ export default class Warrior extends cc.Component {
         this._anim_state = this._anim.play("warrior_die");
 
         this._DIE = cc.audioEngine.playEffect(this.death_effect, false);
+
+        // destroy when died
+        this.scheduleOnce(() => 
+        {
+            this._collider.enabled = false;
+            this.node.zIndex -= 5;
+        }, 1.2);
+    }
+
+    ultimate()
+    {
+        if(!this._ultimate)
+        {
+            let extreme_effect = cc.instantiate(this.extreme);
+
+            this._ultimate = true;
+            this._dmg *= 3;     // increase damage
+
+            cc.find("Canvas/Main Camera").addChild(extreme_effect);
+            this.node.color = new cc.Color(255, 184, 0);
+
+            this.scheduleOnce(() => 
+            {
+                this._ultimate = false;
+                this.node.color = new cc.Color(255, 255, 255);
+            }, 5);
+        }
     }
 
     animation_controller()
@@ -231,35 +266,45 @@ export default class Warrior extends cc.Component {
     {
         // console.log(damage_val);
 
-        let blood_effect = cc.instantiate(this.blood);
+       if(!this._hit)
+       {
+            let blood_effect = cc.instantiate(this.blood);
 
-        blood_effect.setPosition(this.node.x, this.node.y);
-        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+            blood_effect.setPosition(this.node.x, this.node.y);
+            blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
 
-        this._hit = true;
+            this._hit = true;
 
-        // play hit sound
-        this._DMG = cc.audioEngine.playEffect(this.damage_effect, false);
+            // play hit sound
+            this._DMG = cc.audioEngine.playEffect(this.damage_effect, false);
 
-        // play hit animation
-        this._anim.stop();
-        this._anim_state = this._anim.play("warrior_hit");
+            // play hit animation
+            this._anim.stop();
+            this._anim_state = this._anim.play("warrior_hit");
 
-        this._hp -= damage_val;
+            if(this._ultimate)
+            {
+                this._hp -= (damage_val / 2);
+            }
+            else
+            {
+                this._hp -= damage_val;
+            }
 
-        if(this._hp <= 0)
-        {
-            blood_effect.getComponent("Blood").die = true;
-            this.die();
-        }
+            if(this._hp <= 0)
+            {
+                blood_effect.getComponent("Blood").die = true;
+                this.die();
+            }
 
-        cc.find("Canvas/New Node").addChild(blood_effect);
+            cc.find("Canvas/New Node").addChild(blood_effect);
 
-        this.scheduleOnce(() => 
-        {
-            this._hit = false;
-            this.node.color = new cc.Color(255, 255, 255);
-        }, 0.15);
+            this.scheduleOnce(() => 
+            {
+                this._hit = false;
+                this.node.color = new cc.Color(255, 255, 255);
+            }, 0.15);
+       }
     }
 
     // LIFE-CYCLE CALLBACKS:
@@ -321,6 +366,15 @@ export default class Warrior extends cc.Component {
 
                 // fix hitbox offset
                 this.hit_box_fix();
+                break;
+            case cc.macro.KEY.q:
+                if(!this._ultimate && this._ultimate_ready)
+                {
+                    this._ultimate_ready = false;
+                    this.ultimate();
+
+                    this.scheduleOnce(() => {this._ultimate_ready = true;}, this._ultimate_cd);
+                }
                 break;
             case cc.macro.KEY.space:
                 if(!this._space_pressed && this._dash_ready)
