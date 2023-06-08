@@ -59,7 +59,7 @@ export default class Warrior extends cc.Component {
 
     // player status
     _hp: number = 100;
-    _dmg: number = 60;
+    _dmg: number = 30;
 
     // Music effects
     @property(cc.AudioClip)
@@ -109,7 +109,7 @@ export default class Warrior extends cc.Component {
             else
             {
                 this._facing_dir = -1;
-                this._anim_state = this._anim.play("warrior_attack1_left");
+                this._anim_state = this._anim.play("warrior_attack3_left");
             }
 
             // attack hitbox instantiate
