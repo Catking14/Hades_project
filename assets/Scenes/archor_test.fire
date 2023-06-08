@@ -145,7 +145,9 @@
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
     "volume": 0.1,
-    "Megalovania": null,
+    "Megalovania": {
+      "__uuid__": "19ad8fdb-8b8b-4eec-a4c9-b7ae77bba5d9"
+    },
     "_id": "ccTudYjU1EGrQ1mtyQVJOW"
   },
   {
