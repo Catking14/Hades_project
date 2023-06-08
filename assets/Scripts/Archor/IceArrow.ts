@@ -13,6 +13,7 @@ export default class IceArrow extends cc.Component {
     half_ice_arrow: cc.SpriteFrame = null;
 
     private direction = cc.v2(0, 0);
+    private in_wall: boolean = false;
 
     onLoad(){
         this.node.getComponent(cc.Animation).play("ice_arrow");
@@ -37,16 +38,19 @@ export default class IceArrow extends cc.Component {
     }
 
     update (dt) {
-        this.node.scaleX = 1;
+        if(this.in_wall) this.node.getComponent(cc.RigidBody).type = cc.RigidBodyType.Static;
     }
     onBeginContact(contact, self, other){
         if(other.node.group == "default"){
-            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 52;
+            this.in_wall = true;
+            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 53;
             this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
             this.node.getComponent(cc.PhysicsBoxCollider).apply();
             this.node.getComponent(cc.Animation).stop();
             this.node.getComponent(cc.Sprite).spriteFrame = this.half_ice_arrow;
-            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+            this.node.runAction(cc.moveBy(0.01, cc.v2(this.direction.x * 15, this.direction.y * 15)));
+
             this.scheduleOnce(()=>{
                 this.node.runAction(cc.fadeOut(3));
             }, 2)
@@ -56,8 +60,15 @@ export default class IceArrow extends cc.Component {
         }
 
         if(other.node.group == "enemy"){
+            let tmp: any;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             other.node.getComponent(other.node.name).damage(50);
+            tmp = other.node.getComponent(other.node.name).speed;
+            console.log(tmp.x, tmp.y);
+            other.node.getComponent(other.node.name).speed = cc.v2(0, 0);
+            other.scheduleOnce(()=>{
+                other.node.getComponent(other.node.name).speed = cc.v2(tmp.x, tmp.y);
+            }, 5)
             this.node.destroy();
         }
     }
