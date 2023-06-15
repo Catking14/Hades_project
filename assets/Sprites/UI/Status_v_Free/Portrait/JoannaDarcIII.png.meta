@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "4026972a-3207-4e5b-937d-dc71a18464cc",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 48,
+  "height": 48,
+  "platformSettings": {},
+  "subMetas": {
+    "JoannaDarcIII": {
+      "ver": "1.0.6",
+      "uuid": "6cbf63ce-e40f-4259-a13e-c80040aa17f4",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "4026972a-3207-4e5b-937d-dc71a18464cc",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -0.5,
+      "trimX": 5,
+      "trimY": 4,
+      "width": 38,
+      "height": 41,
+      "rawWidth": 48,
+      "rawHeight": 48,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
