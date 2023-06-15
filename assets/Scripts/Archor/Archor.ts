@@ -18,7 +18,6 @@ export default class Archor extends cc.Component {
     private animation: cc.Animation;
     private rigidBody: cc.RigidBody;
     private collider: cc.PhysicsBoxCollider;
-    private HP_bar: cc.ProgressBar;
     private state: string = "";
     private isBegin: boolean = false;
     private canDash: boolean = false;
@@ -48,7 +47,6 @@ export default class Archor extends cc.Component {
         this.animation = this.node.getComponent(cc.Animation);
         this.rigidBody = this.node.getComponent(cc.RigidBody);
         this.collider = this.node.getComponent(cc.PhysicsBoxCollider);
-        this.HP_bar = this.node.getChildByName("HP_Bar").getComponent(cc.ProgressBar);
         this.HP = 100;
         this.cur_HP = this.HP;
         this.speed = cc.v2(200, 160);
@@ -87,7 +85,6 @@ export default class Archor extends cc.Component {
             this.node.scaleX = 1;
         }else   this.direction.x = 0;
         
-        this.HP_bar.reverse = this.node.scaleX != 1;
 
         // calculate displacement (depends on direction and speed)
         if(this.direction.x)    this.node.x += this.direction.x * this.speed.x * dt;
@@ -181,7 +178,6 @@ export default class Archor extends cc.Component {
 
         if(direction.x >= 0) this.node.scaleX = 1;
         else this.node.scaleX = -1;
-        this.HP_bar.reverse = this.node.scaleX != 1;
 
         this.isAttacking = true;
         this.setState("attack");
@@ -215,7 +211,6 @@ export default class Archor extends cc.Component {
 
         if(direction.x >= 0) this.node.scaleX = 1;
         else this.node.scaleX = -1;
-        this.HP_bar.reverse = this.node.scaleX != 1;
 
         this.setState("attack");
 
@@ -247,7 +242,6 @@ export default class Archor extends cc.Component {
         if (this.cur_HP > 0) {
             this.getHitting = true;
             this.setState("getHit");
-            this.HP_bar.progress = this.cur_HP / this.HP;
             this.scheduleOnce(() => {
                 this.setState("stand");
                 this.getHitting = false;
