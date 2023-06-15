@@ -9,11 +9,10 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class IceArrow extends cc.Component {
-    @property(cc.SpriteFrame)
-    half_ice_arrow: cc.SpriteFrame = null;
+    @property(cc.Prefab)
+    iceArrowCrashEffect: cc.Prefab = null;
 
     private direction = cc.v2(0, 0);
-    private in_wall: boolean = false;
 
     onLoad(){
         this.node.getComponent(cc.Animation).play("ice_arrow");
@@ -38,27 +37,10 @@ export default class IceArrow extends cc.Component {
     }
 
     update (dt) {
-        if(this.in_wall) this.node.getComponent(cc.RigidBody).type = cc.RigidBodyType.Static;
+        
     }
+    
     onBeginContact(contact, self, other){
-        if(other.node.group == "default"){
-            this.in_wall = true;
-            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 53;
-            this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
-            this.node.getComponent(cc.PhysicsBoxCollider).apply();
-            this.node.getComponent(cc.Animation).stop();
-            this.node.getComponent(cc.Sprite).spriteFrame = this.half_ice_arrow;
-            this.node.runAction(cc.moveBy(0.01, cc.v2(this.direction.x * 15, this.direction.y * 15)));
-
-            this.scheduleOnce(()=>{
-                this.node.runAction(cc.fadeOut(3));
-            }, 2)
-            this.scheduleOnce(()=>{
-                this.node.destroy();
-            }, 5);
-        }
-
         if(other.node.group == "enemy"){
             let tmp: any;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
@@ -69,7 +51,11 @@ export default class IceArrow extends cc.Component {
             other.scheduleOnce(()=>{
                 other.node.getComponent(other.node.name).speed = cc.v2(tmp.x, tmp.y);
             }, 5)
-            this.node.destroy();
         }
+
+        const ice_arrow_crash_effect = cc.instantiate(this.iceArrowCrashEffect);
+        ice_arrow_crash_effect.setPosition(cc.find("Canvas/Main Camera").convertToNodeSpaceAR(contact.getWorldManifold().points[0]));
+        cc.find("Canvas/Main Camera").addChild(ice_arrow_crash_effect);
+        this.node.destroy();
     }
 }
