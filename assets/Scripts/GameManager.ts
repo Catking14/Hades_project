@@ -23,19 +23,18 @@ export default class GameManager extends cc.Component {
     @property(cc.Node)
     follow: cc.Node = null;
 
-    // camera shake related
-    @property
-    shake_duration: number = 0.3;
-
-    @property
-    shakes: number = 5;
-
-    @property
-    shake_scale: number = 20;
-
     // map prefabs
     @property(cc.Prefab)
     map1: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    map2: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    map3: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    map4: cc.Prefab = null;
     
     @property(cc.Prefab)
     air_wall: cc.Prefab = null;
@@ -67,51 +66,6 @@ export default class GameManager extends cc.Component {
 
         this._camera.setPosition(camera_pos);
         this._minimap_camera.setPosition(minimap_pos);
-    }
-
-    camera_shake()
-    {
-        // generate random points 
-        let points = [];
-        let camera_pos = this._camera.getPosition();
-        let player_pos = this.follow.getPosition();
-        let idx = 0;
-
-        for(let i = 0;i < this.shakes;i++)
-        {
-            points.push({x: Math.random() * 2 - 1, y: Math.random() * 2 - 1});
-        }
-
-        // quinitic interpolation
-        let smooth = (x) =>
-        {
-            return 6 * (x**5) - 15 * (x**4) + 10 * (x**3);
-        }
-
-        // interpolate with linear method and smoothed data
-        let perlin_shake = () =>
-        {
-            let UI = this._camera.getChildByName("UI");
-            let new_x = player_pos.x + smooth(points[idx].x) * this.shake_scale;
-            let new_y = player_pos.y + smooth(points[idx].y) * this.shake_scale;
-
-            // this._camera.setPosition(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale);
-            // camera_pos.lerp(cc.v2(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale), 0.5, camera_pos);
-            camera_pos.lerp(cc.v2(new_x, new_y), 0.15, camera_pos);
-
-            this._camera.setPosition(camera_pos);
-            UI.setPosition(cc.v2(points[idx].x * this.shake_scale, points[idx].y * this.shake_scale));
-
-            idx++;
-        }
-
-        this.schedule(perlin_shake, this.shake_duration);
-
-        this.scheduleOnce(() =>
-        {
-            this.unschedule(perlin_shake);
-        }, this.shake_duration * this.shakes);
-
     }
 
     generate_map()
@@ -294,7 +248,18 @@ export default class GameManager extends cc.Component {
                 // if(visited[i * this._map_column + j])
                 if(visited[i * this._map_column + j] == 1)
                 {
-                    let new_block = cc.instantiate(this.map1);
+                    let tmp = Math.random();
+                    let new_block;
+                    if(tmp>0.75){
+                        new_block = cc.instantiate(this.map1);
+                    }else if(tmp>0.5){
+                        new_block = cc.instantiate(this.map2);
+                    }else if(tmp>0.25){
+                        new_block = cc.instantiate(this.map3);
+                    }else{
+                        new_block = cc.instantiate(this.map4);
+                    }
+                    
                     
                     new_block.setPosition(j * this.size_of_map_block, i * this.size_of_map_block);
 
@@ -321,7 +286,7 @@ export default class GameManager extends cc.Component {
 
         // enable physics function
         physics_manager.enabled = true;
-        //physics_manager.debugDrawFlags = 1;
+        // physics_manager.debugDrawFlags = 1;
 
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
