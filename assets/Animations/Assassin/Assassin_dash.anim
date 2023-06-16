@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Assassin_dash",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.1,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "476b34f2-957f-4e52-8f2f-ad69c7080a44"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "fe07306e-965e-43e7-815b-be3c057ceab0"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "fe07306e-965e-43e7-815b-be3c057ceab0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,67 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Assassin_run",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "fe07306e-965e-43e7-815b-be3c057ceab0"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "efc4fa48-c041-4736-babc-897fb12b4535"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "476b34f2-957f-4e52-8f2f-ad69c7080a44"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "f582e960-0efe-4e43-9ebb-7b266922f6d6"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "3f6242cf-3787-42a6-86f4-c2b73e643d19"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "da95dd20-6966-43bb-b046-684948cda44c"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "0241bdd6-df8d-4a9b-8f41-708daf9eaf9c"
+            }
+          },
+          {
+            "frame": 0.7,
+            "value": {
+              "__uuid__": "87e53574-f315-4246-9736-7ea176f69932"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
