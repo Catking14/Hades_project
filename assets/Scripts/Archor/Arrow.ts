@@ -6,6 +6,7 @@ export default class Arrow extends cc.Component {
     half_arrow: cc.SpriteFrame = null;
 
     private direction = cc.v2(0, 0);
+    private in_wall: boolean = false;
 
     onLoad(){
         this.node.getComponent(cc.Animation).play("arrow");
@@ -25,20 +26,22 @@ export default class Arrow extends cc.Component {
     }
 
     start(){
-        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(this.direction.x * 100, this.direction.y * 100);
+        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(this.direction.x * 150, this.direction.y * 150);
     }
 
     update (dt) {
-        this.node.scaleX = 1;
+        if(this.in_wall) this.node.getComponent(cc.RigidBody).type = cc.RigidBodyType.Static;
     }
     onBeginContact(contact, self, other){
         if(other.node.group == "default"){
+            this.in_wall = true;
+            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             this.node.getComponent(cc.PhysicsBoxCollider).size.width = 16;
             this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
             this.node.getComponent(cc.PhysicsBoxCollider).apply();
             this.node.getComponent(cc.Animation).stop();
             this.node.getComponent(cc.Sprite).spriteFrame = this.half_arrow;
-            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+            this.node.runAction(cc.moveBy(0.01, cc.v2(this.direction.x * 10, this.direction.y * 10)));
 
             this.scheduleOnce(()=>{
                 this.node.runAction(cc.fadeOut(3));

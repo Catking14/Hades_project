@@ -9,8 +9,8 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class IceArrow extends cc.Component {
-    @property(cc.SpriteFrame)
-    half_ice_arrow: cc.SpriteFrame = null;
+    @property(cc.Prefab)
+    iceArrowCrashEffect: cc.Prefab = null;
 
     private direction = cc.v2(0, 0);
 
@@ -37,28 +37,25 @@ export default class IceArrow extends cc.Component {
     }
 
     update (dt) {
-        this.node.scaleX = 1;
+        
     }
+    
     onBeginContact(contact, self, other){
-        if(other.node.group == "default"){
-            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 52;
-            this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
-            this.node.getComponent(cc.PhysicsBoxCollider).apply();
-            this.node.getComponent(cc.Animation).stop();
-            this.node.getComponent(cc.Sprite).spriteFrame = this.half_ice_arrow;
-            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-            this.scheduleOnce(()=>{
-                this.node.runAction(cc.fadeOut(3));
-            }, 2)
-            this.scheduleOnce(()=>{
-                this.node.destroy();
-            }, 5);
-        }
-
         if(other.node.group == "enemy"){
+            let tmp: any;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             other.node.getComponent(other.node.name).damage(50);
-            this.node.destroy();
+            tmp = other.node.getComponent(other.node.name).speed;
+            console.log(tmp.x, tmp.y);
+            other.node.getComponent(other.node.name).speed = cc.v2(0, 0);
+            other.scheduleOnce(()=>{
+                other.node.getComponent(other.node.name).speed = cc.v2(tmp.x, tmp.y);
+            }, 5)
         }
+
+        const ice_arrow_crash_effect = cc.instantiate(this.iceArrowCrashEffect);
+        ice_arrow_crash_effect.setPosition(cc.find("Canvas/Main Camera").convertToNodeSpaceAR(contact.getWorldManifold().points[0]));
+        cc.find("Canvas/Main Camera").addChild(ice_arrow_crash_effect);
+        this.node.destroy();
     }
 }

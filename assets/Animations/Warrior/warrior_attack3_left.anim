@@ -1,0 +1,175 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "warrior_attack3_left",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.4166666666666667,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "1290237c-4d54-4d00-8da4-16ae3b3b3f8e"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "2dbfe9cf-6ecb-4750-99fe-343cac5fab4a"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "8477847c-9a28-4f72-88f9-6d1b2461ef4a"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "d394342a-2d5b-4458-ab48-a6c2cc4737f7"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "440eca13-8185-4a07-b5cd-54fb7d343668"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "e8ae0b75-d3fc-49ff-a626-f17197260bc6"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "e9fae3dd-2103-46cf-8cd6-83df36447406"
+            }
+          },
+          {
+            "frame": 0.35,
+            "value": {
+              "__uuid__": "1640f617-2565-40c8-87dd-a3507b70aac1"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "89110222-045a-4d34-91a5-2ff46f0e66db"
+            }
+          }
+        ]
+      },
+      "cc.PhysicsBoxCollider": {
+        "offset": [
+          {
+            "frame": 0,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": -16.2,
+              "y": -6
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": -17.6,
+              "y": 0.1
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": -7.8,
+              "y": -0.5
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": -5.8,
+              "y": 0.4
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": 15.7,
+              "y": 0.3
+            }
+          },
+          {
+            "frame": 0.35,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": 7,
+              "y": 0
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__type__": "cc.Vec2",
+              "x": -1.8,
+              "y": -0.3
+            }
+          }
+        ],
+        "size": [
+          {
+            "frame": 0,
+            "value": {
+              "__type__": "cc.Size",
+              "width": 27.5,
+              "height": 37
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__type__": "cc.Size",
+              "width": 26.8,
+              "height": 36.4
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__type__": "cc.Size",
+              "width": 24.6,
+              "height": 34.4
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__type__": "cc.Size",
+              "width": 26.4,
+              "height": 35.8
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__type__": "cc.Size",
+              "width": 28.2,
+              "height": 37.3
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
