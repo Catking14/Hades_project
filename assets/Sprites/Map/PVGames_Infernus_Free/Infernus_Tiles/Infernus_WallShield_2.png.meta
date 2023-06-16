@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "a1233dc6-fb09-4df2-a8e2-5aaa9650c212",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_WallShield_2": {
+      "ver": "1.0.6",
+      "uuid": "712412b9-a091-42e5-9f68-91753b341c32",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "a1233dc6-fb09-4df2-a8e2-5aaa9650c212",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 4,
+      "trimX": 17,
+      "trimY": 8,
+      "width": 31,
+      "height": 40,
+      "rawWidth": 64,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

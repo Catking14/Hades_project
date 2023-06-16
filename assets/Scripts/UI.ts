@@ -70,9 +70,6 @@ export default class UI extends cc.Component {
 
     onLoad () 
     {
-        // get tracing player
-        this._player = cc.find("Game Manager").getComponent("GameManager").follow;
-
         // get UI elements
         this._icon = this.node.getChildByName("Icon");
         this._hp_bar = this.node.getChildByName("HP").getChildByName("actual_health");
@@ -83,6 +80,9 @@ export default class UI extends cc.Component {
 
     start () 
     {
+        // get tracing player
+        this._player = cc.find("Game Manager").getComponent("GameManager").follow;
+
         // set initial blood (HP)
         this._hp = this._player.getComponent(this._player.name).HP;
         this._max_hp = this._hp;

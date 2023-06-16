@@ -225,6 +225,7 @@ export default class Warrior extends cc.Component {
             this.scheduleOnce(() => 
             {
                 this._ultimate = false;
+                this._dmg /= 3;
                 this.node.color = new cc.Color(255, 255, 255);
             }, 5);
         }

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "682a2c39-e08a-4313-a319-262dfef8ab24",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 96,
+  "height": 128,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_HangingCorpse2_3": {
+      "ver": "1.0.6",
+      "uuid": "a1c80dc0-8be3-46f2-9836-5ba5c35e2799",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "682a2c39-e08a-4313-a319-262dfef8ab24",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 2.5,
+      "offsetY": 1,
+      "trimX": 13,
+      "trimY": 2,
+      "width": 75,
+      "height": 122,
+      "rawWidth": 96,
+      "rawHeight": 128,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

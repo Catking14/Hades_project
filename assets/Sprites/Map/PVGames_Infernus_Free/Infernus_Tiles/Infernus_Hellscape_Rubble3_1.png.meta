@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "1b75aaa3-0ea6-4848-83b3-b27d7060bc25",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 192,
+  "height": 320,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Hellscape_Rubble3_1": {
+      "ver": "1.0.6",
+      "uuid": "27a0308e-8431-475d-a83b-4394921a71e6",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "1b75aaa3-0ea6-4848-83b3-b27d7060bc25",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -6,
+      "offsetY": -0.5,
+      "trimX": 6,
+      "trimY": 11,
+      "width": 168,
+      "height": 299,
+      "rawWidth": 192,
+      "rawHeight": 320,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

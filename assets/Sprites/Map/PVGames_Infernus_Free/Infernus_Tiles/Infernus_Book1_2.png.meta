@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "c43ebd49-b4b9-46cb-abaa-79c3fa64fc7a",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Book1_2": {
+      "ver": "1.0.6",
+      "uuid": "d2f0d787-0f53-443e-950b-ce7c0e3c9123",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "c43ebd49-b4b9-46cb-abaa-79c3fa64fc7a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": -1.5,
+      "trimX": 11,
+      "trimY": 12,
+      "width": 41,
+      "height": 43,
+      "rawWidth": 64,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

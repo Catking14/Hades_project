@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "44f92a66-8854-4d18-a3b7-afa83b94acac",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 32,
+  "height": 128,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_WallLantern_4": {
+      "ver": "1.0.6",
+      "uuid": "7173bd6d-8786-4c4a-80be-0aa27e1a714f",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "44f92a66-8854-4d18-a3b7-afa83b94acac",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1,
+      "offsetY": 5.5,
+      "trimX": 8,
+      "trimY": 47,
+      "width": 14,
+      "height": 23,
+      "rawWidth": 32,
+      "rawHeight": 128,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

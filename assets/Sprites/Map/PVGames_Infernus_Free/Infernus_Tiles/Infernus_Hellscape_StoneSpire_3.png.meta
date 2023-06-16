@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "2c193c2e-cdc1-460a-9226-24beec7e88cb",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 224,
+  "height": 352,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Hellscape_StoneSpire_3": {
+      "ver": "1.0.6",
+      "uuid": "316aeae0-c23d-46f3-8ff1-e972e4a3783d",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "2c193c2e-cdc1-460a-9226-24beec7e88cb",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 1.5,
+      "offsetY": -8.5,
+      "trimX": 3,
+      "trimY": 28,
+      "width": 221,
+      "height": 313,
+      "rawWidth": 224,
+      "rawHeight": 352,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
