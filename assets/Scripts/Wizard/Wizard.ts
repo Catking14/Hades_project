@@ -27,6 +27,10 @@ export default class Wizard extends cc.Component {
 
     @property
     HP: number = 100;
+
+    _ultimate_cd:number = 10;
+    _dash_ready:boolean = true; 
+    _ultimate:boolean = true;
     //direction
     private move_dir: cc.Vec2 = cc.v2(0, 0);
     private face_dir: number = 1;
@@ -52,6 +56,7 @@ export default class Wizard extends cc.Component {
     private mouse_Pos;
     // LIFE-CYCLE CALLBACKS:
 
+
     onLoad() {
         this.anim = this.node.getComponent(cc.Animation);
         this.animstate = this.anim.getAnimationState('wizard_idle');
@@ -62,6 +67,10 @@ export default class Wizard extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.fire, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.get_mousePos, this);
+        this.scheduleOnce(()=>{
+            this._ultimate = false;
+        },0.1);
+        
     }
     get_mousePos(event) {
         this.mouse_Pos = event.getLocation();
@@ -98,6 +107,7 @@ export default class Wizard extends cc.Component {
     ultimate() {
         if (this.isfiring) return;
         this.isfiring = true;
+        this._ultimate = true;
         // break dash if fire
         if (this.isdashing) this.isdashing = false;
         console.log("explosion");
@@ -112,6 +122,7 @@ export default class Wizard extends cc.Component {
         this.node.addChild(explosion);
         this.anim.on('finished', () => {
             this.isfiring = false;
+            this._ultimate = false;
         }, this);
 
     }
@@ -179,6 +190,7 @@ export default class Wizard extends cc.Component {
     private dash() {
         if (this.dashbtn && !this.isdashing) {
             this.isdashing = true;
+            this._dash_ready = false;
             if (this.move_dir.x == 0 && this.move_dir.y == 0) {
                 this.move_dir.x = this.face_dir;
                 console.log(this.move_dir);
@@ -188,6 +200,7 @@ export default class Wizard extends cc.Component {
             this.animstate = this.anim.play("wizard_dash");
             this.scheduleOnce(() => {
                 this.isdashing = false;
+                this._dash_ready = true;
                 // this.move_dir = cc.v2(0, 0);  // reset moving direction
             }, 0.2);
         }
@@ -274,6 +287,7 @@ export default class Wizard extends cc.Component {
             if (!this.ishit) {
                 this.ishit = true;
                 this.animstate = this.anim.play("wizard_hit");
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.ishit = false;
                 }, 0.5);

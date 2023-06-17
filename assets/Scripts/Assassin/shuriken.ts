@@ -11,6 +11,7 @@ const { ccclass, property } = cc._decorator;
 export default class Fireball extends cc.Component {
 
     onLoad() {
+        this.node.scale = 1.4;
         this.node.getComponent(cc.Animation).play("shuriken");
         this.scheduleOnce(() => {
             this.node.destroy();
