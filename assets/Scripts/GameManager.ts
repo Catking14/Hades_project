@@ -423,6 +423,7 @@ export default class GameManager extends cc.Component {
             }
             this._have_spawn_monster.push(tmp_arr);
         }
+        this._have_spawn_monster[0][0] = true;
     }
 
 
