@@ -410,7 +410,7 @@ export default class GameManager extends cc.Component {
                     this._monster_pool.put(ske);
 
                     ske.setPosition(col * 32 - 480, row * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
-                    ske.getComponent("Skeleton").target_set = cc.find("Canvas/New Node");
+                    ske.getComponent(ske.name).target_set = cc.find("Canvas/New Node");
 
                     cc.find("Canvas/New Node").addChild(ske);
                 }
