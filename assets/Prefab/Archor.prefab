@@ -159,6 +159,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "Blood": {
+      "__uuid__": "019df291-f6a5-42df-ab80-46acab53bdbf"
+    },
     "Arrow": {
       "__uuid__": "f7bb779e-31d8-45b3-a1b4-fe752a9cd3b0"
     },
