@@ -32,6 +32,7 @@ export default class Arrow extends cc.Component {
     update (dt) {
         if(this.in_wall) this.node.getComponent(cc.RigidBody).type = cc.RigidBodyType.Static;
     }
+    
     onBeginContact(contact, self, other){
         if(other.node.group == "default"){
             this.in_wall = true;

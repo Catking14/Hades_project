@@ -4,6 +4,8 @@ const Input = {};
 @ccclass
 export default class Archor extends cc.Component {
     @property(cc.Prefab)
+    Blood: cc.Prefab = null;
+    @property(cc.Prefab)
     Arrow: cc.Prefab = null;
     @property(cc.Prefab)
     IceArrow: cc.Prefab = null;
@@ -238,21 +240,29 @@ export default class Archor extends cc.Component {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
         // 扣血量
+
+        const blood_effect = cc.instantiate(this.Blood);
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+
         this.cur_HP = this.cur_HP > 50 ? this.cur_HP - 50 : 0;
-        if (this.cur_HP > 0) {
+
+        if(this.cur_HP > 0){
             this.getHitting = true;
             this.setState("getHit");
             this.scheduleOnce(() => {
                 this.setState("stand");
                 this.getHitting = false;
             }, 0.3);
-        } else {
+        }else{
             this.isDead = true;
             this.setState("death");
+            blood_effect.getComponent("Blood").die = true;
             this.scheduleOnce(() => {
                 console.log("die");
                 this.node.destroy();
             }, 1);
         }
+        cc.find("Canvas/New Node").addChild(blood_effect);
     }
 }
