@@ -112,10 +112,31 @@
       },
       {
         "__id__": 38
+      },
+      {
+        "__id__": 39
+      },
+      {
+        "__id__": 40
+      },
+      {
+        "__id__": 41
+      },
+      {
+        "__id__": 42
+      },
+      {
+        "__id__": 43
+      },
+      {
+        "__id__": 44
+      },
+      {
+        "__id__": 45
       }
     ],
     "_prefab": {
-      "__id__": 39
+      "__id__": 46
     },
     "_opacity": 255,
     "_color": {
@@ -879,12 +900,12 @@
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 168.6,
-      "y": 182.5
+      "y": 188.3
     },
     "_size": {
       "__type__": "cc.Size",
       "width": 111,
-      "height": 16.6
+      "height": 6.7
     },
     "_id": ""
   },
@@ -1145,6 +1166,188 @@
       "__type__": "cc.Size",
       "width": 14.1,
       "height": 14
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": -189.9,
+      "y": -63.6
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 3.5,
+      "height": 95.2
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": -17.4,
+      "y": -88.6
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 3.1,
+      "height": 109
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": -145.9,
+      "y": -19.8
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 3,
+      "height": 7.2
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": -151.8,
+      "y": 187.9
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 14.1,
+      "height": 6.4
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 192.5,
+      "y": 180.2
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 62.6,
+      "height": 8.7
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 127.8,
+      "y": 180.6
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 29.7,
+      "height": 7.9
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsBoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": -128,
+      "y": 125.8
+    },
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 30.9,
+      "height": 4.1
     },
     "_id": ""
   },
