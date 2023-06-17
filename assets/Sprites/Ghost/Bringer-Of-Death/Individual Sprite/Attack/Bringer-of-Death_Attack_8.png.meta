@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d363e5a7-23c7-4915-ba05-ecbde4cfd908",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 140,
+  "height": 93,
+  "platformSettings": {},
+  "subMetas": {
+    "Bringer-of-Death_Attack_8": {
+      "ver": "1.0.6",
+      "uuid": "2714b8c5-dc88-4ad1-9325-7ba63177ecba",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d363e5a7-23c7-4915-ba05-ecbde4cfd908",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -3,
+      "offsetY": -3,
+      "trimX": 4,
+      "trimY": 7,
+      "width": 126,
+      "height": 85,
+      "rawWidth": 140,
+      "rawHeight": 93,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

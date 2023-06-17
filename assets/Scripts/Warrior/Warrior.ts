@@ -63,6 +63,7 @@ export default class Warrior extends cc.Component {
     // player status
     HP: number = 100;
     _dmg: number = 30;
+    money: number = 0;
 
     // Music effects
     @property(cc.AudioClip)
@@ -166,6 +167,7 @@ export default class Warrior extends cc.Component {
         if(!this._firing && !this._died)
         {
             this._dashing = true;
+            this._dash_ready = false;
 
             if(this._move_dir.x == 0 && this._move_dir.y == 0)
             {
@@ -215,7 +217,7 @@ export default class Warrior extends cc.Component {
 
     ultimate()
     {
-        if(!this._ultimate)
+        if(!this._ultimate && !this._died)
         {
             let extreme_effect = cc.instantiate(this.extreme);
 
@@ -274,11 +276,12 @@ export default class Warrior extends cc.Component {
 
        if(!this._hit && !this._died)
        {
-            // let blood_effect = cc.instantiate(this.blood);
-            let blood_effect = this._blood_pool.get();
+            let blood_effect = cc.instantiate(this.blood);
+            // let blood_effect = this._blood_pool.get();
 
             blood_effect.setPosition(this.node.x, this.node.y);
             blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+            blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
             this._hit = true;
 
@@ -301,9 +304,11 @@ export default class Warrior extends cc.Component {
             if(this.HP <= 0)
             {
                 blood_effect.getComponent("Blood").die = true;
+
                 this.die();
             }
 
+            console.log("add");
             cc.find("Canvas/New Node").addChild(blood_effect);
             cc.find("Game Manager").getComponent("GameManager").camera_shake();
 
@@ -404,7 +409,6 @@ export default class Warrior extends cc.Component {
                 if(!this._space_pressed && this._dash_ready)
                 {
                     this._space_pressed = true;
-                    this._dash_ready = false;
                     this.dash();
 
                     // set dash CD time
