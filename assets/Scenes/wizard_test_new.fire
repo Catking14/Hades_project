@@ -140,16 +140,16 @@
     "shakes": 4,
     "shake_scale": 5,
     "map1": {
-      "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
+      "__uuid__": "e9fac407-4269-4e3c-82e9-67e68775f873"
     },
     "map2": {
-      "__uuid__": "c057066c-b64d-4a6d-a148-fd9306e11a75"
+      "__uuid__": "1de42f50-d267-49d6-81f4-7b2ec91fff2a"
     },
     "map3": {
-      "__uuid__": "b081de2b-8d40-4c69-b818-5c35aa61ec2e"
+      "__uuid__": "1b48e2c6-9b92-41e5-9ec2-9baf324b685f"
     },
     "map4": {
-      "__uuid__": "12de8268-bf26-432f-a9fd-77898734f45e"
+      "__uuid__": "f022a858-e9cd-40a5-b986-7f98837b6775"
     },
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
@@ -163,7 +163,7 @@
       "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
     },
     "warrior": {
-      "__uuid__": "2a881514-c84b-419b-aa0d-1857547bfb9b"
+      "__uuid__": "c6fe79cb-24e6-44af-bf1f-e99d9b266c2e"
     },
     "_id": "ccTudYjU1EGrQ1mtyQVJOW"
   },
