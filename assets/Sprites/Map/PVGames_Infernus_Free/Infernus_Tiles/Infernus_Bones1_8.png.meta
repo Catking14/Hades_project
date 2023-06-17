@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d6cd699b-2b50-4b2b-abf4-c9be425cbee5",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 128,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Bones1_8": {
+      "ver": "1.0.6",
+      "uuid": "845616d1-7270-452c-aa76-c69ce2051578",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d6cd699b-2b50-4b2b-abf4-c9be425cbee5",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 4.5,
+      "offsetY": -2.5,
+      "trimX": 21,
+      "trimY": 16,
+      "width": 95,
+      "height": 69,
+      "rawWidth": 128,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9275c3ba-780e-46fc-85f2-fe066c42e9bf",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_RitualKryss_4": {
+      "ver": "1.0.6",
+      "uuid": "d0e2337b-dfa8-463d-8020-49b9ae6cfd6d",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "9275c3ba-780e-46fc-85f2-fe066c42e9bf",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -6.5,
+      "trimX": 11,
+      "trimY": 18,
+      "width": 42,
+      "height": 41,
+      "rawWidth": 64,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

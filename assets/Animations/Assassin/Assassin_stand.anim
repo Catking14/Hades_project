@@ -1,0 +1,79 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Assassin_stand",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "9443909b-8b24-4654-8917-a6fad1367a50"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "235f6223-4603-404a-932a-dd06d3a5a68d"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "d059c568-712b-4d25-9ff0-fa514bc99068"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "2eabdb04-ca2f-4903-950b-aadf4e953a0c"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "fa5c1553-8c71-4ff7-b015-3910c6818885"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "8d1092ea-7521-4acc-9f46-f66324cb1cf3"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "52e02c91-3aa0-4bbb-9676-d6f6895d9b6e"
+            }
+          },
+          {
+            "frame": 0.7,
+            "value": {
+              "__uuid__": "d85baa75-85c5-4d82-bac0-e2ecec2efff7"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "bd23a862-d1e0-4f35-9414-15921aeae044"
+            }
+          },
+          {
+            "frame": 0.9,
+            "value": {
+              "__uuid__": "79201f0f-b996-41b0-8d5e-176a8dc174e0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

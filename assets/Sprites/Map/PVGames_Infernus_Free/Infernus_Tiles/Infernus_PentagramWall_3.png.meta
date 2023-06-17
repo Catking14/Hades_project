@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "89e92b20-b8ed-4c17-8eaf-c7ed6f17af31",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 128,
+  "height": 128,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_PentagramWall_3": {
+      "ver": "1.0.6",
+      "uuid": "10624cc7-1238-4893-ae16-6136df4f451a",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "89e92b20-b8ed-4c17-8eaf-c7ed6f17af31",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -13,
+      "trimX": 4,
+      "trimY": 28,
+      "width": 120,
+      "height": 98,
+      "rawWidth": 128,
+      "rawHeight": 128,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

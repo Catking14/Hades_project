@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "e29e39ee-87f7-4b04-9e59-38f5b34b37b0",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 224,
+  "height": 288,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_FloatingIsle_5": {
+      "ver": "1.0.6",
+      "uuid": "70646cd3-55fc-435e-b3da-6dcdcba01c0d",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "e29e39ee-87f7-4b04-9e59-38f5b34b37b0",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 4,
+      "offsetY": -4,
+      "trimX": 8,
+      "trimY": 8,
+      "width": 216,
+      "height": 280,
+      "rawWidth": 224,
+      "rawHeight": 288,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

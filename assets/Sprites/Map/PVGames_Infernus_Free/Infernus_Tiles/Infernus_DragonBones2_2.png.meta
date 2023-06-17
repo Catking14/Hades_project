@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "336e37d6-5bc8-4a14-a171-cdfbff38eee4",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 704,
+  "height": 544,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_DragonBones2_2": {
+      "ver": "1.0.6",
+      "uuid": "512a5d39-6d3c-4768-b544-5542bebc268d",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "336e37d6-5bc8-4a14-a171-cdfbff38eee4",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -10,
+      "offsetY": 11,
+      "trimX": 1,
+      "trimY": 15,
+      "width": 682,
+      "height": 492,
+      "rawWidth": 704,
+      "rawHeight": 544,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

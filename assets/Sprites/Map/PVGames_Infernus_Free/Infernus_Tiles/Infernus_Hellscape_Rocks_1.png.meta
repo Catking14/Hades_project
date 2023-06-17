@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "581c10a1-7687-41bf-8dc6-71562a7220f0",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 96,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Hellscape_Rocks_1": {
+      "ver": "1.0.6",
+      "uuid": "b63b3edb-61f8-4301-8fb8-4951a3eb0dc5",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "581c10a1-7687-41bf-8dc6-71562a7220f0",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": -2,
+      "trimX": 14,
+      "trimY": 6,
+      "width": 67,
+      "height": 88,
+      "rawWidth": 96,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

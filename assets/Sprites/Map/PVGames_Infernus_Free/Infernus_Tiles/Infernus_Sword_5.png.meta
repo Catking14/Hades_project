@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "7115e4d5-36dd-4ee0-aabc-b0128094c90d",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 32,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Sword_5": {
+      "ver": "1.0.6",
+      "uuid": "395ad658-0d8f-4021-a3f5-66013f3fd8cf",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "7115e4d5-36dd-4ee0-aabc-b0128094c90d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 1,
+      "offsetY": -4,
+      "trimX": 14,
+      "trimY": 11,
+      "width": 6,
+      "height": 50,
+      "rawWidth": 32,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

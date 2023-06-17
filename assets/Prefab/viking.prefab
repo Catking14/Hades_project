@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "viking",
+    "_name": "Viking",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -196,6 +196,7 @@
     "shieldPrefab": {
       "__uuid__": "166cd12a-6bd5-4595-b720-c1d1356d9d5c"
     },
+    "bubbleSprite": null,
     "_id": ""
   },
   {

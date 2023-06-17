@@ -58,7 +58,7 @@ export default class Warrior extends cc.Component {
     _collider: cc.PhysicsBoxCollider = null;
 
     // player status
-    _hp: number = 100;
+    HP: number = 100;
     _dmg: number = 30;
 
     // Music effects
@@ -85,7 +85,7 @@ export default class Warrior extends cc.Component {
     fire(event)
     {
         // console.log("?");
-        if(!this._firing)
+        if(!this._firing && !this._died)
         {
             this._firing = true;
 
@@ -104,12 +104,12 @@ export default class Warrior extends cc.Component {
             if(event.getLocation().x > 960 / 2)     // half of the canvas size!
             {
                 this._facing_dir = 1;
-                this._anim_state = this._anim.play("warrior_attack1");
+                this._anim_state = Math.random() > 0.5 ? this._anim.play("warrior_attack1") : this._anim.play("warrior_attack3");
             }
             else
             {
                 this._facing_dir = -1;
-                this._anim_state = this._anim.play("warrior_attack3_left");
+                this._anim_state = Math.random() > 0.5 ? this._anim.play("warrior_attack1_left") : this._anim.play("warrior_attack3_left");
             }
 
             // attack hitbox instantiate
@@ -160,7 +160,7 @@ export default class Warrior extends cc.Component {
 
     dash()
     {
-        if(!this._firing)
+        if(!this._firing && !this._died)
         {
             this._dashing = true;
 
@@ -194,6 +194,9 @@ export default class Warrior extends cc.Component {
 
     die()
     {
+        // shut down collider to prevent double detection
+        this._collider.enabled = false;
+
         this._died = true;
         this._anim.stop();
         this._anim_state = this._anim.play("warrior_die");
@@ -203,7 +206,6 @@ export default class Warrior extends cc.Component {
         // destroy when died
         this.scheduleOnce(() => 
         {
-            this._collider.enabled = false;
             this.node.zIndex -= 5;
         }, 1.2);
     }
@@ -223,6 +225,7 @@ export default class Warrior extends cc.Component {
             this.scheduleOnce(() => 
             {
                 this._ultimate = false;
+                this._dmg /= 3;
                 this.node.color = new cc.Color(255, 255, 255);
             }, 5);
         }
@@ -266,7 +269,7 @@ export default class Warrior extends cc.Component {
     {
         // console.log(damage_val);
 
-       if(!this._hit)
+       if(!this._hit && !this._died)
        {
             let blood_effect = cc.instantiate(this.blood);
 
@@ -284,20 +287,21 @@ export default class Warrior extends cc.Component {
 
             if(this._ultimate)
             {
-                this._hp -= (damage_val / 2);
+                this.HP -= (damage_val / 2);
             }
             else
             {
-                this._hp -= damage_val;
+                this.HP -= damage_val;
             }
 
-            if(this._hp <= 0)
+            if(this.HP <= 0)
             {
                 blood_effect.getComponent("Blood").die = true;
                 this.die();
             }
 
             cc.find("Canvas/New Node").addChild(blood_effect);
+            cc.find("Game Manager").getComponent("GameManager").camera_shake();
 
             this.scheduleOnce(() => 
             {
@@ -460,6 +464,9 @@ export default class Warrior extends cc.Component {
         // console.log(this._move_dir.x, this._move_dir.y);
         // console.log(this._facing_dir);
         this.animation_controller();
+
+        // console.log(this._collider.enabled);
+
 
         // update collider change anytime
         if(this._firing)

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "421b842b-907d-4b63-b302-9e268fa351b1",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 192,
+  "height": 160,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Hellscape_BrokenHand1_1": {
+      "ver": "1.0.6",
+      "uuid": "33cc1fb2-7dbb-4b76-868f-44745737eecf",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "421b842b-907d-4b63-b302-9e268fa351b1",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -6.5,
+      "offsetY": -10,
+      "trimX": 7,
+      "trimY": 25,
+      "width": 165,
+      "height": 130,
+      "rawWidth": 192,
+      "rawHeight": 160,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "af3442b0-71ec-44b9-92ab-040b061bf302",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 192,
+  "height": 384,
+  "platformSettings": {},
+  "subMetas": {
+    "Anim_Infernus_Lightsources_4": {
+      "ver": "1.0.6",
+      "uuid": "8041c400-c3c6-4a82-be6c-0363a5e59986",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "af3442b0-71ec-44b9-92ab-040b061bf302",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 6,
+      "offsetY": 141,
+      "trimX": 16,
+      "trimY": 8,
+      "width": 172,
+      "height": 86,
+      "rawWidth": 192,
+      "rawHeight": 384,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

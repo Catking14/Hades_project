@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "25be04a5-8457-40ec-ae5c-990016eae0b7",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Lectern1_5": {
+      "ver": "1.0.6",
+      "uuid": "266b9e35-54ef-469f-bffb-c24561fc5c0e",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "25be04a5-8457-40ec-ae5c-990016eae0b7",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2.5,
+      "offsetY": -1.5,
+      "trimX": 1,
+      "trimY": 3,
+      "width": 57,
+      "height": 93,
+      "rawWidth": 64,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

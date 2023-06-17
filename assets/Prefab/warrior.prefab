@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "warrior",
+    "_name": "Warrior",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -152,6 +152,9 @@
       },
       {
         "__uuid__": "282aadc2-7c08-4329-9a24-1128134ca295"
+      },
+      {
+        "__uuid__": "146529ac-1c37-40c6-befb-39feac4921e6"
       }
     ],
     "playOnLoad": true,

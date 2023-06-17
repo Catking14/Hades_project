@@ -100,10 +100,10 @@
     "_ortho": true,
     "_rect": {
       "__type__": "cc.Rect",
-      "x": 0.7,
-      "y": 0.7,
-      "width": 0.3,
-      "height": 0.3
+      "x": 0.71,
+      "y": 0.73,
+      "width": 0.28,
+      "height": 0.224
     },
     "_renderStages": 1,
     "_alignWithScreen": true,

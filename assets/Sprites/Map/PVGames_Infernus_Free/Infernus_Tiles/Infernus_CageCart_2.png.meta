@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "3d06c8d0-dbc1-43a9-8046-1d5a9f23a40a",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 288,
+  "height": 352,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_CageCart_2": {
+      "ver": "1.0.6",
+      "uuid": "882cf8ad-74ef-4a30-a9db-7aa90f627a0e",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "3d06c8d0-dbc1-43a9-8046-1d5a9f23a40a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -5.5,
+      "offsetY": -2,
+      "trimX": 0,
+      "trimY": 6,
+      "width": 277,
+      "height": 344,
+      "rawWidth": 288,
+      "rawHeight": 352,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
