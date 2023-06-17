@@ -42,29 +42,29 @@ export class A_Star {
     walk_neighbors(cur: Node) {
         // 上下左右距離是 10 斜走是 14(目前還沒有)
         let x = cur.x, y = cur.y;
-        if (x + 1 < this.width && !this.map[x + 1][y]) {
+        if (x + 1 < this.width && this.map[x + 1][y] == 0) {
             this.insert_node(this.node[x + 1][y], cur.g + 10, 1, 0);
         }
-        if (x - 1 > 0 && !this.map[x - 1][y]) {
+        if (x - 1 >= 0 && this.map[x - 1][y] == 0) {
             this.insert_node(this.node[x - 1][y], cur.g + 10, -1, 0);
         }
-        if (y + 1 < this.height && !this.map[x][y + 1]) {
+        if (y + 1 < this.height && this.map[x][y + 1] == 0) {
             this.insert_node(this.node[x][y + 1], cur.g + 10, 0, 1);
         }
-        if (y - 1 > 0 && !this.map[x][y - 1]) {
+        if (y - 1 >= 0 && this.map[x][y - 1] == 0) {
             this.insert_node(this.node[x][y - 1], cur.g + 10, 0, -1);
         }
 
-        if (x + 1 < this.width && y + 1 < this.height && !this.map[x + 1][y + 1]) {
+        if (x + 1 < this.width && y + 1 < this.height && this.map[x + 1][y + 1] == 0) {
             this.insert_node(this.node[x + 1][y + 1], cur.g + 14, 1, 1);
         }
-        if (x + 1 < this.width && y - 1 > 0 && !this.map[x + 1][y - 1]) {
+        if (x + 1 < this.width && y - 1 >= 0 && this.map[x + 1][y - 1] == 0) {
             this.insert_node(this.node[x + 1][y - 1], cur.g + 14, 1, -1);
         }
-        if (x - 1 > 0 && y + 1 < this.height && !this.map[x - 1][y + 1]) {
+        if (x - 1 >= 0 && y + 1 < this.height && this.map[x - 1][y + 1] == 0) {
             this.insert_node(this.node[x - 1][y + 1], cur.g + 14, -1, 1);
         }
-        if (x - 1 > 0 && y - 1 > 0 && !this.map[x - 1][y - 1]) {
+        if (x - 1 >= 0 && y - 1 >= 0 && this.map[x - 1][y - 1] == 0) {
             this.insert_node(this.node[x - 1][y - 1], cur.g + 14, -1, -1);
         }
     }
@@ -85,8 +85,8 @@ export class A_Star {
 
     search(s: cc.Vec3, e: cc.Vec3): cc.Vec2 {
         // time complexity: O(h*w*log(h*w))
-        this.start = cc.v2((s.x + this.Canvas_offset.x) >> 5, (s.y + this.Canvas_offset.y) >> 5);
-        this.end = cc.v2((e.x + this.Canvas_offset.x) >> 5, (e.y + this.Canvas_offset.y) >> 5);
+        this.start = cc.v2(Math.round((s.x + this.Canvas_offset.x) / 32), Math.round((s.y + this.Canvas_offset.y) / 32));
+        this.end = cc.v2(Math.round((e.x + this.Canvas_offset.x) / 32), Math.round((e.y + this.Canvas_offset.y) / 32));
 
         this.init();
 
@@ -94,10 +94,10 @@ export class A_Star {
         let search_cnt = 0;
         let cur: Node;
 
-        while (this.heap.size() > 0) {
+        while (this.heap.size() > 0 && search_cnt < 10000) {
             cur = this.heap.pop();
             if (cur.x == this.end.x && cur.y == this.end.y) {
-                while (cur.x - cur.prev_x != this.start.x && cur.y - cur.prev_y != this.start.y) {
+                while (cur.x - cur.prev_x != this.start.x || cur.y - cur.prev_y != this.start.y) {
                     cur = this.node[cur.x - cur.prev_x][cur.y - cur.prev_y];
                 }
                 return new cc.Vec2(cur.prev_x, cur.prev_y);
@@ -110,6 +110,7 @@ export class A_Star {
 
             this.walk_neighbors(cur);
         }
+        console.log(search_cnt);
 
         return new cc.Vec2(0, 0);
     }

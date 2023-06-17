@@ -20,8 +20,8 @@ export default class GameManager extends cc.Component {
     _minimap_camera: cc.Node = null;
 
     // camera follow object
-    @property(cc.Node)
-    follow: cc.Node = null;
+    // @property(cc.Node)
+    private follow: cc.Node = null;
 
     // camera shake related
     @property
@@ -53,10 +53,12 @@ export default class GameManager extends cc.Component {
     _map_row: number = 1;
     _map_column: number = 1;
     _obsiticles: boolean[][] = [];
+    _obsiticles_transpose: boolean[][];
+    _have_spawn_monster: boolean[][];
 
     // Music and audio effects
-    @property
-    volume: number = 0.1;
+    // @property
+    // volume: number = 0.1;
 
     // source: https://www.youtube.com/watch?v=9X7I3bW49S8
     @property(cc.AudioClip)
@@ -66,13 +68,20 @@ export default class GameManager extends cc.Component {
     _BGM: number = 0;
 
     // node pools
-    _monster_pool: cc.NodePool = null;
+    monster_pool: cc.NodePool[] = [];
+    monster_num: number[] = [];
 
     @property
-    monster_density: number = 30;
+    monster_density: number = 1;
 
     @property(cc.Prefab)
-    skeleton: cc.Prefab = null;
+    monster0: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    monster1: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    monster2: cc.Prefab = null;
 
     // player characters
     @property(cc.Prefab)
@@ -390,51 +399,102 @@ export default class GameManager extends cc.Component {
             }
         }
 
-        // console.log(this._obsiticles);
+        this._obsiticles_transpose = this._obsiticles[0].map((_, col) => this._obsiticles.map(row => row[col]));
 
-        this.generate_mobs();
-        
-    }
-
-    generate_mobs()
-    {
-        // generate sufficient mobs into the pool
-        // roughly generates 300 mobs first
-        for(let hostiles = 0; hostiles < 300;hostiles++)
+        // instantiate monster
+        this.monster_num[0] = 30;
+        this.monster_num[1] = 30;
+        this.monster_num[2] = 30;
+        for(let hostiles = 0; hostiles < 30; hostiles++)
         {
-            let ske = cc.instantiate(this.skeleton);
-            this._monster_pool.put(ske);
+            this.monster_pool[0].put(cc.instantiate(this.monster0));
+            this.monster_pool[1].put(cc.instantiate(this.monster1));
+            this.monster_pool[2].put(cc.instantiate(this.monster2));
         }
 
-        // for sampling number of monsters
-        let counts = 0;
-
-        for(let row = 0;row < this._map_row * 30;row++)
+        // init habe_spawn array
+        this._have_spawn_monster = [];
+        for(let i = 0; i < this._map_row; i++)
         {
-            for(let col = 0;col < this._map_column * 30;col++)
+            let tmp_arr = [];
+            for(let j = 0; j < this._map_column; j++)
             {
-                // console.log(this._obsiticles[row][col]);
-                if(this._obsiticles[row][col] == false && (row < 30 && col < 30) && (row * 30 + col) % 16 == 4 && Math.random() > 0.8)
+                tmp_arr.push(false);
+            }
+            this._have_spawn_monster.push(tmp_arr);
+        }
+        this._have_spawn_monster[0][0] = true;
+    }
+
+
+    generate_mobs_detect()
+    {
+        let player_pos = this.follow.getPosition();
+        let x = Math.floor((player_pos.x + 480) / 960);
+        let y = Math.floor((player_pos.y + 480) / 960);
+        if (this._have_spawn_monster[y][x] == false)
+        {
+            this.generate_mobs(y, x);
+        }
+    }
+
+    generate_mobs(i: number, j: number)
+    {
+        this._have_spawn_monster[i][j] = true;
+        for(let row = 0; row < 30; row++)
+        {
+            let x = i * 30 + row;
+            for(let col = 0; col < 30; col++)
+            {
+                let y = j * 30 + col;
+                if(this._obsiticles[x][y] == false && Math.random() > (1 - this.monster_density * 0.001))
                 {
-                    let new_mob = this._monster_pool.get();
-
-                    if(!new_mob)
+                    let r = Math.random();
+                    let new_mob: cc.Node;
+                    if (r < 0.333)
                     {
-                        this._monster_pool.put(cc.instantiate(this.skeleton));
-                        
-                        new_mob = this._monster_pool.get();
+                        if (this.monster_num[0] > 0)
+                        {
+                            new_mob = this.monster_pool[0].get();
+                        }
+                        else
+                        {
+                            new_mob = cc.instantiate(this.monster0);
+                        }
+                        new_mob.getComponent(new_mob.name).pool_num = 0;
                     }
-
-                    counts++;
-                    new_mob.setPosition(col * 32 - 480, row * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
-                    new_mob.getComponent("Skeleton").target_set = cc.find("Canvas/New Node");
-
+                    else if (r < 0.666)
+                    {
+                        if (this.monster_num[1] > 0)
+                        {
+                            new_mob = this.monster_pool[1].get();
+                        }
+                        else
+                        {
+                            new_mob = cc.instantiate(this.monster1);
+                        }
+                        new_mob.getComponent(new_mob.name).pool_num = 1;
+                    }
+                    else
+                    {
+                        if (this.monster_num[2] > 0)
+                        {
+                            new_mob = this.monster_pool[2].get();
+                        }
+                        else
+                        {
+                            new_mob = cc.instantiate(this.monster2);
+                        }
+                        new_mob.getComponent(new_mob.name).pool_num = 2;
+                    }
+                    new_mob.setPosition(y * 32 - 480, x * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
+                    new_mob.getComponent(new_mob.name).target_set = cc.find("Canvas/New Node");
+                    new_mob.getComponent(new_mob.name).map = this._obsiticles_transpose;
+                    new_mob.getComponent(new_mob.name).init();
                     cc.find("Canvas/New Node").addChild(new_mob);
                 }
             }
         }
-
-        console.log(counts);
     }
 
     // LIFE-CYCLE CALLBACKS:
@@ -453,11 +513,14 @@ export default class GameManager extends cc.Component {
 
         // play BGM
         this._BGM = cc.audioEngine.playMusic(this.Megalovania, true);
-        cc.audioEngine.setMusicVolume(this.volume);
-        cc.audioEngine.setEffectsVolume(this.volume + 0.05);
+        // cc.audioEngine.setMusicVolume(this.volume);
+        // cc.audioEngine.setEffectsVolume(this.volume + 0.05);
 
         // create NodePool
-        this._monster_pool = new cc.NodePool();
+        for (let i = 0; i < 3; i++)
+        {
+            this.monster_pool[i] = new cc.NodePool();
+        }
     }
 
     start () 
@@ -476,5 +539,6 @@ export default class GameManager extends cc.Component {
     update (dt) 
     {
         this.camera_follow();
+        this.generate_mobs_detect();
     }
 }
