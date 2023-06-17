@@ -28,7 +28,6 @@ export default class Assassin extends cc.Component {
     // variable
     private state: string = "stand";
     private nextAttack: string = "a1";
-    private doNextAttack: boolean = false;
     private isBegin: boolean = false;
     private isDashing: boolean = false;
     private isDashingCD: boolean = false;
@@ -54,7 +53,8 @@ export default class Assassin extends cc.Component {
     }
 
     update(dt) {
-        // console.log(this.nextAttack);
+        console.log(this.state);
+        
 
         if (this.isDashing || this.isAttacking) return;
 
@@ -76,8 +76,6 @@ export default class Assassin extends cc.Component {
             this.vecSpeed.x = 1;
         }
         if (Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
-        if (Input[cc.macro.KEY.q]) this.skillQ();
-        if (Input[cc.macro.KEY.e]) this.skillE();
 
         // give speed
         let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
@@ -95,30 +93,20 @@ export default class Assassin extends cc.Component {
         } else {
             this.setState("stand");
         }
+        if (Input[cc.macro.KEY.q]) this.skillQ();
+        if (Input[cc.macro.KEY.e]) this.skillE();
     }
 
 
     setState(newState: string) {
+        console.log(this.state + " -> " + newState);
+        
         if (this.state == newState) return;
 
         let animation = this.node.getComponent(cc.Animation);
         animation.stop();
         animation.play("Assassin_" + newState);
         this.state = newState;
-
-        // if(this.state == "stand"){
-
-        // }else if(this.state == "run"){
-
-        // }else if(this.state == "dash"){
-
-        // }else if(this.state == "attack"){
-
-        // }else if(this.state == "getHit"){
-
-        // }else if(this.state == "death"){
-
-        // }
     }
 
     dash() {
@@ -147,18 +135,13 @@ export default class Assassin extends cc.Component {
     }
 
     attack(event) {
-        // console.log("Viking is attacking");
-        if (this.isAttacking) {
-            console.log("attackCD");
-            this.doNextAttack = true;
-            return;
-        }
+
+        if (this.isAttacking)  return;
+        
         this.isAttacking = true;
 
         this.setState(this.nextAttack);
-
         this.bladeGen(this.nextAttack);
-
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
 
         const attacks = ["a1", "a2", "a3"];
@@ -233,11 +216,15 @@ export default class Assassin extends cc.Component {
     }
 
     skillQ() {
-
-        if (this.QCD) return;
+        
+        if (this.QCD || this.isAttacking) return;
+        
         const fireball = cc.instantiate(this.fireballPrefab);
         let camerapos = cc.find("Canvas/Main Camera").position;
-        let direction = cc.v2(this.mousePos.x + camerapos.x - 480 - this.node.position.x, this.mousePos.y + camerapos.y - 320 - this.node.position.y);
+        let direction = cc.v2(
+            this.mousePos.x + camerapos.x - 480 - this.node.position.x, 
+            this.mousePos.y + camerapos.y - 320 - this.node.position.y
+        );
         let distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
         direction = cc.v2(direction.x / distance, direction.y / distance);
 
@@ -250,9 +237,20 @@ export default class Assassin extends cc.Component {
             this.node.scaleX = -1;
         }
 
-        fireball.setPosition(cc.v2(0, 0));
-        this.node.addChild(fireball);
-        fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
+        this.scheduleOnce(()=>{
+            fireball.setPosition(cc.v2(0, 0));
+            this.node.addChild(fireball);
+            fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
+        }, 0.45);
+
+
+        this.isAttacking = true;
+        this.setState("a1");
+        this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        this.scheduleOnce(() => { 
+            this.setState("stand"); 
+            this.isAttacking = false; 
+        }, this.attack_time);
 
         this.QCD = true;
         this.scheduleOnce(() => { this.QCD = false; }, 2);

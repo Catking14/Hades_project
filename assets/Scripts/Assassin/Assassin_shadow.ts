@@ -60,9 +60,7 @@ export default class Assassin extends cc.Component {
         if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
             this.node.scaleX = 1;
         }
-        if (Input[cc.macro.KEY.q]) this.skillQ();
-        if (Input[cc.macro.KEY.e]) this.skillE();
-
+        
         // update state
         if (this.isDead) {
             this.setState("death");
@@ -71,6 +69,8 @@ export default class Assassin extends cc.Component {
         } else {
             this.setState("stand");
         }
+        if (Input[cc.macro.KEY.q]) this.skillQ();
+        if (Input[cc.macro.KEY.e]) this.skillE();
     }
 
 
@@ -121,7 +121,9 @@ export default class Assassin extends cc.Component {
     }
 
     skillQ() {
-        if (this.QCD) return;
+        if (this.QCD || this.isAttacking) return;
+        this.isAttacking = true;
+
         const fireball = cc.instantiate(this.fireballPrefab);
         let camerapos = cc.find("Canvas/Main Camera").position;
         let direction = cc.v2(this.mousePos.x + camerapos.x - 480 - this.node.position.x, this.mousePos.y + camerapos.y - 320 - this.node.position.y);
@@ -137,12 +139,17 @@ export default class Assassin extends cc.Component {
             this.node.scaleX = -1;
         }
 
-        fireball.setPosition(cc.v2(0, 0));
-        this.node.addChild(fireball);
-        fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
+        this.scheduleOnce(()=>{
+            fireball.setPosition(cc.v2(0, 0));
+            this.node.addChild(fireball);
+            fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
+        }, 0.45);
 
+        this.setState("a1");
         this.QCD = true;
         this.scheduleOnce(() => { this.QCD = false; }, 2);
+        this.scheduleOnce(() => { this.isAttacking = false; }, this.attack_time);
+
     }
 
     setMousePos(event) {
