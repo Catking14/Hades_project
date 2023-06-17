@@ -224,7 +224,7 @@
     "_is3DNode": false,
     "_groupIndex": 1,
     "groupIndex": 1,
-    "_id": "fbXkkJP3FLaLkZNNs2WL83"
+    "_id": "6cQItb9ZhMN5DzJ1fXNHc9"
   },
   {
     "__type__": "cc.Node",
@@ -1235,7 +1235,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": null,
-    "_id": "9aPzyGCqtJHbDEnpbUTCE5"
+    "_id": "a0MqtL1HhC2Z+KW77UC8O3"
   },
   {
     "__type__": "cc.Animation",
@@ -1269,7 +1269,7 @@
       }
     ],
     "playOnLoad": true,
-    "_id": "1fGKQ22PtENrQNLygxXcJc"
+    "_id": "5c9nO8JI5NtKlsmBwBtJN5"
   },
   {
     "__type__": "681b47GwPFO55KKqo/+eVzc",
@@ -1279,6 +1279,9 @@
       "__id__": 4
     },
     "_enabled": true,
+    "Blood": {
+      "__uuid__": "019df291-f6a5-42df-ab80-46acab53bdbf"
+    },
     "Arrow": {
       "__uuid__": "f7bb779e-31d8-45b3-a1b4-fe752a9cd3b0"
     },
@@ -1296,7 +1299,7 @@
       "x": 0,
       "y": 0
     },
-    "_id": "a30gee0QBBdrb1MxUYkHfc"
+    "_id": "2cv/0tNQBN34s0YElv1a8f"
   },
   {
     "__type__": "cc.RigidBody",
@@ -1321,7 +1324,7 @@
     "enabledContactListener": true,
     "bullet": false,
     "awakeOnLoad": true,
-    "_id": "64ywEgog9DqZ5phLARassg"
+    "_id": "45+HksYGlC3K95nowhzmEN"
   },
   {
     "__type__": "cc.PhysicsBoxCollider",
@@ -1347,7 +1350,7 @@
       "width": 19.2,
       "height": 32.3
     },
-    "_id": "37Jjk6JY1Kw6zUx8pdOYUE"
+    "_id": "dao3T2PsFLH4S+l0TazXXi"
   },
   {
     "__type__": "cc.PrefabInfo",

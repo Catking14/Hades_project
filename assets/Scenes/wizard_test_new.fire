@@ -136,9 +136,9 @@
     "size_of_map_block": 960,
     "max_map_row_or_column": 9,
     "follow": null,
-    "shake_duration": 0.3,
-    "shakes": 5,
-    "shake_scale": 20,
+    "shake_duration": 0.02,
+    "shakes": 4,
+    "shake_scale": 5,
     "map1": {
       "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
     },
@@ -160,7 +160,7 @@
     },
     "monster_density": 30,
     "skeleton": {
-      "__uuid__": "aee777c7-abc5-49c2-bf25-d534fff90934"
+      "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
     },
     "warrior": {
       "__uuid__": "2a881514-c84b-419b-aa0d-1857547bfb9b"

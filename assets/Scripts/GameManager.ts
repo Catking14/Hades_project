@@ -65,7 +65,7 @@ export default class GameManager extends cc.Component {
     // music ids'
     _BGM: number = 0;
 
-    // monsters parameter
+    // node pools
     _monster_pool: cc.NodePool = null;
 
     @property
@@ -390,7 +390,7 @@ export default class GameManager extends cc.Component {
             }
         }
 
-        console.log(this._obsiticles);
+        // console.log(this._obsiticles);
 
         this.generate_mobs();
         
@@ -398,24 +398,43 @@ export default class GameManager extends cc.Component {
 
     generate_mobs()
     {
+        // generate sufficient mobs into the pool
+        // roughly generates 300 mobs first
+        for(let hostiles = 0; hostiles < 300;hostiles++)
+        {
+            let ske = cc.instantiate(this.skeleton);
+            this._monster_pool.put(ske);
+        }
+
+        // for sampling number of monsters
+        let counts = 0;
+
         for(let row = 0;row < this._map_row * 30;row++)
         {
             for(let col = 0;col < this._map_column * 30;col++)
             {
                 // console.log(this._obsiticles[row][col]);
-                if(this._obsiticles[row][col] == false && (row * 30 + col) % 16 == 4 && Math.random() > 0.8)
+                if(this._obsiticles[row][col] == false && (row < 30 && col < 30) && (row * 30 + col) % 16 == 4 && Math.random() > 0.8)
                 {
-                    console.log("in");
-                    let ske = cc.instantiate(this.skeleton);
-                    this._monster_pool.put(ske);
+                    let new_mob = this._monster_pool.get();
 
-                    ske.setPosition(col * 32 - 480, row * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
-                    ske.getComponent(ske.name).target_set = cc.find("Canvas/New Node");
+                    if(!new_mob)
+                    {
+                        this._monster_pool.put(cc.instantiate(this.skeleton));
+                        
+                        new_mob = this._monster_pool.get();
+                    }
 
-                    cc.find("Canvas/New Node").addChild(ske);
+                    counts++;
+                    new_mob.setPosition(col * 32 - 480, row * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
+                    new_mob.getComponent(new_mob.name).target_set = cc.find("Canvas/New Node");
+
+                    cc.find("Canvas/New Node").addChild(new_mob);
                 }
             }
         }
+
+        console.log(counts);
     }
 
     // LIFE-CYCLE CALLBACKS:

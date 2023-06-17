@@ -22,6 +22,9 @@ export default class Warrior extends cc.Component {
     @property(cc.Prefab)
     blood: cc.Prefab = null;
 
+    // blood node pool
+    _blood_pool: cc.NodePool = null;
+
     @property(cc.Prefab)
     extreme: cc.Prefab = null;
 
@@ -271,7 +274,8 @@ export default class Warrior extends cc.Component {
 
        if(!this._hit && !this._died)
        {
-            let blood_effect = cc.instantiate(this.blood);
+            // let blood_effect = cc.instantiate(this.blood);
+            let blood_effect = this._blood_pool.get();
 
             blood_effect.setPosition(this.node.x, this.node.y);
             blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
@@ -311,6 +315,19 @@ export default class Warrior extends cc.Component {
        }
     }
 
+    generate_blood()
+    {
+        this._blood_pool = new cc.NodePool("Blood");
+
+        for(let bld = 0;bld < 50;bld++)
+        {
+            let temp = cc.instantiate(this.blood);
+
+            temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
+            this._blood_pool.put(temp);
+        }
+    }
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () 
@@ -328,9 +345,12 @@ export default class Warrior extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyPressed, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyRelease, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.fire, this);
+
+        this.generate_blood();
     }
 
-    start () {
+    start () 
+    {
 
     }
 
