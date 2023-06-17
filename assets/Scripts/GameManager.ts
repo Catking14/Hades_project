@@ -23,6 +23,16 @@ export default class GameManager extends cc.Component {
     @property(cc.Node)
     follow: cc.Node = null;
 
+    // camera shake related
+    @property
+    shake_duration: number = 0.3;
+
+    @property
+    shakes: number = 5;
+
+    @property
+    shake_scale: number = 20;
+
     // map prefabs
     @property(cc.Prefab)
     map1: cc.Prefab = null;
@@ -42,6 +52,7 @@ export default class GameManager extends cc.Component {
     // map size
     _map_row: number = 1;
     _map_column: number = 1;
+    _obsiticles: boolean[][] = [];
 
     // Music and audio effects
     @property
@@ -53,6 +64,19 @@ export default class GameManager extends cc.Component {
 
     // music ids'
     _BGM: number = 0;
+
+    // monsters parameter
+    _monster_pool: cc.NodePool = null;
+
+    @property
+    monster_density: number = 30;
+
+    @property(cc.Prefab)
+    skeleton: cc.Prefab = null;
+
+    // player characters
+    @property(cc.Prefab)
+    warrior: cc.Prefab = null;
 
 
     camera_follow()
@@ -68,8 +92,85 @@ export default class GameManager extends cc.Component {
         this._minimap_camera.setPosition(minimap_pos);
     }
 
+    camera_shake()
+    {
+        // generate random points 
+        let points = [];
+        let camera_pos = this._camera.getPosition();
+        let player_pos = this.follow.getPosition();
+        let idx = 0;
+
+        for(let i = 0;i < this.shakes;i++)
+        {
+            points.push({x: Math.random() * 2 - 1, y: Math.random() * 2 - 1});
+        }
+
+        // quinitic interpolation
+        let smooth = (x) =>
+        {
+            return 6 * (x**5) - 15 * (x**4) + 10 * (x**3);
+        }
+
+        // interpolate with linear method and smoothed data
+        let perlin_shake = () =>
+        {
+            let UI = this._camera.getChildByName("UI");
+            let new_x = player_pos.x + smooth(points[idx].x) * this.shake_scale;
+            let new_y = player_pos.y + smooth(points[idx].y) * this.shake_scale;
+
+            // this._camera.setPosition(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale);
+            // camera_pos.lerp(cc.v2(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale), 0.5, camera_pos);
+            camera_pos.lerp(cc.v2(new_x, new_y), 0.15, camera_pos);
+
+            this._camera.setPosition(camera_pos);
+            UI.setPosition(cc.v2(points[idx].x * this.shake_scale, points[idx].y * this.shake_scale));
+
+            idx++;
+        }
+
+        this.schedule(perlin_shake, this.shake_duration);
+
+        this.scheduleOnce(() =>
+        {
+            this.unschedule(perlin_shake);
+        }, this.shake_duration * this.shakes);
+
+    }
+
+    create_obsiticle_array(type: string, i: number, j: number)
+    {
+        for(let row = 0;row < 30;row++)
+        {
+            for(let col = 0;col < 30;col++)
+            {
+                if(type == "airwall")
+                {
+                    this._obsiticles[i * 30 + row][j * 30 + col] = true;
+                }
+                else if(type == "test")
+                {
+                    if(row == 0 || row == 29)
+                    {
+                        if(col <= 12 || col >= 17)
+                        {
+                            this._obsiticles[i * 30 + row][j * 30 + col] = true;
+                        }
+                    }
+                    else if(col == 0 || col == 29)
+                    {
+                        if(row <= 12 || row >= 17)
+                        {
+                            this._obsiticles[i * 30 + row][j * 30 + col] = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     generate_map()
     {
+        // random for row
         let random = Math.floor(Math.random() * this.max_map_row_or_column);
 
         while(random < 4)
@@ -112,7 +213,7 @@ export default class GameManager extends cc.Component {
         let min_blocks = Math.floor(Math.random() * this._map_row * this._map_column) / 2;
 
         console.log(this._map_row, this._map_column);
-        console.log(visited);
+        // console.log(visited);
 
         for(let k = 0;k < this._map_row * this._map_column;k++)
         {
@@ -240,6 +341,17 @@ export default class GameManager extends cc.Component {
             
         }
 
+        // init obsiticle array
+        for(let i = 0;i < this._map_row * 30;i++)
+        {
+            this._obsiticles[i] = [];
+
+            for(let j = 0;j < this._map_column * 30;j++)
+            {
+                this._obsiticles[i][j] = false;
+            }
+        }
+
         // instantiate map by random
         for(let i = 0;i < this._map_row;i++)
         {
@@ -262,6 +374,7 @@ export default class GameManager extends cc.Component {
                     
                     
                     new_block.setPosition(j * this.size_of_map_block, i * this.size_of_map_block);
+                    this.create_obsiticle_array("test", i, j);
 
                     cc.find("Canvas/map").addChild(new_block);
                 }
@@ -270,12 +383,39 @@ export default class GameManager extends cc.Component {
                     let wall = cc.instantiate(this.air_wall);
 
                     wall.setPosition(j * this.size_of_map_block, i * this.size_of_map_block);
+                    this.create_obsiticle_array("airwall", i, j);
 
                     cc.find("Canvas/map").addChild(wall);
                 }
             }
         }
+
+        console.log(this._obsiticles);
+
+        this.generate_mobs();
         
+    }
+
+    generate_mobs()
+    {
+        for(let row = 0;row < this._map_row * 30;row++)
+        {
+            for(let col = 0;col < this._map_column * 30;col++)
+            {
+                // console.log(this._obsiticles[row][col]);
+                if(this._obsiticles[row][col] == false && (row * 30 + col) % 16 == 4 && Math.random() > 0.8)
+                {
+                    console.log("in");
+                    let ske = cc.instantiate(this.skeleton);
+                    this._monster_pool.put(ske);
+
+                    ske.setPosition(col * 32 - 480, row * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
+                    ske.getComponent("Skeleton").target_set = cc.find("Canvas/New Node");
+
+                    cc.find("Canvas/New Node").addChild(ske);
+                }
+            }
+        }
     }
 
     // LIFE-CYCLE CALLBACKS:
@@ -296,11 +436,22 @@ export default class GameManager extends cc.Component {
         this._BGM = cc.audioEngine.playMusic(this.Megalovania, true);
         cc.audioEngine.setMusicVolume(this.volume);
         cc.audioEngine.setEffectsVolume(this.volume + 0.05);
+
+        // create NodePool
+        this._monster_pool = new cc.NodePool();
     }
 
     start () 
     {
         this.generate_map();
+
+        // generate selected player
+        let p1 = cc.instantiate(this.warrior);
+
+        this.follow = p1;
+        p1.setPosition(0, 0);
+
+        cc.find("Canvas/New Node").addChild(p1);
     }
 
     update (dt) 
