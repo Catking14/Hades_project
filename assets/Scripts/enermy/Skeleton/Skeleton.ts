@@ -52,7 +52,7 @@ export default class Skeleton extends cc.Component {
     private getHitting: boolean = false;
     private isDead: boolean = false;
 
-    private AI: A_Star; 
+    private AI: A_Star;
     public map;
     // [
     //     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -281,16 +281,26 @@ export default class Skeleton extends cc.Component {
             }
             if (mn != -1) {
                 this.target = this.target_set.children[mn];
-                this.direction = this.AI.search(this.node.position, this.target.position);
+                if (this.isAttacking || this.isDead || this.getHitting) return;
+                let x_diff = this.target.position.x - this.node.position.x;
+                let y_diff = this.target.position.y - this.node.position.y;
+                let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+                if (distance < 50) {
+                    this.direction.x = (this.target.position.x - this.node.position.x) / distance;
+                    this.direction.y = (this.target.position.y - this.node.position.y) / distance;
+                }
+                else {
+                    this.direction = this.AI.search(this.node.position, this.target.position);
+                }
             }
-        }
-        if (cc.isValid(this.target)) {
-            if (this.isAttacking || this.isDead || this.getHitting) return;
-            let x_diff = this.target.position.x - this.node.position.x;
-            let y_diff = this.target.position.y - this.node.position.y;
-            let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
-            if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 25) {
-                this.attack();
+            if (cc.isValid(this.target)) {
+                if (this.isAttacking || this.isDead || this.getHitting) return;
+                let x_diff = this.target.position.x - this.node.position.x;
+                let y_diff = this.target.position.y - this.node.position.y;
+                let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+                if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 25) {
+                    this.attack();
+                }
             }
         }
     }

@@ -135,7 +135,6 @@
     "_enabled": true,
     "size_of_map_block": 960,
     "max_map_row_or_column": 9,
-    "follow": null,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,
@@ -154,7 +153,6 @@
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
-    "volume": 0.03,
     "Megalovania": null,
     "monster_density": 5,
     "monster0": {
