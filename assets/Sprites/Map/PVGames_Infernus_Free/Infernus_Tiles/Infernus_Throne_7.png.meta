@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "8ef4eced-a546-451d-bc55-be0c9b37c07a",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 192,
+  "height": 256,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Throne_7": {
+      "ver": "1.0.6",
+      "uuid": "cb86f114-8528-4eac-95a7-973a52f9439e",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "8ef4eced-a546-451d-bc55-be0c9b37c07a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -7.5,
+      "offsetY": -13,
+      "trimX": 4,
+      "trimY": 26,
+      "width": 169,
+      "height": 230,
+      "rawWidth": 192,
+      "rawHeight": 256,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

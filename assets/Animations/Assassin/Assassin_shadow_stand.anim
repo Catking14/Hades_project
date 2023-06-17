@@ -1,0 +1,79 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Assassin_Idle_shadow",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "ea622d73-0a89-43af-b517-cbbff200f967"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "078cd17a-e134-4cbc-b626-cd41833378a0"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "dbf0f8e1-5ad2-4291-be9d-c22629561d22"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "db4fbef5-35c1-41a9-88f8-acc1180344da"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "c7190519-55ef-432d-9718-a66fb9efd278"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "05ce8866-b56b-4212-894a-4f3c428e165d"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "3f7c7d56-d204-49a7-b2c6-2a134f67c3d2"
+            }
+          },
+          {
+            "frame": 0.7,
+            "value": {
+              "__uuid__": "bcb4f38f-b54a-40a2-b89a-65fc7d5fd719"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "c3974196-c153-4bce-ae68-dce5bb962c80"
+            }
+          },
+          {
+            "frame": 0.9,
+            "value": {
+              "__uuid__": "b40fb286-f0b8-491f-b320-855ad619bfd7"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

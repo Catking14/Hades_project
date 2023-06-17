@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "c0121663-6e3d-4f07-b6df-52694adaa5c4",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Stand_6": {
+      "ver": "1.0.6",
+      "uuid": "4b586ae6-a286-492e-84e9-d2982967e5f2",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "c0121663-6e3d-4f07-b6df-52694adaa5c4",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 1.5,
+      "offsetY": -11.5,
+      "trimX": 10,
+      "trimY": 25,
+      "width": 47,
+      "height": 69,
+      "rawWidth": 64,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "_name": "blood3",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.35,
+  "_duration": 0.31666666666666665,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -87,12 +87,6 @@
             "frame": 0.3,
             "value": {
               "__uuid__": "3bc81c9e-dc75-4d71-8dee-a0807c06c911"
-            }
-          },
-          {
-            "frame": 0.3333333333333333,
-            "value": {
-              "__uuid__": "2324c61b-bcc7-41bf-9e0a-aebc096f75df"
             }
           }
         ]

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "2a727842-6ac4-4955-bec7-7486684bb7e1",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Candelabra_4": {
+      "ver": "1.0.6",
+      "uuid": "e2517b7b-f0c5-4630-a07f-350cd1ebac35",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "2a727842-6ac4-4955-bec7-7486684bb7e1",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2,
+      "offsetY": 0,
+      "trimX": 6,
+      "trimY": 2,
+      "width": 48,
+      "height": 92,
+      "rawWidth": 64,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

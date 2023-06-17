@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "44b25abd-0618-4c7f-bc25-79ac6e600cde",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 192,
+  "height": 224,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Hellscape_BrokenHead2_4": {
+      "ver": "1.0.6",
+      "uuid": "0b129daf-aa03-42e4-9f2c-c7a4a07327fa",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "44b25abd-0618-4c7f-bc25-79ac6e600cde",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -11,
+      "offsetY": 7,
+      "trimX": 8,
+      "trimY": 14,
+      "width": 154,
+      "height": 182,
+      "rawWidth": 192,
+      "rawHeight": 224,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

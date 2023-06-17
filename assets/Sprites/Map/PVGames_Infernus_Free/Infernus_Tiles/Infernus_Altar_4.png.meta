@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "4441ff2b-70f3-48c2-8cc5-e72038acd783",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 160,
+  "height": 192,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Altar_4": {
+      "ver": "1.0.6",
+      "uuid": "088712f5-bb6b-4fab-94d2-28f84364e7ba",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "4441ff2b-70f3-48c2-8cc5-e72038acd783",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -2,
+      "trimX": 5,
+      "trimY": 16,
+      "width": 150,
+      "height": 164,
+      "rawWidth": 160,
+      "rawHeight": 192,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

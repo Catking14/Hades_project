@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "696f4b8b-02f1-4801-ab98-d92f813fef64",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 32,
+  "height": 32,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Skull1_4": {
+      "ver": "1.0.6",
+      "uuid": "933b072d-6243-4438-8932-6d2981b7113e",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "696f4b8b-02f1-4801-ab98-d92f813fef64",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 1.5,
+      "offsetY": -0.5,
+      "trimX": 11,
+      "trimY": 10,
+      "width": 13,
+      "height": 13,
+      "rawWidth": 32,
+      "rawHeight": 32,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

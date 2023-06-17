@@ -42,27 +42,9 @@
             }
           },
           {
-            "frame": 0.25,
-            "value": {
-              "__uuid__": "6626113b-e7a5-4306-b32b-daaa1e7c0f43"
-            }
-          },
-          {
-            "frame": 0.3,
-            "value": {
-              "__uuid__": "68221af8-5755-4bd2-bc13-378cdedacfee"
-            }
-          },
-          {
-            "frame": 0.35,
-            "value": {
-              "__uuid__": "662f06b6-e211-46ac-aa96-5e7f844be4f8"
-            }
-          },
-          {
             "frame": 0.4,
             "value": {
-              "__uuid__": "d4e6f5a3-d1f5-4712-97d4-8e1da64ec92c"
+              "__uuid__": "c11a7238-ad1d-483f-93b8-50574811b964"
             }
           }
         ]

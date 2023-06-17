@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d0b31947-9798-4417-b13a-54ba244a04fd",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 32,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_WallSword_2": {
+      "ver": "1.0.6",
+      "uuid": "008d4fad-e3b0-48f9-b610-8ff6186fbada",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d0b31947-9798-4417-b13a-54ba244a04fd",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -3.5,
+      "trimX": 13,
+      "trimY": 19,
+      "width": 6,
+      "height": 33,
+      "rawWidth": 32,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

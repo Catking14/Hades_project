@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "45705bcf-c3bc-4ffc-901e-394168e3ef62",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 544,
+  "height": 416,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Hellscape_BrokenGiant_3": {
+      "ver": "1.0.6",
+      "uuid": "df9ad0ee-fd5d-4f8d-bb0d-9189a7c05408",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "45705bcf-c3bc-4ffc-901e-394168e3ef62",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 9.5,
+      "offsetY": 10,
+      "trimX": 35,
+      "trimY": 14,
+      "width": 493,
+      "height": 368,
+      "rawWidth": 544,
+      "rawHeight": 416,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

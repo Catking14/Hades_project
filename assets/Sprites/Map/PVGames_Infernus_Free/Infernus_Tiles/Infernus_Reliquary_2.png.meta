@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9e9e1a8c-60dc-4cac-8fc1-a4ef63926434",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 64,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "Infernus_Reliquary_2": {
+      "ver": "1.0.6",
+      "uuid": "e3eef268-5525-41df-b80e-ff0cb43d3ef8",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "9e9e1a8c-60dc-4cac-8fc1-a4ef63926434",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2.5,
+      "offsetY": -2.5,
+      "trimX": 6,
+      "trimY": 9,
+      "width": 47,
+      "height": 83,
+      "rawWidth": 64,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
