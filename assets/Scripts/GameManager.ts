@@ -36,6 +36,15 @@ export default class GameManager extends cc.Component {
     // map prefabs
     @property(cc.Prefab)
     map1: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    map2: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    map3: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    map4: cc.Prefab = null;
     
     @property(cc.Prefab)
     air_wall: cc.Prefab = null;
@@ -351,7 +360,18 @@ export default class GameManager extends cc.Component {
                 // if(visited[i * this._map_column + j])
                 if(visited[i * this._map_column + j] == 1)
                 {
-                    let new_block = cc.instantiate(this.map1);
+                    let tmp = Math.random();
+                    let new_block;
+                    if(tmp>0.75){
+                        new_block = cc.instantiate(this.map1);
+                    }else if(tmp>0.5){
+                        new_block = cc.instantiate(this.map2);
+                    }else if(tmp>0.25){
+                        new_block = cc.instantiate(this.map3);
+                    }else{
+                        new_block = cc.instantiate(this.map4);
+                    }
+                    
                     
                     new_block.setPosition(j * this.size_of_map_block, i * this.size_of_map_block);
                     this.create_obsiticle_array("test", i, j);
@@ -406,7 +426,7 @@ export default class GameManager extends cc.Component {
 
         // enable physics function
         physics_manager.enabled = true;
-        //physics_manager.debugDrawFlags = 1;
+        // physics_manager.debugDrawFlags = 1;
 
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
