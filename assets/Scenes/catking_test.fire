@@ -135,7 +135,6 @@
     "_enabled": true,
     "size_of_map_block": 960,
     "max_map_row_or_column": 9,
-    "follow": null,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,
@@ -154,19 +153,18 @@
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
-    "volume": 0.03,
     "Megalovania": {
       "__uuid__": "19ad8fdb-8b8b-4eec-a4c9-b7ae77bba5d9"
     },
-    "monster_density": 5,
+    "monster_density": 10,
     "monster0": {
-      "__uuid__": "9f1e3b5a-c084-400c-b13c-7aaf2a936ec7"
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "monster1": {
-      "__uuid__": "9f1e3b5a-c084-400c-b13c-7aaf2a936ec7"
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "monster2": {
-      "__uuid__": "9f1e3b5a-c084-400c-b13c-7aaf2a936ec7"
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "warrior": {
       "__uuid__": "302ddf94-aa1d-4bc8-89cd-8edda069eb96"
@@ -3068,7 +3066,7 @@
         "__uuid__": "ceaeabe9-65af-4131-8bee-61a981317bc8"
       }
     ],
-    "playOnLoad": false,
+    "playOnLoad": true,
     "_id": "7f4TkHfBZLYLmEq8Mee+0P"
   },
   {

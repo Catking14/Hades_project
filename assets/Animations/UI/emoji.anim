@@ -1,0 +1,89 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "emoji",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.25,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "11492d8a-490c-4f7e-96a4-6868094f9308"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "819df130-c745-4fde-9159-77175783265c"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "18ec56bd-6faa-45f8-8121-98aa3c3f8e44"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "012400bd-8515-4f36-aade-5ccea9197794"
+            }
+          },
+          {
+            "frame": 0.13333333333333333,
+            "value": {
+              "__uuid__": "ec6f250e-63a0-4e22-a353-2b1b5804649b"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "9910284a-b864-48f7-90cd-f651b884da61"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "09cfc65c-a85a-4af3-ad93-5e5c61898651"
+            }
+          },
+          {
+            "frame": 0.23333333333333334,
+            "value": {
+              "__uuid__": "038c4519-3fe6-497b-9491-57af396c9900"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "width": [
+        {
+          "frame": 0,
+          "value": 10
+        },
+        {
+          "frame": 0.23333333333333334,
+          "value": 32
+        }
+      ],
+      "height": [
+        {
+          "frame": 0,
+          "value": 10
+        },
+        {
+          "frame": 0.23333333333333334,
+          "value": 32
+        }
+      ]
+    }
+  },
+  "events": []
+}

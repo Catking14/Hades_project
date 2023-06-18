@@ -567,7 +567,7 @@ export default class GameManager extends cc.Component {
             visited.push(0);
         }
 
-        while(min_blocks < 8)
+        while(min_blocks < 7)
         {
             min_blocks = Math.floor(Math.random() * this._map_row * this._map_column) / 2;
         }
@@ -685,7 +685,7 @@ export default class GameManager extends cc.Component {
                     break;
             }
 
-            
+            console.log(queue.length);
         }
 
         // init obsiticle array
