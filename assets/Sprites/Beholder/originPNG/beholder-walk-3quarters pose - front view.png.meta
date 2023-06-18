@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "1830d358-8dc5-44fb-88a6-d9d111969b73",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 2048,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "beholder-walk-3quarters pose - front view": {
+      "ver": "1.0.6",
+      "uuid": "1a5896d7-d4da-4648-8cef-b839dd6756be",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "1830d358-8dc5-44fb-88a6-d9d111969b73",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2.5,
+      "offsetY": 3,
+      "trimX": 23,
+      "trimY": 9,
+      "width": 1997,
+      "height": 72,
+      "rawWidth": 2048,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

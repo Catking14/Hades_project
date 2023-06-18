@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "BeholderVFX_spin",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.5,
+  "sample": 8,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "3d921f04-e813-458a-ab6b-23c2e971faac"
+            }
+          },
+          {
+            "frame": 0.125,
+            "value": {
+              "__uuid__": "71949393-8aee-4738-9b63-52d2869229ce"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "9dd0d942-6059-4ee1-9cef-83f0a4c115a1"
+            }
+          },
+          {
+            "frame": 0.375,
+            "value": {
+              "__uuid__": "3d921f04-e813-458a-ab6b-23c2e971faac"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
