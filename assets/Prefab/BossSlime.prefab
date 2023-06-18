@@ -34,10 +34,13 @@
       },
       {
         "__id__": 16
+      },
+      {
+        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 17
+      "__id__": 18
     },
     "_opacity": 255,
     "_color": {
@@ -576,13 +579,34 @@
     "body": null,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": -0.4
+      "x": -0.2,
+      "y": 0.1
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 16.2,
-      "height": 24.1
+      "width": 14.9,
+      "height": 25
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "00cddugWq5Bjr7cHPNjgUCj",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "target_set": null,
+    "blade": {
+      "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
+    },
+    "HP": 500,
+    "Shield": 100,
+    "speed": {
+      "__type__": "cc.Vec2",
+      "x": 250,
+      "y": 200
     },
     "_id": ""
   },

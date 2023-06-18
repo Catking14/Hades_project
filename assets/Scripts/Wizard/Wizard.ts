@@ -26,7 +26,7 @@ export default class Wizard extends cc.Component {
     dash_speed: cc.Vec2 = cc.v2(1000, 800);
 
     @property
-    HP: number = 100;
+    HP: number = 200;
 
     _ultimate_cd:number = 10;
     _dash_ready:boolean = true; 
@@ -273,7 +273,7 @@ export default class Wizard extends cc.Component {
         this.schedule(this.ultCD_controll, 1);
     }
     ultCD_controll() {
-        console.log(this.isultCD, this.ultCD);
+        // console.log(this.isultCD, this.ultCD);
         if (this.isultCD) {
             this.ultCD = this.ultCD + 1;
             if (this.ultCD >= 10) this.isultCD = false;
