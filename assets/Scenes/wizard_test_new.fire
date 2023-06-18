@@ -135,7 +135,6 @@
     "_enabled": true,
     "size_of_map_block": 960,
     "max_map_row_or_column": 9,
-    "follow": null,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,
@@ -154,7 +153,6 @@
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
-    "volume": 0.1,
     "Megalovania": {
       "__uuid__": "19ad8fdb-8b8b-4eec-a4c9-b7ae77bba5d9"
     },
@@ -169,7 +167,7 @@
       "__uuid__": "aee777c7-abc5-49c2-bf25-d534fff90934"
     },
     "warrior": {
-      "__uuid__": "c6fe79cb-24e6-44af-bf1f-e99d9b266c2e"
+      "__uuid__": "2a881514-c84b-419b-aa0d-1857547bfb9b"
     },
     "_id": "ccTudYjU1EGrQ1mtyQVJOW"
   },
