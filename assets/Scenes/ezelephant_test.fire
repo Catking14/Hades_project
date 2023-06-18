@@ -134,21 +134,23 @@
     },
     "_enabled": true,
     "size_of_map_block": 960,
+    "min_map_row_or_column": 4,
     "max_map_row_or_column": 9,
+    "stage": 1,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,
     "map1": {
-      "__uuid__": "89490eea-bab4-477d-bf94-44c4a9e0583e"
+      "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
     },
     "map2": {
-      "__uuid__": "89490eea-bab4-477d-bf94-44c4a9e0583e"
+      "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
     },
     "map3": {
-      "__uuid__": "89490eea-bab4-477d-bf94-44c4a9e0583e"
+      "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
     },
     "map4": {
-      "__uuid__": "89490eea-bab4-477d-bf94-44c4a9e0583e"
+      "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
     },
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
