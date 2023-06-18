@@ -158,8 +158,11 @@
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
+    "spawn_prefab": {
+      "__uuid__": "9b5517d1-23f5-4279-a0c8-7ef9d95c0dd0"
+    },
     "Megalovania": null,
-    "monster_density": 2,
+    "monster_density": 3,
     "monster0": {
       "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },

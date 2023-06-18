@@ -58,6 +58,9 @@ export default class GameManager extends cc.Component {
     @property(cc.Prefab)
     air_wall: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    spawn_prefab: cc.Prefab = null;
+
     // map size
     _map_row: number = 1;
     _map_column: number = 1;
@@ -372,6 +375,8 @@ export default class GameManager extends cc.Component {
     // node pools
     monster_pool: cc.NodePool[] = [];
     monster_num: number[] = [];
+    private _spawn_pool: cc.NodePool = null;
+    private _spawn_num: number = 0;
 
     @property
     monster_density: number = 1;
@@ -785,6 +790,13 @@ export default class GameManager extends cc.Component {
             this.monster_pool[2].put(cc.instantiate(this.monster2));
         }
 
+        // instantiate spawn prefab
+        this._spawn_num = 10;
+        for (let i = 0; i < 10; i++)
+        {
+            this._spawn_pool.put(cc.instantiate(this.spawn_prefab));
+        }
+
         // init habe_spawn array
         this._have_spawn_monster = [];
         for(let i = 0; i < this._map_row; i++)
@@ -824,11 +836,13 @@ export default class GameManager extends cc.Component {
                 {
                     let r = Math.random();
                     let new_mob: cc.Node;
+                    let new_spawn: cc.Node;
                     if (r < 0.333)
                     {
                         if (this.monster_num[0] > 0)
                         {
                             new_mob = this.monster_pool[0].get();
+                            this.monster_num[0]--;
                         }
                         else
                         {
@@ -841,6 +855,7 @@ export default class GameManager extends cc.Component {
                         if (this.monster_num[1] > 0)
                         {
                             new_mob = this.monster_pool[1].get();
+                            this.monster_num[1]--;
                         }
                         else
                         {
@@ -853,6 +868,7 @@ export default class GameManager extends cc.Component {
                         if (this.monster_num[2] > 0)
                         {
                             new_mob = this.monster_pool[2].get();
+                            this.monster_num[2]--;
                         }
                         else
                         {
@@ -860,11 +876,30 @@ export default class GameManager extends cc.Component {
                         }
                         new_mob.getComponent(new_mob.name).pool_num = 2;
                     }
-                    new_mob.setPosition(y * 32 - 480, x * 32 - 480)     // 480 to make (0, 0) to (-480, -480)
+                    new_mob.setPosition(y * 32 - 480, x * 32 - 480);     // 480 to make (0, 0) to (-480, -480)
                     new_mob.getComponent(new_mob.name).target_set = cc.find("Canvas/New Node");
                     new_mob.getComponent(new_mob.name).map = this._obsiticles_transpose;
                     new_mob.getComponent(new_mob.name).init();
-                    cc.find("Canvas/New Node").addChild(new_mob);
+
+                    if (this._spawn_num > 0)
+                    {
+                        new_spawn = this._spawn_pool.get();
+                        this._spawn_num--;
+                    }
+                    else
+                    {
+                        new_spawn = cc.instantiate(this.spawn_prefab);
+                    }
+                    new_spawn.setPosition(y * 32 - 480, x * 32 - 480);
+                    new_spawn.getComponent(cc.Animation).play("attack");
+                    cc.find("Canvas/New Node").addChild(new_spawn);
+
+                    this.scheduleOnce(() => {
+                        cc.find("Canvas/New Node").addChild(new_mob);
+                        this._spawn_pool.put(new_spawn);
+                        this._spawn_num++;
+                    }, 0.8);
+                    
                 }
             }
         }
@@ -894,6 +929,7 @@ export default class GameManager extends cc.Component {
         {
             this.monster_pool[i] = new cc.NodePool();
         }
+        this._spawn_pool = new cc.NodePool();
     }
 
     start () 
