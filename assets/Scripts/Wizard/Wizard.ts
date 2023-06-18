@@ -52,6 +52,7 @@ export default class Wizard extends cc.Component {
     private ultbtn: boolean = false;      //key for ult
     //CD
     private ultCD: number = 0;
+    private dashCD: number = 1;
     //other
     private mouse_Pos;
     // LIFE-CYCLE CALLBACKS:
@@ -90,9 +91,10 @@ export default class Wizard extends cc.Component {
                 this.rightbtn = true;
                 break;
             case cc.macro.KEY.space:
-                if (!this.dashbtn) {
+                if (!this.dashbtn && this._dash_ready) {
                     this.dashbtn = true;
                     this.dash();
+                    this.scheduleOnce(() => {this._dash_ready = true;}, this.dashCD);
                 }
                 break;
             case cc.macro.KEY.q:
@@ -130,15 +132,19 @@ export default class Wizard extends cc.Component {
         switch (event.keyCode) {
             case cc.macro.KEY.w:
                 this.upbtn = false;
+                this.move_dir.y = 0;
                 break;
             case cc.macro.KEY.a:
                 this.leftbtn = false;
+                this.move_dir.x = 0;
                 break;
             case cc.macro.KEY.s:
                 this.downbtn = false;
+                this.move_dir.y = 0;
                 break;
             case cc.macro.KEY.d:
                 this.rightbtn = false;
+                this.move_dir.x = 0;
                 break;
             case cc.macro.KEY.space:
                 this.dashbtn = false;
@@ -193,15 +199,15 @@ export default class Wizard extends cc.Component {
             this._dash_ready = false;
             if (this.move_dir.x == 0 && this.move_dir.y == 0) {
                 this.move_dir.x = this.face_dir;
-                console.log(this.move_dir);
+                // console.log(this.move_dir);
             }
             // play dash animation
             this.anim.stop();
             this.animstate = this.anim.play("wizard_dash");
             this.scheduleOnce(() => {
                 this.isdashing = false;
-                this._dash_ready = true;
-                // this.move_dir = cc.v2(0, 0);  // reset moving direction
+                // this._dash_ready = true;
+                this.move_dir = cc.v2(0, 0);  // reset moving direction
             }, 0.2);
         }
     }
@@ -222,9 +228,7 @@ export default class Wizard extends cc.Component {
             } else if (this.rightbtn) {
                 this.move_dir.x = 1;
                 this.face_dir = 1;
-            } else {
-                this.move_dir.x = 0;
-            }
+            } 
 
         }
     }

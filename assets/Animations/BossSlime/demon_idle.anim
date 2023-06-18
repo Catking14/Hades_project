@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "demon_idle",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8571428571428571,
+  "sample": 7,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "83884935-8f57-4ddf-846f-daad4d71f4ec"
+            }
+          },
+          {
+            "frame": 0.14285714285714285,
+            "value": {
+              "__uuid__": "cfe7e269-f769-47fc-a45b-a04257402755"
+            }
+          },
+          {
+            "frame": 0.2857142857142857,
+            "value": {
+              "__uuid__": "e56214e3-1af2-4af9-8899-449e3f746f23"
+            }
+          },
+          {
+            "frame": 0.42857142857142855,
+            "value": {
+              "__uuid__": "463af4e1-2e17-4ed3-a1bb-311006e04916"
+            }
+          },
+          {
+            "frame": 0.5714285714285714,
+            "value": {
+              "__uuid__": "b8ee957b-900f-4881-aff9-5c0a2a09acbf"
+            }
+          },
+          {
+            "frame": 0.7142857142857143,
+            "value": {
+              "__uuid__": "25ba88e7-27ea-4f4a-ba07-85b080d10ee5"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

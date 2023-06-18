@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "demon_damage",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.9,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "00e41ef8-9b64-4973-85ea-f471c5b3d896"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "49686e68-5876-4223-9398-d4a07124532d"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "b801d3e4-7477-4872-9e92-b137ab547714"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "639396ed-6459-4ec3-b819-ad9a48dc7889"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "56f66740-c61c-4958-a2f9-72db83c36bc6"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

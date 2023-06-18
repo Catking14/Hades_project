@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "demon_spell",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.2,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "b9975d3c-f74e-403b-823b-19e777aef783"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "f18588a3-a306-4713-9d7b-d19207c1a7db"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "b8d23e36-f4cf-47d2-9560-b3b8ff19e5ab"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "14078091-e5c9-4ef5-865d-10110a6ea511"
+            }
+          },
+          {
+            "frame": 0.8,
+            "value": {
+              "__uuid__": "5cd227cb-e65e-432d-b552-a62bea268fc9"
+            }
+          },
+          {
+            "frame": 1,
+            "value": {
+              "__uuid__": "5a9f9085-5aec-4acf-b870-bfd01654525d"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

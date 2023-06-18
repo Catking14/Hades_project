@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "slime_damage",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "7470fda7-43d4-4da2-ab5d-4bcecd757f6b"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "c5fee4aa-bb95-4d2e-8430-4e963be68858"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "3de9eb29-bcf5-4744-b32e-06a558e1072c"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "f5169610-b753-4f7f-808d-0882e5560795"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "bcc7f406-6b6f-4bec-b455-d3e6f9181116"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "9267d81d-f902-4696-bcfb-8f38cf431d2b"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

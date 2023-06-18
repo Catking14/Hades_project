@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 import { A_Star } from "../A_Star";
 
 @ccclass
-export default class Skeleton extends cc.Component {
+export default class Goblin extends cc.Component {
     @property(cc.Node)
     target_set: cc.Node = null;
 
@@ -21,7 +21,7 @@ export default class Skeleton extends cc.Component {
 
     // 速度
     @property(cc.v2)
-    speed = cc.v2(250, 200);
+    speed = cc.v2(270, 230);
 
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
@@ -33,10 +33,10 @@ export default class Skeleton extends cc.Component {
 
     private attack_distance: number = 50; // 低於這個距離 會進行攻擊
     private attack_counter: number = 0;   // 攻擊的計時器
-    private attack_colddown: number = 2;  // 攻擊的CD
+    private attack_colddown: number = 1.5;  // 攻擊的CD
     private attack_delay: number = 0.9;   // 攻擊的延遲 (攻擊之前的準備時間)
-    private attack_time: number = 1.17;   // 整個攻擊動作所需要的時間
-    private attack_damage: number = 10;   // 攻擊傷害
+    private attack_time: number = 1;   // 整個攻擊動作所需要的時間
+    private attack_damage: number = 7;   // 攻擊傷害
 
     private HP_val: number = 0;
     private Shield_val: number = 0;
