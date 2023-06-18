@@ -108,7 +108,7 @@ export class A_Star {
         let search_cnt = 0;
         let cur: Node;
 
-        while (this.heap.size() > 0 && search_cnt < 1000) {
+        while (this.heap.size() > 0 && search_cnt < 4870) {
             cur = this.heap.pop();
             if (Math.abs(cur.x - this.end.x) + Math.abs(cur.y - this.end.y) <= 2) {
                 while (cur.x - cur.prev_x != this.start.x || cur.y - cur.prev_y != this.start.y) {
@@ -126,7 +126,6 @@ export class A_Star {
 
             this.walk_neighbors(cur);
         }
-        console.log(search_cnt);
 
         return null;
     }
