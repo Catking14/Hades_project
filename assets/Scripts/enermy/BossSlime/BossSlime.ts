@@ -58,6 +58,7 @@ export default class BossSlime extends cc.Component {
     private isDead: boolean = false;
     private isTransfroming: boolean = false;
     private smashCD:number = 0;
+    private spellCD:number = 0;
     private AI: A_Star;
     public map;
 
@@ -103,7 +104,6 @@ export default class BossSlime extends cc.Component {
         } else if (this.isSpelling) newState = "demon_spell";
         else if (this.isSmashing) newState = "demon_smash"; 
         else if (this.isAttacking) newState = "demon_attack";
-        
         else if (this.direction.x || this.direction.y) {
             if (this.state == "slime") newState = "slime_move";
             else newState = "demon_walk";
@@ -115,12 +115,14 @@ export default class BossSlime extends cc.Component {
 
         //smashCD
         this.schedule(this.smashCD_controll, 1);
+        //spellCD
+        this.schedule(this.spellCD_controll, 1);
     }
 
     smashCD_controll(){
         if(!this.isSmashing&&this.state == "demon"){
             this.smashCD += 1;
-            if(this.smashCD>=10 && !this.isAttacking){
+            if(this.smashCD>=10 && !this.isAttacking && !this.isSpelling && !this.isDead){
                 this.isSmashing = true;
                 this.collider.enabled = false;
                 this.scheduleOnce(()=>{
@@ -138,6 +140,20 @@ export default class BossSlime extends cc.Component {
             this.smashCD = 0;
         }
     }
+    spellCD_controll(){
+        if(!this.isSpelling&&this.state == "demon"){
+            this.spellCD += 1;
+            if(this.spellCD>=7 && !this.isAttacking && !this.isSmashing && !this.isDead){
+                this.isSpelling = true;
+                //call mobs spawn
+                this.scheduleOnce(()=>{
+                    this.isSpelling = false;
+                },1.86);
+            }
+        }else{
+            this.spellCD = 0;
+        }
+    }
     updateHPBar() {
         this.HP_bar.progress = this.HP_val / this.HP;
         this.HP_bar.reverse = this.node.scaleX != 2;
@@ -147,7 +163,7 @@ export default class BossSlime extends cc.Component {
 
     setanimState(newState: string) {
         if (this.animstate == newState) return;
-
+        console.log(newState);
         this.animation.stop();
         this.animation.play(newState);
         this.animstate = newState;
@@ -163,7 +179,7 @@ export default class BossSlime extends cc.Component {
         this.isDead = true;
         this.scheduleOnce(() => {
             this.node.destroy();
-        }, 3.14);
+        }, 3.1);
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
@@ -212,7 +228,7 @@ export default class BossSlime extends cc.Component {
     }
 
     attack() {
-        if (this.state == "demon" && !this.isSmashing && !this.isAttacking) {
+        if (this.state == "demon" && !this.isSmashing && !this.isAttacking && !this.isDead && !this.isSpelling && !this.isTransfroming) {
             this.isAttacking = true;
             this.attack_counter = this.attack_colddown;
             this.scheduleOnce(() => {
@@ -253,7 +269,7 @@ export default class BossSlime extends cc.Component {
             // }
             // if (mn != -1) {
             //     this.target = this.target_set.children[mn];
-                if (this.isAttacking || this.isDead || this.getHitting) return;
+                if (this.isAttacking || this.isDead || this.getHitting || this.isTransfroming || this.isSmashing || this.isSpelling) return;
                 let x_diff = this.target.position.x - this.node.position.x;
                 let y_diff = this.target.position.y - this.node.position.y;
                 let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
@@ -267,7 +283,7 @@ export default class BossSlime extends cc.Component {
             //     }
             // }
             // if (cc.isValid(this.target)) {
-                if (this.isAttacking || this.isDead || this.getHitting) return;
+                // if (this.isAttacking || this.isDead || this.getHitting) return;
                 // let x_diff = this.target.position.x - this.node.position.x;
                 // let y_diff = this.target.position.y - this.node.position.y;
                 // let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
