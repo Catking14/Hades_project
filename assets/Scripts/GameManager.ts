@@ -940,7 +940,10 @@ export default class GameManager extends cc.Component {
         let p1 = cc.instantiate(this.warrior);
 
         this.follow = p1;
-        p1.setPosition(0, 0);
+        if (this._obsiticles[4][4] == 0)
+            p1.setPosition(4 * 32 - 440, 4 * 32 - 440);
+        else
+            p1.setPosition(15 * 32 - 480, 15 * 32 - 480);
 
         cc.find("Canvas/New Node").addChild(p1);
     }
