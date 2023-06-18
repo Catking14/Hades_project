@@ -27,6 +27,7 @@ export default class Assassin extends cc.Component {
     _ultimate_cd: number = 10;
     _ultimate: boolean = false;
     _dash_ready: boolean = true;
+    money: number = 0;
 
     // variable
     private state: string = "stand";

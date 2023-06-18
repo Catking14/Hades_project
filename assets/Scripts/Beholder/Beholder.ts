@@ -32,20 +32,34 @@ export default class Beholder extends cc.Component {
     isAttacking3: boolean = false;
     a3_damage: number = 50;
 
+    player: cc.Node = null;
+
 
     start() {
+        cc.director.getPhysicsManager().debugDrawFlags = 1;
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
-        // this.scheduleOnce(() => {
-        //     this.a1();
-        // }, 3);
+        this.player = cc.find("Game Manager").getComponent("GameManager").follow;
+        this.schedule(() => {
+            this.node.setPosition(cc.v2(
+                this.player.x + Math.random() * 40 - 20,
+                this.player.y + Math.random() * 40 - 20
+            ));
+            this.scheduleOnce(() => {
+                this.a3();
+            }, 0.5);
+            this.scheduleOnce(() => {
+                this.a1();
+            }, 3);
+        }, 8);
+
     }
 
     update(dt) {
 
         if (this.isAttacking1) return;
-        if(this.isAttacking3) return;
-        
+        if (this.isAttacking3) return;
+
         this.vecSpeed = cc.v2(0, 0);
 
         // wasd + dash
@@ -96,7 +110,7 @@ export default class Beholder extends cc.Component {
 
     }
 
-    updateDirCount(){
+    updateDirCount() {
         this.dirCount++;
         let dir: string = "";
         if (this.dirCount > 5) this.node.scaleX = -2;
@@ -108,36 +122,36 @@ export default class Beholder extends cc.Component {
             case 3: dir = "_loop_side"; break;
             case 4: dir = "_loop_back_side"; break;
             case 5: dir = "_loop_back"; break;
-            case 6: dir = "_loop_back_side";   break; 
-            case 7: dir = "_loop_side";    break;
-            case 8: dir = "_loop_front_side";    break; 
-            case 9: dir = "_loop_front";     break;
-            case 10: dir = "_finish";    break;
+            case 6: dir = "_loop_back_side"; break;
+            case 7: dir = "_loop_side"; break;
+            case 8: dir = "_loop_front_side"; break;
+            case 9: dir = "_loop_front"; break;
+            case 10: dir = "_finish"; break;
         }
         this.setState("a1", dir);
         this.updateLazer();
-        
-        if(this.dirCount === 11) {
+
+        if (this.dirCount === 11) {
             this.isAttacking1 = false;
             this.unschedule(this.updateDirCount);
         }
     }
-    
-    updateLazer(){
-        if(this.dirCount === 0) return;
-        let lazer = cc.find("Canvas/New Node/BeholderVFX_lazer");
-        if(this.dirCount >= 10){
-            if(lazer) lazer.destroy();
-            return;
-        } 
 
-        if(lazer) {
+    updateLazer() {
+        if (this.dirCount === 0) return;
+        let lazer = cc.find("Canvas/New Node/BeholderVFX_lazer");
+        if (this.dirCount >= 10) {
+            if (lazer) lazer.destroy();
+            return;
+        }
+
+        if (lazer) {
             lazer.angle = (225 + this.dirCount * 45) % 360;
             // if(this.dirCount === 4 || this.dirCount === 6) 
             // else if(this.dirCount === 3 || this.dirCount === 7) lazer.anchorX = -0.15;
             // else lazer.anchorX = -0.1;
             lazer.anchorX = -0.2;
-        }else{
+        } else {
             lazer = cc.instantiate(this.lazerPrefab);
             lazer.setPosition(cc.v2(this.node.position.x, this.node.position.y - 10));
             lazer.angle = 270;
@@ -155,10 +169,10 @@ export default class Beholder extends cc.Component {
         this.scheduleOnce(() => {
             this.setState("a3", "_finish");
             this.node.getChildByName("BeholderVFX_spin").opacity = 0;
-        }, 3.75);
+        }, 1.75);
         this.scheduleOnce(() => {
             this.isAttacking3 = false;
-        }, 4);
+        }, 2);
     }
 
     bladeGen() {
@@ -169,7 +183,7 @@ export default class Beholder extends cc.Component {
         blade.getComponent("blade").duration_time = 3.5;
         blade.getComponent("blade").damage_val = this.a3_damage;
         blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(100, 70);
-        this.node.addChild(blade); 
+        this.node.addChild(blade);
         this.node.getChildByName("BeholderVFX_spin").opacity = 255;
     }
 
