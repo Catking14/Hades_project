@@ -89,7 +89,7 @@ export default class Warrior extends cc.Component {
     fire(event)
     {
         // console.log("?");
-        if(!this._firing && !this._died)
+        if(!this._firing && !this._died && !cc.find("Data").getComponent("Data").in_shop)
         {
             this._firing = true;
 
@@ -123,7 +123,7 @@ export default class Warrior extends cc.Component {
             attack_range.setPosition(0, 0);
             attack_range.group = "player_attack";
             attack_range.getComponent("blade").duration_time = 0.1;
-            attack_range.getComponent("blade").damage_val = this._dmg;
+            attack_range.getComponent("blade").damage_val = this._dmg + cc.find("Data").getComponent("Data").damage;
 
             // play effect
             this._ATK = cc.audioEngine.playEffect(this.attack_effect, false);
@@ -356,7 +356,8 @@ export default class Warrior extends cc.Component {
 
     start () 
     {
-
+        this.HP = cc.find("Data").getComponent("Data").HP;
+        this.money = cc.find("Data").getComponent("Data").money;
     }
 
     onKeyPressed(event)
@@ -408,11 +409,13 @@ export default class Warrior extends cc.Component {
             case cc.macro.KEY.space:
                 if(!this._space_pressed && this._dash_ready)
                 {
+                    let dash_level = cc.find("Data").getComponent("Data").dash;
+
                     this._space_pressed = true;
                     this.dash();
 
                     // set dash CD time
-                    this.scheduleOnce(() => {this._dash_ready = true;}, this._dash_cd);
+                    this.scheduleOnce(() => {this._dash_ready = true;}, this._dash_cd - dash_level);
                 }
                 break;
         }

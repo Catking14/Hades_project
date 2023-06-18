@@ -133,7 +133,7 @@
         "__uuid__": "ceaeabe9-65af-4131-8bee-61a981317bc8"
       }
     ],
-    "playOnLoad": false,
+    "playOnLoad": true,
     "_id": ""
   },
   {
