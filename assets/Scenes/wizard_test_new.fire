@@ -159,8 +159,14 @@
       "__uuid__": "19ad8fdb-8b8b-4eec-a4c9-b7ae77bba5d9"
     },
     "monster_density": 30,
-    "skeleton": {
+    "monster0": {
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
+    },
+    "monster1": {
       "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
+    },
+    "monster2": {
+      "__uuid__": "aee777c7-abc5-49c2-bf25-d534fff90934"
     },
     "warrior": {
       "__uuid__": "c6fe79cb-24e6-44af-bf1f-e99d9b266c2e"
