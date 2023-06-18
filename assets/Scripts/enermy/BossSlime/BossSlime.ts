@@ -5,6 +5,8 @@ import { A_Star } from "../A_Star";
 export default class BossSlime extends cc.Component {
     @property(cc.Node)
     target_set: cc.Node = null;
+    @property(cc.Node)
+    target: cc.Node = null;
 
     @property(cc.Prefab)
     blade: cc.Prefab = null;
@@ -26,12 +28,12 @@ export default class BossSlime extends cc.Component {
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
 
-    private target: cc.Node = null;
+    // private target: cc.Node = null;
     private target_time: number = 0;      // 重新找目標的計時器
     private target_colddown: number = 0.1;  // 重新找目標的冷卻
     private target_distance: number = 1000; // 小於這個距離會觸發怪物的追擊
 
-    private attack_distance: number = 50; // 低於這個距離 會進行攻擊
+    private attack_distance: number = 100; // 低於這個距離 會進行攻擊
     private attack_counter: number = 0;   // 攻擊的計時器
     private attack_colddown: number = 3;  // 攻擊的CD
     private attack_delay: number = 1.5;   // 攻擊的延遲 (攻擊之前的準備時間)
@@ -72,7 +74,7 @@ export default class BossSlime extends cc.Component {
 
     start() {
         this.init();
-        this.AI = new A_Star(this.map);
+        // this.AI = new A_Star(this.map);
     }
 
     update(dt) {
@@ -82,8 +84,8 @@ export default class BossSlime extends cc.Component {
         this.attack_counter = this.attack_counter > dt ? this.attack_counter - dt : 0;
 
         // caculate scaleX
-        if(this.state == "slime") this.node.scaleX = this.direction.x > 0 ? 1 : -1;
-        else this.node.scaleX = this.direction.x > 0 ? -1 : 1;
+        if(this.state == "slime") this.node.scaleX = this.direction.x > 0 ? 2 : -2;
+        else this.node.scaleX = this.direction.x > 0 ? -2 : 2;
         this.updateHPBar();
 
 
@@ -99,8 +101,9 @@ export default class BossSlime extends cc.Component {
             if (this.state == "slime") newState = "slime_damage";
             else newState = "demon_damage";
         } else if (this.isSpelling) newState = "demon_spell";
-        else if (this.isAttacking) newState = "demon_attack";
         else if (this.isSmashing) newState = "demon_smash"; 
+        else if (this.isAttacking) newState = "demon_attack";
+        
         else if (this.direction.x || this.direction.y) {
             if (this.state == "slime") newState = "slime_move";
             else newState = "demon_walk";
@@ -117,14 +120,19 @@ export default class BossSlime extends cc.Component {
     smashCD_controll(){
         if(!this.isSmashing&&this.state == "demon"){
             this.smashCD += 1;
-            if(this.smashCD>=10){
+            if(this.smashCD>=10 && !this.isAttacking){
                 this.isSmashing = true;
+                this.collider.enabled = false;
                 this.scheduleOnce(()=>{
-                    cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                    this.node.runAction(cc.moveTo(1,cc.v2(this.target.position.x,this.target.position.y)));
+                },0.5);
+                this.scheduleOnce(()=>{
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
                 },1.7);
                 this.scheduleOnce(()=>{
                     this.isSmashing = false;
-                },2.5);
+                    this.collider.enabled = true;
+                },2.7);
             }
         }else{
             this.smashCD = 0;
@@ -132,9 +140,9 @@ export default class BossSlime extends cc.Component {
     }
     updateHPBar() {
         this.HP_bar.progress = this.HP_val / this.HP;
-        this.HP_bar.reverse = this.node.scaleX != 1;
+        this.HP_bar.reverse = this.node.scaleX != 2;
         this.Shield_bar.progress = this.Shield_val / this.Shield;
-        this.Shield_bar.reverse = this.node.scaleX != 1;
+        this.Shield_bar.reverse = this.node.scaleX != 2;
     }
 
     setanimState(newState: string) {
@@ -179,7 +187,7 @@ export default class BossSlime extends cc.Component {
                 this.state = "demon";
                 this.scheduleOnce(() => {
                     this.isTransfroming = false;
-                }, 4.71);
+                }, 5);
             }
         }
         else {
@@ -204,7 +212,7 @@ export default class BossSlime extends cc.Component {
     }
 
     attack() {
-        if (this.state = "demon") {
+        if (this.state == "demon" && !this.isSmashing && !this.isAttacking) {
             this.isAttacking = true;
             this.attack_counter = this.attack_colddown;
             this.scheduleOnce(() => {
@@ -215,12 +223,12 @@ export default class BossSlime extends cc.Component {
             this.scheduleOnce(() => {
                 if (this.isAttacking) {
                     let blade = cc.instantiate(this.blade);
-                    blade.setPosition(cc.v2(this.node.position.x + this.node.width / 4 * this.node.scaleX, this.node.position.y));
+                    blade.setPosition(cc.v2(this.node.position.x - this.node.width / 4 * this.node.scaleX/2, this.node.position.y));
                     blade.setContentSize(cc.size(this.node.width * 2 / 3, this.node.height));
                     blade.getComponent(cc.PhysicsBoxCollider).size = cc.size(this.node.width * 2 / 3, this.node.height);
                     blade.getComponent("blade").duration_time = this.attack_time - this.attack_delay;
                     blade.getComponent("blade").damage_val = this.attack_damage;
-                    cc.find("Canvas/New Node").addChild(blade);
+                    cc.find("Canvas").addChild(blade);
                 }
             }, this.attack_delay);
         }
@@ -230,43 +238,43 @@ export default class BossSlime extends cc.Component {
     find_target(dt) {
         this.target_time = this.target_time > dt ? this.target_time - dt : 0;
         if (this.target_time == 0) {
-            this.target_time = this.target_colddown;
-            this.target = null;
-            let mn = -1, mn_val = this.target_distance; // mn代表最近player的index, mn_val代表最近player距離當前節點的距離
-            for (let i = 0; i < this.target_set.childrenCount; i++) {
-                if (this.target_set.children[i].group == 'player') {
-                    let distance = Math.sqrt(Math.pow(this.target_set.children[i].position.x - this.node.position.x, 2) +
-                        Math.pow(this.target_set.children[i].position.y - this.node.position.y, 2));
-                    if (distance < mn_val) {
-                        mn = i;
-                        mn_val = distance;
-                    }
-                }
-            }
-            if (mn != -1) {
-                this.target = this.target_set.children[mn];
+            // this.target_time = this.target_colddown;
+            // this.target = null;
+            // let mn = -1, mn_val = this.target_distance; // mn代表最近player的index, mn_val代表最近player距離當前節點的距離
+            // for (let i = 0; i < this.target_set.childrenCount; i++) {
+            //     if (this.target_set.children[i].group == 'player') {
+            //         let distance = Math.sqrt(Math.pow(this.target_set.children[i].position.x - this.node.position.x, 2) +
+            //             Math.pow(this.target_set.children[i].position.y - this.node.position.y, 2));
+            //         if (distance < mn_val) {
+            //             mn = i;
+            //             mn_val = distance;
+            //         }
+            //     }
+            // }
+            // if (mn != -1) {
+            //     this.target = this.target_set.children[mn];
                 if (this.isAttacking || this.isDead || this.getHitting) return;
                 let x_diff = this.target.position.x - this.node.position.x;
                 let y_diff = this.target.position.y - this.node.position.y;
                 let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
-                let dir = this.AI.search(this.node.position.sub(cc.v3(this.collider.size.width / 2, 0, 0)), this.target.position);
-                if (dir == null) {
+            //     let dir = this.AI.search(this.node.position.sub(cc.v3(this.collider.size.width / 2, 0, 0)), this.target.position);
+            //     if (dir == null) {
                     this.direction.x = (this.target.position.x - this.node.position.x) / distance;
                     this.direction.y = (this.target.position.y - this.node.position.y) / distance;
-                }
-                else {
-                    this.direction = dir;
-                }
-            }
-            if (cc.isValid(this.target)) {
+            //     }
+            //     else {
+            //         this.direction = dir;
+            //     }
+            // }
+            // if (cc.isValid(this.target)) {
                 if (this.isAttacking || this.isDead || this.getHitting) return;
-                let x_diff = this.target.position.x - this.node.position.x;
-                let y_diff = this.target.position.y - this.node.position.y;
-                let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+                // let x_diff = this.target.position.x - this.node.position.x;
+                // let y_diff = this.target.position.y - this.node.position.y;
+                // let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
                 if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 25) {
                     if(this.state == "demon") this.attack();
                 }
-            }
+            // }
         }
     }
 }
