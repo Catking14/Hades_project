@@ -177,6 +177,9 @@
     "fireballPrefab": {
       "__uuid__": "6d2a930d-6c7f-410c-8025-87d1d78dd030"
     },
+    "shadowPrefab": {
+      "__uuid__": "e52baa0f-3adf-4374-be7a-1c9d18124858"
+    },
     "_id": ""
   },
   {

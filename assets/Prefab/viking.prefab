@@ -196,7 +196,9 @@
     "shieldPrefab": {
       "__uuid__": "166cd12a-6bd5-4595-b720-c1d1356d9d5c"
     },
-    "bubbleSprite": null,
+    "bubbleSprite": {
+      "__uuid__": "ace95271-6c3a-4a19-aa49-80c65a1a6f5c"
+    },
     "_id": ""
   },
   {

@@ -17,6 +17,7 @@ export default class UI extends cc.Component {
     _temp_hp_bar: cc.Node = null;
     _mana_bar: cc.Node = null;
     _dash_bar: cc.Node = null;
+    _money_bar: cc.Label = null;
 
     _hp_bar_length: number = 300;
     _mana_bar_length: number = 210;
@@ -76,6 +77,7 @@ export default class UI extends cc.Component {
         this._temp_hp_bar = this.node.getChildByName("HP").getChildByName("temp_health");
         this._mana_bar = this.node.getChildByName("MP").getChildByName("cd");
         this._dash_bar = this.node.getChildByName("Dash").getChildByName("point");
+        this._money_bar = this.node.getChildByName("Money").getChildByName("count").getComponent(cc.Label);
     }
 
     start () 
@@ -160,6 +162,7 @@ export default class UI extends cc.Component {
         this._hp_bar.width = this._hp_bar_length * (this._hp / this._max_hp);
         this._temp_hp_bar.width = this._hp_bar_length * (this._next_hp / this._max_hp);
         this._mana_bar.width = this._mana_bar_length * (this._mana / 100);
+        this._money_bar.string = this._player.getComponent(this._player.name).money.toString();
 
 
         // position lerp

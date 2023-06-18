@@ -23,7 +23,10 @@ export default class Assassin extends cc.Component {
     private ratio: number = 0.8;
     private speed: number = 200;
     private Shield: number = 0;
-    private HP: number = 100;
+    HP: number = 100;
+    _ultimate_cd: number = 10;
+    _ultimate: boolean = false;
+    _dash_ready: boolean = true;
 
     // variable
     private state: string = "stand";
@@ -53,8 +56,8 @@ export default class Assassin extends cc.Component {
     }
 
     update(dt) {
-        console.log(this.state);
-        
+
+        this._dash_ready = !this.isDashingCD;
 
         if (this.isDashing || this.isAttacking) return;
 
@@ -99,7 +102,6 @@ export default class Assassin extends cc.Component {
 
 
     setState(newState: string) {
-        console.log(this.state + " -> " + newState);
         
         if (this.state == newState) return;
 
@@ -172,6 +174,7 @@ export default class Assassin extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
@@ -194,7 +197,7 @@ export default class Assassin extends cc.Component {
             this.node.setPosition(shadowPos);
 
             this.ECD = true;
-            this.scheduleOnce(() => { this.ECD = false; }, 5);
+            // this.scheduleOnce(() => { this.ECD = false; }, 5);
 
         } else {
             shadow = cc.instantiate(this.shadowPrefab);
@@ -205,12 +208,15 @@ export default class Assassin extends cc.Component {
             ));
             this.node.parent.addChild(shadow);
             this.nextAttack = "a1";
-            this.scheduleOnce(() => {
-                shadow.destroy();
-            }, 5);
+            
+            this._ultimate = true;
+            this.scheduleOnce(() => { this._ultimate = false; }, 0.5);
+
+            this.scheduleOnce(() => { shadow.destroy(); }, 5);
 
             this.ECD = true;
-            this.scheduleOnce(() => { this.ECD = false; }, 0.5);
+            this.scheduleOnce(() => { this.ECD = false; }, 0.2);
+            this.scheduleOnce(() => { this.ECD = false; }, this._ultimate_cd);
 
         }
     }

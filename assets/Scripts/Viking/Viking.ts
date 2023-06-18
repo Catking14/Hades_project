@@ -18,7 +18,10 @@ export default class Viking extends cc.Component {
     private ratio: number = 0.8;
     private speed: number = 200;
     private Shield: number = 0;
-    private HP: number = 100;
+    HP: number = 100;
+    _ultimate_cd: number = 10;
+    _ultimate: boolean = false;
+    _dash_ready: boolean = true;
 
     // variable
     private state: string = "stand";
@@ -35,6 +38,9 @@ export default class Viking extends cc.Component {
     private attack_delay: number = 0.2;
     private attack_damage: number = 50;
     private mousePos: any = null;
+    private isUltCD: boolean = false;
+    private QCD: boolean = false;
+    private ECD: boolean = false;
 
     start() {
         // cc.director.getPhysicsManager().debugDrawFlags = 1;
@@ -48,6 +54,7 @@ export default class Viking extends cc.Component {
 
     update(dt) {
         // console.log(this.nextAttack);
+        this._dash_ready = !this.isDashingCD;
 
         if (this.isDashing || this.isAttacking) return;
 
@@ -99,20 +106,6 @@ export default class Viking extends cc.Component {
         animation.stop();
         animation.play("viking_" + newState);
         this.state = newState;
-
-        // if(this.state == "stand"){
-
-        // }else if(this.state == "run"){
-
-        // }else if(this.state == "dash"){
-
-        // }else if(this.state == "attack"){
-
-        // }else if(this.state == "getHit"){
-
-        // }else if(this.state == "death"){
-
-        // }
     }
 
     dash() {
@@ -181,6 +174,7 @@ export default class Viking extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
@@ -195,6 +189,8 @@ export default class Viking extends cc.Component {
     }
 
     skillE() {
+        if (this.ECD) return;
+
         this.Shield = 100;
         let bubble = new cc.Node;
         bubble.addComponent(cc.Sprite);
@@ -207,17 +203,27 @@ export default class Viking extends cc.Component {
             this.Shield = 0;
             bubble.destroy();
         }, 2);
+
+        this.ECD = true;
+        this.scheduleOnce(() => { this.ECD = false; }, 5);
     }
 
     skillQ() {
+        if (this.QCD) return;
+        
         if (!this.node.parent.getChildByName("shield")) {
             let shield = cc.instantiate(this.shieldPrefab);
             shield.setPosition(cc.v2(this.node.position.x, this.node.position.y));
             this.node.parent.addChild(shield);
+            this._ultimate = true;
             this.scheduleOnce(() => {
+                this._ultimate = false;
                 shield.destroy();
             }, 5);
         }
+
+        this.QCD = true;
+        this.scheduleOnce(() => { this.QCD = false; }, this._ultimate_cd);
     }
 
     setMousePos(event) {

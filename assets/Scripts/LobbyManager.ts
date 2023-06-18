@@ -49,6 +49,11 @@ export default class Lobby extends cc.Component {
         this._camera.setPosition(camera_pos);
     }
 
+    z_transform()
+    {
+        
+    }
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () 

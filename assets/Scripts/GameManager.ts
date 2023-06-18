@@ -20,8 +20,8 @@ export default class GameManager extends cc.Component {
     _minimap_camera: cc.Node = null;
 
     // camera follow object
-    @property(cc.Node)
-    follow: cc.Node = null;
+    // @property(cc.Node)
+    private follow: cc.Node = null;
 
     // camera shake related
     @property
@@ -57,8 +57,8 @@ export default class GameManager extends cc.Component {
     _have_spawn_monster: boolean[][];
 
     // Music and audio effects
-    @property
-    volume: number = 0.1;
+    // @property
+    // volume: number = 0.1;
 
     // source: https://www.youtube.com/watch?v=9X7I3bW49S8
     @property(cc.AudioClip)
@@ -405,7 +405,6 @@ export default class GameManager extends cc.Component {
         this.monster_num[0] = 30;
         this.monster_num[1] = 30;
         this.monster_num[2] = 30;
-        console.log(this.monster_num);
         for(let hostiles = 0; hostiles < 30; hostiles++)
         {
             this.monster_pool[0].put(cc.instantiate(this.monster0));
@@ -424,6 +423,7 @@ export default class GameManager extends cc.Component {
             }
             this._have_spawn_monster.push(tmp_arr);
         }
+        this._have_spawn_monster[0][0] = true;
     }
 
 
@@ -513,8 +513,8 @@ export default class GameManager extends cc.Component {
 
         // play BGM
         this._BGM = cc.audioEngine.playMusic(this.Megalovania, true);
-        cc.audioEngine.setMusicVolume(this.volume);
-        cc.audioEngine.setEffectsVolume(this.volume + 0.05);
+        // cc.audioEngine.setMusicVolume(this.volume);
+        // cc.audioEngine.setEffectsVolume(this.volume + 0.05);
 
         // create NodePool
         for (let i = 0; i < 3; i++)
