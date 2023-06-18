@@ -134,7 +134,9 @@
     },
     "_enabled": true,
     "size_of_map_block": 960,
+    "min_map_row_or_column": 4,
     "max_map_row_or_column": 9,
+    "stage": 1,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,
@@ -158,13 +160,13 @@
     },
     "monster_density": 5,
     "monster0": {
-      "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
+      "__uuid__": "90040092-5b17-43df-ba80-2e56f93db0b8"
     },
     "monster1": {
-      "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
+      "__uuid__": "90040092-5b17-43df-ba80-2e56f93db0b8"
     },
     "monster2": {
-      "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
+      "__uuid__": "90040092-5b17-43df-ba80-2e56f93db0b8"
     },
     "warrior": {
       "__uuid__": "2a881514-c84b-419b-aa0d-1857547bfb9b"

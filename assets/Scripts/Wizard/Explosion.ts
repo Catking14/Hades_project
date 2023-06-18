@@ -40,7 +40,10 @@ export default class Fireball extends cc.Component {
     }
     onBeginContact(contact, self, other) {
         if(other.node.group == "enemy"){
-            other.node.getComponent(other.node.name).damage(10);
+            this.scheduleOnce(()=>{
+                other.node.getComponent(other.node.name).damage(10);
+            },0);
+            
         }else{
             contact.disabled = true;
         }
