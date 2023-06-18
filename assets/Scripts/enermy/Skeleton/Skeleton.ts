@@ -161,8 +161,7 @@ export default class Skeleton extends cc.Component {
     }
 
     start() {
-        this.HP_val = this.HP;
-        this.Shield_val = this.Shield;
+        this.init();
         this.AI = new A_Star(this.map);
     }
 
@@ -285,12 +284,15 @@ export default class Skeleton extends cc.Component {
                 let x_diff = this.target.position.x - this.node.position.x;
                 let y_diff = this.target.position.y - this.node.position.y;
                 let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
-                if (distance < 50) {
+                let dir = this.AI.search(this.node.position.sub(cc.v3(this.collider.size.width / 2, 0, 0)), this.target.position);
+                if (dir == null)
+                {
                     this.direction.x = (this.target.position.x - this.node.position.x) / distance;
                     this.direction.y = (this.target.position.y - this.node.position.y) / distance;
                 }
-                else {
-                    this.direction = this.AI.search(this.node.position, this.target.position);
+                else
+                {
+                    this.direction = dir;
                 }
             }
             if (cc.isValid(this.target)) {

@@ -154,7 +154,7 @@
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
     "Megalovania": null,
-    "monster_density": 5,
+    "monster_density": 1,
     "monster0": {
       "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
