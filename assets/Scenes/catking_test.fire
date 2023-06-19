@@ -142,6 +142,15 @@
     "map1": {
       "__uuid__": "89490eea-bab4-477d-bf94-44c4a9e0583e"
     },
+    "map2": {
+      "__uuid__": "c057066c-b64d-4a6d-a148-fd9306e11a75"
+    },
+    "map3": {
+      "__uuid__": "b081de2b-8d40-4c69-b818-5c35aa61ec2e"
+    },
+    "map4": {
+      "__uuid__": "12de8268-bf26-432f-a9fd-77898734f45e"
+    },
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },

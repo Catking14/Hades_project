@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "cd5af307-2cfb-460c-86f9-f116fe94b7db",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "point",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 310,
+  "height": 430,
+  "platformSettings": {},
+  "subMetas": {
+    "ArchorPhoto": {
+      "ver": "1.0.6",
+      "uuid": "ac563798-6ac0-4e52-a011-f9246fa719e0",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "cd5af307-2cfb-460c-86f9-f116fe94b7db",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 310,
+      "height": 430,
+      "rawWidth": 310,
+      "rawHeight": 430,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
