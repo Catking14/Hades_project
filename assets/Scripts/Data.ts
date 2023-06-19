@@ -1,10 +1,3 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
 const {ccclass, property} = cc._decorator;
 
 declare const firebase: any;
@@ -33,7 +26,7 @@ export default class Data extends cc.Component {
     in_shop: boolean = false;
 
     // current player role
-    role: string = "";
+    role: string = "Warrior";
 
     // player level
     HP: number = 100;
@@ -71,26 +64,13 @@ export default class Data extends cc.Component {
     Archor_lock: boolean = true;
     Wizard_lock: boolean = true;
     Assassin_lock: boolean = true;
-    curCharacter: string = "Warrior";
     curName: string = "Hades";
     curEmail: string = "Hades@gmail.com";
-    curPage: number = 1;
 
     curMasterVolume: number = 50;
     curMusicVolume: number = 50;
     curSFXVolume: number = 50;
     CameraShakeEnable: boolean = true;
-
-    // Kills: number = 0;
-    // Deaths: number = 0;
-    // DamageMade: number = 0;
-    // DamageTaken: number = 0;
-    // GameCleared: number = 0;
-    // Gold: number = 0;
-    // Spend: number = 0;
-    // BossKills: number = 0;
-    // LevelUP: number = 0;
-    // TotalPlaytime: number = 0;
 
     refresh_round()
     {
@@ -134,6 +114,7 @@ export default class Data extends cc.Component {
                 total_upgrades: this.total_upgrades,
                 total_playtime: this.total_playtime,
                 total_Boss_killed: this.total_Boss_killed,
+                role: this.role,
                 Warrior_lock: this.Warrior_lock,
                 Viking_lock: this.Viking_lock,
                 Archor_lock: this.Archor_lock,
@@ -143,12 +124,19 @@ export default class Data extends cc.Component {
         )
     }
 
-    // LIFE-CYCLE CALLBACKS:
 
     onLoad () 
     {
         // persistent data node
         cc.game.addPersistRootNode(this.node);
+
+        firebase.auth().onAuthStateChanged((user) => 
+        {
+            if (user) 
+            {
+                this.GetDataFromFirebase();
+            }
+        });
     }
 
     start () 
@@ -163,12 +151,17 @@ export default class Data extends cc.Component {
         this.heal_posion_num = 30;
         for (let i = 0; i < 30; i++)
             this.heal_posion_pool.put(cc.instantiate(this.heal_posion_prefab));
+    }
 
+    GetDataFromFirebase(){
         // get data from firebase
         // TODO
         let uid = firebase.auth().currentUser.uid;
         // let uid = "";
         let ref = firebase.database().ref("Player/" + uid);
+
+        this.curName = firebase.auth().currentUser.displayName;
+        this.curEmail = firebase.auth().currentUser.email;
 
         ref.once("value").then((snapshot) => 
         {
@@ -222,6 +215,7 @@ export default class Data extends cc.Component {
             this.total_upgrades = 0;
             this.total_playtime = 0;
             this.total_Boss_killed = 0;
+            this.role = "Warrior";
             this.Warrior_lock = false;
             this.Viking_lock = true;
             this.Archor_lock = true;
@@ -240,5 +234,42 @@ export default class Data extends cc.Component {
 
         this.scene = cc.director.getScene().name;
         // console.log(this.scene);
+    }
+
+    Signup(name: string, email: string, password: string){
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            userCredential.user.updateProfile({
+                displayName: name
+            })
+            .then(() =>
+            {
+                this.curName = name;
+            })
+            .catch(error =>
+            {
+                console.log(error.message);
+            });
+            this.curEmail = email;
+            console.log("success", "sign up successfully");
+            this.Login(email, password);
+        })
+        .catch(error =>{
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+        });
+    }
+
+    Login(email: string, password: string){
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            console.log("sign in successfully");
+            
+            cc.find("Canvas/bg").getComponent("LoginSignupMenuManager").PrepareToStartGame();
+        })
+        .catch(e => {
+            console.log("error", "failed to sign up");
+        });
     }
 }

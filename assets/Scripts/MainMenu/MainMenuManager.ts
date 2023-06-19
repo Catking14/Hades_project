@@ -11,34 +11,60 @@ export default class MainMenuManager extends cc.Component {
     @property(cc.Prefab)
     PageThree: cc.Prefab = null;
 
-    public Warrior_lock: boolean = false;
-    public Viking_lock: boolean = true;
-    public Archor_lock: boolean = true;
-    public Wizard_lock: boolean = true;
-    public Assassin_lock: boolean = true;
-    public curCharacter: string = "Warrior";
-    public curName: string = "Hades";
-    public curEmail: string = "Hades@gmail.com";
-    public curPage: number = 1;
+    public Data: any;
 
-    public curMasterVolume: number = 50;
-    public curMusicVolume: number = 50;
-    public curSFXVolume: number = 50;
-    public CameraShakeEnable: boolean = true;
+    public Warrior_lock: boolean;
+    public Viking_lock: boolean;
+    public Archor_lock: boolean;
+    public Wizard_lock: boolean;
+    public Assassin_lock: boolean;
+    public curCharacter: string;
+    public curName: string;
+    public curEmail: string;
+    public curPage: number;
 
-    public Kills: number = 0;
-    public Deaths: number = 0;
-    public DamageMade: number = 0;
-    public DamageTaken: number = 0;
-    public GameCleared: number = 0;
-    public Gold: number = 0;
-    public Spend: number = 0;
-    public BossKills: number = 0;
-    public LevelUP: number = 0;
-    public TotalPlaytime: number = 0;
+    public curMasterVolume: number;
+    public curMusicVolume: number;
+    public curSFXVolume: number;
+    public CameraShakeEnable: boolean;
+
+    public Kills: number;
+    public Deaths: number;
+    public DamageMade: number;
+    public DamageTaken: number;
+    public GameCleared: number;
+    public Gold: number;
+    public Spend: number;
+    public BossKills: number;
+    public LevelUP: number;
+    public TotalPlaytime: number;
 
     onLoad(){
         // update all variables with the data in persistent node.
+        this.Data = cc.find("Data").getComponent("Data");
+        this.Warrior_lock = this.Data.Warrior_lock;
+        this.Viking_lock = this.Data.Viking_lock;
+        this.Archor_lock = this.Data.Archor_lock;
+        this.Wizard_lock = this.Data.Wizard_lock;
+        this.Assassin_lock = this.Data.Assassin_lock;
+        this.curCharacter = this.Data.role;
+        this.curName = this.Data.curName;
+        this.curEmail = this.Data.curEmail;
+        this.curPage = 1;
+        this.curMasterVolume = this.Data.curMasterVolume;
+        this.curMusicVolume = this.Data.curMusicVolume;
+        this.curSFXVolume = this.Data.curSFXVolume;
+        this.CameraShakeEnable = this.Data.CameraShakeEnable; 
+        this.Kills= this.Data.total_kills;
+        this.Deaths = this.Data.total_death;
+        this.DamageMade = this.Data.total_damage_made;
+        this.DamageTaken = this.Data.total_damage_taken;
+        this.GameCleared = this.Data.total_clear;
+        this.Gold = this.Data.total_money_get;
+        this.Spend = this.Data.total_money_spent;
+        this.BossKills = this.Data.total_Boss_killed;
+        this.LevelUP = this.Data.total_upgrades;
+        this.TotalPlaytime = this.Data.total_playtime;
 
         const page_flip = cc.instantiate(this.PageFlip);
         this.node.addChild(page_flip);

@@ -25,21 +25,10 @@ export default class LoginSignupMenuManager extends cc.Component {
             const login_menu = cc.instantiate(this.LoginMenu);
             this.node.addChild(login_menu);
         }, 0.43);
-
-        // this.changeScene = false;
-        // this.camera = cc.find("Canvas/Main Camera").getComponent(cc.Camera);
-        // this.currentZoom = this.camera.zoomRatio;
     }
 
     // start () {
 
-    // }
-
-    // update(dt){
-    //     if(this.changeScene){
-    //         this.currentZoom += this.zoomSpeed * dt;
-    //         this.camera.zoomRatio = this.currentZoom;
-    //     }
     // }
 
     SwitchToSignupMenu(){
@@ -118,21 +107,11 @@ export default class LoginSignupMenuManager extends cc.Component {
         }, 1.13)
     }
 
-    handelSignUp()
-    {
-        let name = this.node.getChildByName("SignupMenu").getChildByName("name").getChildByName("TEXT_LABEL").getComponent(cc.Label).string;
-        let email = this.node.getChildByName("SignupMenu").getChildByName("email").getChildByName("TEXT_LABEL").getComponent(cc.Label).string;
-        let password = this.node.getChildByName("SignupMenu").getChildByName("password").getChildByName("TEXT_LABEL").getComponent(cc.Label).string;
+    handleSignUp(name: string, email: string, password: string){
+        cc.find("Data").getComponent("Data").Signup(name, email, password);
+    }
 
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userinfo) =>
-        {
-            let user = userinfo.user;
-
-        })
-        .catch(() =>
-        {
-
-        })
+    handleLogin(email: string, password: string){
+        cc.find("Data").getComponent("Data").Login(email, password);
     }
 }
