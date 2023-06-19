@@ -11,6 +11,9 @@ export default class BossSlime extends cc.Component {
     @property(cc.Prefab)
     blade: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    transporter: cc.Prefab = null;
+
     pool_num: number;
 
     // 血量
@@ -181,6 +184,9 @@ export default class BossSlime extends cc.Component {
         this.isDead = true;
         this.scheduleOnce(() => {
             this.node.destroy();
+            let portol = cc.instantiate(this.transporter);
+            portol.setPosition(this.node.position);
+            cc.find("Canvas/New Node").addChild(portol);
         }, 3.1);
     }
 

@@ -28,6 +28,12 @@ export default class Beholder extends cc.Component {
 
     @property(cc.AudioClip)
     tpSound: cc.AudioClip = null;
+    
+    @property(cc.Prefab)
+    fireballPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    transporterPrefab: cc.Prefab = null;
 
     vecSpeed: cc.Vec2 = cc.v2(0, 0);
     ratio: number = 0.8;
@@ -37,10 +43,10 @@ export default class Beholder extends cc.Component {
 
     isDead: boolean = false;
     getHitting: boolean = false;
-    HP: number = 1000;
-    HP_val: number = 1000;
-    Shield: number = 1000;
-    Shield_val: number = 1000;
+    HP: number = 500;
+    HP_val: number = 500;
+    Shield: number = 500;
+    Shield_val: number = 500;
 
     dirCount: number = 0;
     isAttacking1: boolean = false;
@@ -48,6 +54,7 @@ export default class Beholder extends cc.Component {
     isAttacking3: boolean = false;
     isTPing: boolean = false;
     a3_damage: number = 50;
+    fireCount: number = 0;
 
     HP_bar: cc.ProgressBar;
     Shield_bar: cc.ProgressBar;
@@ -56,7 +63,7 @@ export default class Beholder extends cc.Component {
 
 
     start() {
-        // cc.director.getPhysicsManager().debugDrawFlags = 0;
+        cc.director.getPhysicsManager().debugDrawFlags = 0;
         cc.audioEngine.setEffectsVolume(0.5);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
@@ -65,12 +72,14 @@ export default class Beholder extends cc.Component {
         console.log(this.HP_bar);
 
         this.player = cc.find("BossSlimeManager").getComponent("BossSlimeManager").follow;
+        // this.player = cc.find("Game Manager").getComponent("GameManager").follow;
+        // cc.find("Canvas/Main Camera/UI").getComponent("UI")._player = this.player;
         this.schedule(() => {
-            if (!this.isDead){
+            if (!this.isDead) {
                 cc.audioEngine.playEffect(this.tpSound, false);
                 this.isTPing = true;
                 this.setState("a1", "_start");
-            } 
+            }
             this.scheduleOnce(() => {
                 if (!this.isDead) {
                     this.node.setPosition(cc.v2(
@@ -81,16 +90,19 @@ export default class Beholder extends cc.Component {
                 }
             }, 1);
             this.scheduleOnce(() => {
-                if (!this.isDead){
+                if (!this.isDead) {
                     this.a3();
                     this.isTPing = false;
-                } 
+                }
             }, 1.6);
             this.scheduleOnce(() => {
                 if (!this.isDead) this.a1();
             }, 4);
-        }, 8);
+            this.scheduleOnce(() => {
+                if (!this.isDead) this.a2();
+            }, 8);
 
+        }, 16);
     }
 
     update(dt) {
@@ -192,7 +204,7 @@ export default class Beholder extends cc.Component {
 
     updateLazer() {
         if (this.dirCount === 0) return;
-        let lazer = cc.find("Canvas/BeholderVFX_lazer");
+        let lazer = cc.find("Canvas/New Node/BeholderVFX_lazer");
         if (this.dirCount >= 10) {
             if (lazer) lazer.destroy();
             return;
@@ -212,6 +224,23 @@ export default class Beholder extends cc.Component {
             this.node.parent.addChild(lazer);
             cc.audioEngine.playEffect(this.a1Sound, false);
         }
+    }
+
+    a2() {
+        this.fireCount = 0;
+        this.schedule(this.fireballGen, 0.2);
+        this.scheduleOnce(()=>{ this.unschedule(this.fireballGen); }, 6);
+    }
+
+    fireballGen() {
+        let fireball = cc.instantiate(this.fireballPrefab);
+        fireball.setPosition(cc.v2(this.node.position.x, this.node.position.y - 10));
+        this.node.parent.addChild(fireball);
+        fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(
+            Math.cos(this.fireCount * Math.PI / 180) * 200, 
+            Math.sin(this.fireCount * Math.PI / 180) * 200
+        );
+        this.fireCount -= 20;
     }
 
     a3() {
@@ -264,6 +293,9 @@ export default class Beholder extends cc.Component {
                 this.isDead = true;
                 this.getComponent(cc.Animation).play("Beholder_death");
                 this.getComponent(cc.Animation).on("finished", () => {
+                    let transporter = cc.instantiate(this.transporterPrefab);
+                    transporter.setPosition(this.node.position);
+                    this.node.parent.addChild(transporter);
                     this.node.destroy();
                 }, this);
             }

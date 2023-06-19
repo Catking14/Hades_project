@@ -1,8 +1,10 @@
 const { ccclass, property } = cc._decorator;
-const Input = {};
+
 
 @ccclass
 export default class Assassin extends cc.Component {
+
+    private Input = {};
 
     @property(cc.Prefab)
     bladePrefab: cc.Prefab = null;
@@ -43,7 +45,7 @@ export default class Assassin extends cc.Component {
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
-    private Shield: number = 0;
+    private Shield: number = 100;
     HP: number = 100;
     HP_max: number = 100;
     _dmg: number = 50;
@@ -82,6 +84,7 @@ export default class Assassin extends cc.Component {
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.setMousePos, this);
+
         // this.node.scale = 0.6;
     }
 
@@ -96,21 +99,21 @@ export default class Assassin extends cc.Component {
         this.vecSpeed = cc.v2(0, 0);
 
         // wasd + dash
-        if (Input[cc.macro.KEY.w] || Input[cc.macro.KEY.up]) {
+        if (this.Input[cc.macro.KEY.w] || this.Input[cc.macro.KEY.up]) {
             this.vecSpeed.y = 1;
         }
-        if (Input[cc.macro.KEY.s] || Input[cc.macro.KEY.down]) {
+        if (this.Input[cc.macro.KEY.s] || this.Input[cc.macro.KEY.down]) {
             this.vecSpeed.y = -1;
         }
-        if (Input[cc.macro.KEY.a] || Input[cc.macro.KEY.left]) {
+        if (this.Input[cc.macro.KEY.a] || this.Input[cc.macro.KEY.left]) {
             this.node.scaleX = -1;
             this.vecSpeed.x = -1;
         }
-        if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
+        if (this.Input[cc.macro.KEY.d] || this.Input[cc.macro.KEY.right]) {
             this.node.scaleX = 1;
             this.vecSpeed.x = 1;
         }
-        if (Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
+        if (this.Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
 
         // give speed
         let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
@@ -128,13 +131,13 @@ export default class Assassin extends cc.Component {
         } else {
             this.setState("stand");
         }
-        if (Input[cc.macro.KEY.q]) this.skillQ();
-        if (Input[cc.macro.KEY.e]) this.skillE();
+        if (this.Input[cc.macro.KEY.q]) this.skillQ();
+        if (this.Input[cc.macro.KEY.e]) this.skillE();
     }
 
 
     setState(newState: string) {
-        
+
         if (this.state == newState) return;
 
         let animation = this.node.getComponent(cc.Animation);
@@ -170,8 +173,8 @@ export default class Assassin extends cc.Component {
 
     attack(event) {
 
-        if (this.isAttacking)  return;
-        
+        if (this.isAttacking) return;
+
         this.isAttacking = true;
 
         this.setState(this.nextAttack);
@@ -208,7 +211,6 @@ export default class Assassin extends cc.Component {
         blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
         blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
-
         if (this.Shield > 0) {
             // 扣護盾
             this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
@@ -217,14 +219,19 @@ export default class Assassin extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
-                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                // cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
             } else {
                 this.isDead = true;
                 this._died = true;
-                cc.find("Game Manager").getComponent("GameManager").player_die();
+                let sceneName = cc.director.getScene().name;
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").player_die();
+                }
                 this.getComponent(cc.Animation).play("Assassin_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
@@ -232,16 +239,16 @@ export default class Assassin extends cc.Component {
             }
         }
 
-        if(this.HP <= 0){
+        if (this.HP <= 0) {
             blood_effect.getComponent("Blood").die = true;
         }
         cc.find("Canvas/New Node").addChild(blood_effect);
     }
 
-    generate_blood(){
+    generate_blood() {
         this._blood_pool = new cc.NodePool("Blood");
 
-        for(let bld = 0;bld < 50; bld++){
+        for (let bld = 0; bld < 50; bld++) {
             let temp = cc.instantiate(this.blood);
 
             temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
@@ -271,7 +278,7 @@ export default class Assassin extends cc.Component {
             this.node.parent.addChild(shadow);
             cc.audioEngine.playEffect(this.e1Sound, false);
             this.nextAttack = "a1";
-            
+
             this._ultimate = true;
             this.scheduleOnce(() => { this._ultimate = false; }, 0.5);
 
@@ -280,19 +287,19 @@ export default class Assassin extends cc.Component {
             this.ECD = true;
             this._ultimate_ready = false;
             this.scheduleOnce(() => { this.ECD = false; }, 0.2);
-            this.scheduleOnce(() => { this.ECD = false; this._ultimate_ready = true;}, this._ultimate_cd);
+            this.scheduleOnce(() => { this.ECD = false; this._ultimate_ready = true; }, this._ultimate_cd);
 
         }
     }
 
     skillQ() {
-        
+
         if (this.QCD || this.isAttacking) return;
-        
+
         const fireball = cc.instantiate(this.fireballPrefab);
         let camerapos = cc.find("Canvas/Main Camera").position;
         let direction = cc.v2(
-            this.mousePos.x + camerapos.x - 480 - this.node.position.x, 
+            this.mousePos.x + camerapos.x - 480 - this.node.position.x,
             this.mousePos.y + camerapos.y - 320 - this.node.position.y
         );
         let distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
@@ -307,7 +314,7 @@ export default class Assassin extends cc.Component {
             this.node.scaleX = -1;
         }
 
-        this.scheduleOnce(()=>{
+        this.scheduleOnce(() => {
             fireball.setPosition(cc.v2(0, 0));
             this.node.addChild(fireball);
             fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
@@ -318,9 +325,9 @@ export default class Assassin extends cc.Component {
         this.setState("a1");
         cc.audioEngine.playEffect(this.qSound, false);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-        this.scheduleOnce(() => { 
-            this.setState("stand"); 
-            this.isAttacking = false; 
+        this.scheduleOnce(() => {
+            this.setState("stand");
+            this.isAttacking = false;
         }, this.attack_time);
 
         this.QCD = true;
@@ -346,6 +353,6 @@ export default class Assassin extends cc.Component {
 
     }
 
-    onKeyDown(event) { Input[event.keyCode] = 1; }
-    onKeyUp(event) { Input[event.keyCode] = 0; }
+    onKeyDown(event) { this.Input[event.keyCode] = 1; }
+    onKeyUp(event) { this.Input[event.keyCode] = 0; }
 }

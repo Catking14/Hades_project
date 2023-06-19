@@ -1,8 +1,10 @@
 const { ccclass, property } = cc._decorator;
-const Input = {};
+
 
 @ccclass
 export default class Viking extends cc.Component {
+
+    private Input = {};
 
     @property(cc.Prefab)
     bladePrefab: cc.Prefab = null;
@@ -87,23 +89,23 @@ export default class Viking extends cc.Component {
         this.vecSpeed = cc.v2(0, 0);
 
         // wasd + dash
-        if (Input[cc.macro.KEY.w] || Input[cc.macro.KEY.up]) {
+        if (this.Input[cc.macro.KEY.w] || this.Input[cc.macro.KEY.up]) {
             this.vecSpeed.y = 1;
         }
-        if (Input[cc.macro.KEY.s] || Input[cc.macro.KEY.down]) {
+        if (this.Input[cc.macro.KEY.s] || this.Input[cc.macro.KEY.down]) {
             this.vecSpeed.y = -1;
         }
-        if (Input[cc.macro.KEY.a] || Input[cc.macro.KEY.left]) {
+        if (this.Input[cc.macro.KEY.a] || this.Input[cc.macro.KEY.left]) {
             this.node.scaleX = -1;
             this.vecSpeed.x = -1;
         }
-        if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
+        if (this.Input[cc.macro.KEY.d] || this.Input[cc.macro.KEY.right]) {
             this.node.scaleX = 1;
             this.vecSpeed.x = 1;
         }
-        if (Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
-        if (Input[cc.macro.KEY.q]) this.skillQ();
-        if (Input[cc.macro.KEY.e]) this.skillE();
+        if (this.Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
+        if (this.Input[cc.macro.KEY.q]) this.skillQ();
+        if (this.Input[cc.macro.KEY.e]) this.skillE();
 
         // give speed
         let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
@@ -208,17 +210,27 @@ export default class Viking extends cc.Component {
             this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
         } else {
             // 扣血量
+            let sceneName = cc.director.getScene().name;
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
-                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                }
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
             } else {
                 this.isDead = true;
                 this._died = true;
-                cc.find("Game Manager").getComponent("GameManager").player_die();
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").player_die();
+                }
                 this.getComponent(cc.Animation).play("viking_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
@@ -315,6 +327,6 @@ export default class Viking extends cc.Component {
         this.scheduleOnce(() => { this.node.addChild(blade); }, this.attack_delay);
     }
 
-    onKeyDown(event) { Input[event.keyCode] = 1; }
-    onKeyUp(event) { Input[event.keyCode] = 0; }
+    onKeyDown(event) { this.Input[event.keyCode] = 1; }
+    onKeyUp(event) { this.Input[event.keyCode] = 0; }
 }

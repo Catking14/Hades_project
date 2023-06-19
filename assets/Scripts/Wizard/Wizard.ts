@@ -117,16 +117,15 @@ export default class Wizard extends cc.Component {
             case cc.macro.KEY.e:
                 let heal_level = cc.find("Data").getComponent("Data").heal;
 
-                if (this.heal == 100 - heal_level) {
+                if (this.heal >= 10 - heal_level) {
                     this.healing();
                 }
-                break;
                 break;
         }
     }
     healing() {
         if (this.HP < this.HP_max) {
-            this.heal = 0;
+            this.heal -= 10;
             this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
         }
     }
@@ -177,7 +176,7 @@ export default class Wizard extends cc.Component {
         }
     }
     private fire(event) {
-        if (this.isfiring) return;
+        if (this.isfiring|| cc.find("Data").getComponent("Data").in_shop) return;
         this.isfiring = true;
         // break dash if fire
         if (this.isdashing) this.isdashing = false;
@@ -314,6 +313,8 @@ export default class Wizard extends cc.Component {
         // damage_effect 代表受到傷害的效果 型別為string array
         // 扣血量
         let blood_effect = cc.instantiate(this.blood);
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
         this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
         if (this.HP > 0) {
             if (!this.ishit) {
@@ -322,9 +323,8 @@ export default class Wizard extends cc.Component {
                 
                 // let blood_effect = this._blood_pool.get();
 
-                blood_effect.setPosition(this.node.x, this.node.y);
-                blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
-                blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
+                
+                // blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
                 cc.audioEngine.playEffect(this.hit_sound_effect, false);
                 cc.find("Game Manager").getComponent("GameManager").camera_shake();
@@ -340,7 +340,8 @@ export default class Wizard extends cc.Component {
             this.scheduleOnce(() => {
                 console.log("die");
                 // this.node.destroy();
-                cc.find("Game Manager").getComponent("GameManager").player_die();
+                if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder") cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+                else cc.find("Game Manager").getComponent("GameManager").player_die();
             }, 1);
         }
         cc.find("Canvas/New Node").addChild(blood_effect);
