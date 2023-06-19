@@ -66,7 +66,6 @@ export default class Skeleton extends cc.Component {
     }
 
     start() {
-        this.init();
         this.AI = new A_Star(this.map);
     }
 
@@ -122,7 +121,6 @@ export default class Skeleton extends cc.Component {
         let coin_random = Math.floor(Math.random() * 3 + 1);
         let new_coin = [];
         for (let i = 0; i < coin_random; i++) {
-            console.log(Data.coin_num);
             if (Data.coin_num > 0) {
                 new_coin[i] = Data.coin_pool.get();
                 Data.coin_num--;
