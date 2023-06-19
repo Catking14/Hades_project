@@ -1,5 +1,4 @@
 const {ccclass, property} = cc._decorator;
-const Input = {};
 
 @ccclass
 export default class Archor extends cc.Component {
@@ -9,8 +8,7 @@ export default class Archor extends cc.Component {
     Arrow: cc.Prefab = null;
     @property(cc.Prefab)
     IceArrow: cc.Prefab = null;
-    @property
-    HP: number = 100;
+    
     @property(cc.v2)
     speed = cc.v2(0, 0);
     @property(cc.v2)
@@ -22,11 +20,25 @@ export default class Archor extends cc.Component {
     private collider: cc.PhysicsBoxCollider;
     private state: string = "";
     private isBegin: boolean = false;
-    private canDash: boolean = false;
-    private isDashing: boolean = false;
     private getHitting: boolean = false;
     private isDead: boolean = false;
 
+    private Input = {};
+
+    // player status
+    private HP: number;
+    private HP_max: number = 100;
+    private money: number = 0;
+    private heal: number = 0;
+
+    // dash
+    private space_pressed: boolean = false;
+    private _dash_ready: boolean = true;
+    private _dash_cd: number = 1;
+    private isDashing: boolean = false;
+
+
+    private mousePos: any;
     // auto attack
     private isAttacking: boolean = false;
     private attack_speed: number = 0.67;
@@ -35,13 +47,10 @@ export default class Archor extends cc.Component {
     private canUltimate: boolean = true;
     private isUltimate: boolean = false;
     private Ultimating: boolean = false;
-    private Ultimate_CD: number = 30;
-    private Ultimate_last: number = 7;
+    private Ultimate_CD: number = 10;
+    private Ultimate_last: number = 3;
 
     private dashAction: any;
-
-    public cur_HP: number;
-    public mousePos: any;
 
 
     onLoad(){
@@ -49,40 +58,41 @@ export default class Archor extends cc.Component {
         this.animation = this.node.getComponent(cc.Animation);
         this.rigidBody = this.node.getComponent(cc.RigidBody);
         this.collider = this.node.getComponent(cc.PhysicsBoxCollider);
-        this.HP = 100;
-        this.cur_HP = this.HP;
+        this.HP_max = 100;
+        this.HP = this.HP_max;
         this.speed = cc.v2(200, 160);
         this.direction = cc.v2(0, 0);
         this.state = "stand";
     }
 
     start(){
-        cc.systemEvent.on("keydown", this.onKeyDown, this);
-        cc.systemEvent.on("keyup", this.onKeyUp, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.auto_attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.ultimate, this);
     }
 
     update(dt){
-        console.log("canUltimate: " + this.canUltimate, "isUltimate: " + this.isUltimate, "Ultimating: " + this.Ultimating);
+        //console.log("canUltimate: " + this.canUltimate, "isUltimate: " + this.isUltimate, "Ultimating: " + this.Ultimating);
         // When attack or getHit or dead, interrupt dashing
-        if(this.isDashing && (this.isAttacking || this.Ultimating || this.getHitting || this.isDead)) this.node.stopAction(this.dashAction);
+        if(this.isDashing && (this.isAttacking || this.Ultimating || this.getHitting || this.isDead)) 
+            this.node.stopAction(this.dashAction);
         
         // If is dashing or attacking or getHit, player cannot do anything else.
         if(this.isDashing || this.isAttacking || this.Ultimating || this.getHitting || this.isDead)  return; 
 
         // handle up and down 
-        if(Input[cc.macro.KEY.w]){
+        if(this.Input[cc.macro.KEY.w]){
             this.direction.y = 1;
-        }else if(Input[cc.macro.KEY.s]){
+        }else if(this.Input[cc.macro.KEY.s]){
             this.direction.y = -1;
         }else   this.direction.y = 0;
 
         // handle left and right
-        if(Input[cc.macro.KEY.a]){
+        if(this.Input[cc.macro.KEY.a]){
             this.direction.x = -1;
             this.node.scaleX = -1;
-        }else if(Input[cc.macro.KEY.d]){
+        }else if(this.Input[cc.macro.KEY.d]){
             this.direction.x = 1;
             this.node.scaleX = 1;
         }else   this.direction.x = 0;
@@ -109,28 +119,33 @@ export default class Archor extends cc.Component {
                     this.canUltimate = true;
                 }, this.Ultimate_CD)
             } 
+        }else if(event.keyCode == cc.macro.KEY.e){
+            let heal_level = cc.find("Data").getComponent("Data").heal;
+            if(this.heal == 100 - heal_level) this.healing();
+            
         }else if(event.keyCode == cc.macro.KEY.space){
             // handle dash
-            if(!this.canDash && !this.isDashing){
-                this.canDash = true;
+            if(!this.space_pressed && this._dash_ready){
+                this.space_pressed = true;
+                this._dash_ready = false;
                 this.dash();
             }
         }
-        else Input[event.keyCode] = 1;
+        else this.Input[event.keyCode] = 1;
     }
 
     onKeyUp(event){
         if(event.keyCode == cc.macro.KEY.q){
 
         }else if(event.keyCode == cc.macro.KEY.space){
-            this.canDash = false;
+            this.space_pressed = false;
         }
-        else Input[event.keyCode] = 0;
+        else this.Input[event.keyCode] = 0;
     }
 
     setState(newState: string){
         if(this.state == newState)  return;
-        console.log(newState);
+        //console.log(newState);
         this.animation.stop();
         this.animation.play("archor_" + newState);
         this.state = newState;
@@ -151,7 +166,7 @@ export default class Archor extends cc.Component {
     }
 
     dash(){
-        if(this.isDashing || this.isAttacking || this.Ultimating || this.getHitting || this.isDead) return;
+        if(this.isAttacking || this.Ultimating || this.getHitting || this.isDead) return;
 
         let direction = cc.v2(0, 0);
         this.isDashing = true;
@@ -159,11 +174,14 @@ export default class Archor extends cc.Component {
         if(!this.direction.x && !this.direction.y) direction = cc.v2(this.node.scaleX, 0);
         else direction = cc.v2(this.direction.x, this.direction.y);
         
-        this.dashAction = cc.moveBy(0.5, direction.x * 200, direction.y * 200);
+        this.dashAction = cc.moveBy(0.2, direction.x * 150, direction.y * 150);
         this.node.runAction(this.dashAction);
         this.scheduleOnce(()=>{
-            this.isDashing = false;
-        }, 0.5)
+           this.isDashing = false;
+        }, 0.2)
+        this.scheduleOnce(()=>{
+            this._dash_ready = true;
+        }, this._dash_cd)
     }
 
     auto_attack(event){
@@ -245,9 +263,9 @@ export default class Archor extends cc.Component {
         blood_effect.setPosition(this.node.x, this.node.y);
         blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
 
-        this.cur_HP = this.cur_HP > 50 ? this.cur_HP - 50 : 0;
+        this.HP = this.HP > 50 ? this.HP - 50 : 0;
 
-        if(this.cur_HP > 0){
+        if(this.HP > 0){
             this.getHitting = true;
             this.setState("getHit");
             this.scheduleOnce(() => {
@@ -264,5 +282,12 @@ export default class Archor extends cc.Component {
             }, 1);
         }
         cc.find("Canvas/New Node").addChild(blood_effect);
+    }
+
+    healing(){
+        if(this.HP < this.HP_max){
+            this.heal = 0;
+            this.HP = (this.HP + 25 > this.HP_max) ? this.HP_max : this.HP + 25;
+        }
     }
 }
