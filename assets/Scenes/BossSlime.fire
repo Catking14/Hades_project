@@ -2287,6 +2287,9 @@
     "blade": {
       "__uuid__": "0bbb9861-0a73-4f79-be35-5acbfe73a6ac"
     },
+    "transporter": {
+      "__uuid__": "da53d5a5-6b83-415c-a855-5be123e25149"
+    },
     "HP": 500,
     "Shield": 100,
     "speed": {
