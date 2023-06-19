@@ -12,10 +12,6 @@ export default class LoginSignupMenuManager extends cc.Component {
     @property(cc.Prefab)
     LoginMenu: cc.Prefab = null;
 
-    private changeScene: boolean = false;
-    private camera: any;
-    private currentZoom: any;
-    private zoomSpeed = 2.5;
 
     onLoad(){
         const reel = cc.instantiate(this.Reel);
