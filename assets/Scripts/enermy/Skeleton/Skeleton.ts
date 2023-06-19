@@ -116,7 +116,7 @@ export default class Skeleton extends cc.Component {
 
     dead() {
         this.isDead = true;
-
+        cc.find("Data").getComponent("Data").kills += 1;
         let Data = cc.find("Data").getComponent("Data");
         let coin_random = Math.floor(Math.random() * 3 + 1);
         let new_coin = [];
@@ -166,6 +166,7 @@ export default class Skeleton extends cc.Component {
     damage(damage_val: number, ...damage_effect: Array<string>) {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
+        cc.find("Data").getComponent("Data").damage_made += damage_val;
         if (this.Shield_val > 0) {
             // 扣護盾
             this.Shield_val = this.Shield_val > damage_val ? this.Shield_val - damage_val : 0;

@@ -118,12 +118,14 @@ export default class FlyEye extends cc.Component {
 
     dead() {
         this.isDead = true;
+        cc.find("Data").getComponent("Data").kills += 1;
         this.scheduleOnce(() => {
             this.node.destroy();
         }, 0.8);
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
+        cc.find("Data").getComponent("Data").damage_made += damage_val;
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
         if (this.Shield_val > 0) {

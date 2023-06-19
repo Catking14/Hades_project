@@ -180,4 +180,10 @@ export default class BossSlimeManager extends cc.Component {
     update(dt) {
         this.camera_follow();
     }
+
+    player_clear_stage(){
+        cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
+        cc.find("Data").getComponent("Data").time += this.follow.getComponent(this.follow.name).timer;
+        cc.find("Data").getComponent("Data").clear++;
+    }
 }

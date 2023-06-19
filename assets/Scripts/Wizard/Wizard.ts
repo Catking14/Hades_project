@@ -312,6 +312,7 @@ export default class Wizard extends cc.Component {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
         // 扣血量
+        cc.find("Data").getComponent("Data").total_damage_taken += damage_val;
         let blood_effect = cc.instantiate(this.blood);
         blood_effect.setPosition(this.node.x, this.node.y);
         blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
