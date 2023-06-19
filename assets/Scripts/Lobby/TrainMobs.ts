@@ -191,7 +191,6 @@ export default class TrainMobs extends cc.Component {
         else if (this.isAttacking) newState = "attack0";
         else if (this.direction.x || this.direction.y) newState = "walk";
         else newState = "idle";
-        console.log(newState);
         this.setState(newState);
     }
 

@@ -42,6 +42,20 @@ export default class CharChange extends cc.Component {
     hint: cc.Prefab = null;
     pop_hint: cc.Node = null;
 
+    // role unlock status
+    Warrior_lock: boolean = false;
+    Viking_lock: boolean = true;
+    Archor_lock: boolean = true;
+    Wizard_lock: boolean = true;
+    Assassin_lock: boolean = true;
+
+    // music effects
+    @property(cc.AudioClip)
+    buy: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    error: cc.AudioClip = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () 
@@ -50,11 +64,41 @@ export default class CharChange extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyRelease, this);
     }
 
-    start () {
-
+    start () 
+    {
+        this.Warrior_lock = cc.find("Data").getComponent("Data").Warrior_lock;
+        this.Wizard_lock = cc.find("Data").getComponent("Data").Wizard_lock;
+        this.Viking_lock = cc.find("Data").getComponent("Data").Viking_lock;
+        this.Assassin_lock = cc.find("Data").getComponent("Data").Assassin_lock;
+        this.Archor_lock = cc.find("Data").getComponent("Data").Archor_lock;
     }
 
-    // update (dt) {}
+    update (dt) 
+    {
+        if(this.pop_hint != null)
+        {
+            if(this.node.name == "Archor" && cc.find("Data").getComponent("Data").Archor_lock)
+            {
+                this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+            }
+            else if(this.node.name == "Assassin" && cc.find("Data").getComponent("Data").Assassin_lock)
+            {
+                this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+            }
+            else if(this.node.name == "Viking" && cc.find("Data").getComponent("Data").Viking_lock)
+            {
+                this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+            }
+            else if(this.node.name == "Wizard" && cc.find("Data").getComponent("Data").Wizard_lock)
+            {
+                this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+            }
+            else
+            {
+                this.pop_hint.getComponent(cc.Label).string = "[F] switch to " + this.node.name;
+            }
+        }
+    }
 
     onKeyPressed(event)
     {
@@ -86,60 +130,111 @@ export default class CharChange extends cc.Component {
                     }
                     else if(role == "Archor" && cur_role.name != role)
                     {
-                        let arh = cc.instantiate(this.archor);
+                        if(!cc.find("Data").getComponent("Data").Archor_lock)
+                        {
+                            let arh = cc.instantiate(this.archor);
 
-                        arh.setPosition(cur_role.getPosition());
+                            arh.setPosition(cur_role.getPosition());
 
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow = arh;
-                        cc.find("Canvas/New Node").addChild(arh);
-                        // cc.find("LobbyManager").getComponent("LobbyManager").follow = arh;
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow = arh;
+                            cc.find("Canvas/New Node").addChild(arh);
+                            // cc.find("LobbyManager").getComponent("LobbyManager").follow = arh;
 
-                        cc.find("Canvas/lobby/" + cur_role.name).active = true;
-                        this.node.active = false;
+                            cc.find("Canvas/lobby/" + cur_role.name).active = true;
+                            this.node.active = false;
+                        }
+                        else if(cc.find("Data").getComponent("Data").money >= 1)
+                        {
+                            cc.find("Data").getComponent("Data").Archor_lock = false;
+
+                            cc.audioEngine.playEffect(this.buy, false);
+                        }
+                        else
+                        {
+                            cc.audioEngine.playEffect(this.error, false);
+                        }
                     }
                     else if(role == "Viking" && cur_role.name != role)
                     {
-                        let vik = cc.instantiate(this.viking);
+                        if(!cc.find("Data").getComponent("Data").Viking_lock)
+                        {
+                            let vik = cc.instantiate(this.viking);
 
-                        vik.setPosition(cur_role.getPosition());
+                            vik.setPosition(cur_role.getPosition());
 
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow = vik;
-                        cc.find("Canvas/New Node").addChild(vik);
-                        // cc.find("LobbyManager").getComponent("LobbyManager").follow = vik;
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow = vik;
+                            cc.find("Canvas/New Node").addChild(vik);
+                            // cc.find("LobbyManager").getComponent("LobbyManager").follow = vik;
 
-                        cc.find("Canvas/lobby/" + cur_role.name).active = true;
-                        this.node.active = false;
+                            cc.find("Canvas/lobby/" + cur_role.name).active = true;
+                            this.node.active = false;
+                        }
+                        else if(cc.find("Data").getComponent("Data").money >= 1)
+                        {
+                            cc.find("Data").getComponent("Data").Viking_lock = false;
+
+                            cc.audioEngine.playEffect(this.buy, false);
+                        }
+                        else
+                        {
+                            cc.audioEngine.playEffect(this.error, false);
+                        }
                     }
                     else if(role == "Wizard" && cur_role.name != role)
                     {
-                        console.log("something?")
-                        let wiz = cc.instantiate(this.wizard);
+                        if(!cc.find("Data").getComponent("Data").Wizard_lock)
+                        {
+                            let wiz = cc.instantiate(this.wizard);
 
-                        wiz.setPosition(cur_role.getPosition());
+                            wiz.setPosition(cur_role.getPosition());
 
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow = wiz;
-                        cc.find("Canvas/New Node").addChild(wiz);
-                        // cc.find("LobbyManager").getComponent("LobbyManager").follow = wiz;
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow = wiz;
+                            cc.find("Canvas/New Node").addChild(wiz);
+                            // cc.find("LobbyManager").getComponent("LobbyManager").follow = wiz;
 
-                        cc.find("Canvas/lobby/" + cur_role.name).active = true;
-                        this.node.active = false;
+                            cc.find("Canvas/lobby/" + cur_role.name).active = true;
+                            this.node.active = false;
+                        }
+                        else if(cc.find("Data").getComponent("Data").money >= 1)
+                        {
+                            cc.find("Data").getComponent("Data").Wizard_lock = false;
+
+                            cc.audioEngine.playEffect(this.buy, false);
+                        }
+                        else
+                        {
+                            cc.audioEngine.playEffect(this.error, false);
+                        }
                     }
                     else if(role == "Assassin" && cur_role.name != role)
                     {
-                        let asa = cc.instantiate(this.assassin);
+                        if(!cc.find("Data").getComponent("Data").Assassin_lock)
+                        {
+                            let asa = cc.instantiate(this.assassin);
 
-                        asa.setPosition(cur_role.getPosition());
+                            asa.setPosition(cur_role.getPosition());
 
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
-                        cc.find("LobbyManager").getComponent("LobbyManager").follow = asa;
-                        cc.find("Canvas/New Node").addChild(asa);
-                        // cc.find("LobbyManager").getComponent("LobbyManager").follow = asa;
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow.destroy();
+                            cc.find("LobbyManager").getComponent("LobbyManager").follow = asa;
+                            cc.find("Canvas/New Node").addChild(asa);
+                            // cc.find("LobbyManager").getComponent("LobbyManager").follow = asa;
 
-                        cc.find("Canvas/lobby/" + cur_role.name).active = true;
-                        this.node.active = false;
+                            cc.find("Canvas/lobby/" + cur_role.name).active = true;
+                            this.node.active = false;
+                        }
+                        else if(cc.find("Data").getComponent("Data").money >= 1)
+                        {
+                            cc.find("Data").getComponent("Data").Assassin_lock = false;
+
+                            cc.audioEngine.playEffect(this.buy, false);
+                        }
+                        else
+                        {
+                            cc.audioEngine.playEffect(this.error, false);
+                        }
                     }
                 }
 
@@ -166,14 +261,35 @@ export default class CharChange extends cc.Component {
     {
         this._in_range = true;
 
-        console.log(this.node.name);
+        // console.log(this.node.name);
 
         this.pop_up = cc.instantiate(this.emoji);
         this.pop_up.setPosition(0, 50);
         this.node.addChild(this.pop_up);
 
         this.pop_hint = cc.instantiate(this.hint);
-        this.pop_hint.getComponent(cc.Label).string = "[F] switch to " + this.node.name;
+        
+        // if(this.node.name == "Archor" && cc.find("Data").getComponent("Data").Archor_lock)
+        // {
+        //     this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+        // }
+        // else if(this.node.name == "Assassin" && cc.find("Data").getComponent("Data").Assassin_lock)
+        // {
+        //     this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+        // }
+        // else if(this.node.name == "Viking" && cc.find("Data").getComponent("Data").Viking_lock)
+        // {
+        //     this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+        // }
+        // else if(this.node.name == "Wizard" && cc.find("Data").getComponent("Data").Wizard_lock)
+        // {
+        //     this.pop_hint.getComponent(cc.Label).string = "[F] pay $ 1 to get help of " + this.node.name;
+        // }
+        // else
+        // {
+        //     this.pop_hint.getComponent(cc.Label).string = "[F] switch to " + this.node.name;
+        // }
+
         cc.find("Canvas/Main Camera").addChild(this.pop_hint);
     }
 
@@ -187,5 +303,7 @@ export default class CharChange extends cc.Component {
         this._in_range = false;
         this.pop_up.destroy();
         this.pop_hint.destroy();
+
+        this.pop_hint = null;
     }
 }
