@@ -217,8 +217,23 @@
     "warrior": {
       "__uuid__": "302ddf94-aa1d-4bc8-89cd-8edda069eb96"
     },
+    "archor": {
+      "__uuid__": "da90699b-3119-4e25-9cec-e494bb08d036"
+    },
+    "viking": {
+      "__uuid__": "606b1e8c-b407-45ef-8685-e6c3967435b9"
+    },
+    "wizard": {
+      "__uuid__": "2a881514-c84b-419b-aa0d-1857547bfb9b"
+    },
+    "assassin": {
+      "__uuid__": "c6fe79cb-24e6-44af-bf1f-e99d9b266c2e"
+    },
     "follow": null,
     "volume": 0.1,
+    "BGM": {
+      "__uuid__": "b61cf087-818f-4a3b-818e-33a52de7b999"
+    },
     "_id": "eeObHkXwNGtrekyEc6a4bb"
   },
   {

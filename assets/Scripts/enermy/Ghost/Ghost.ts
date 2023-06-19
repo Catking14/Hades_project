@@ -76,7 +76,7 @@ export default class Ghost extends cc.Component {
         this.attack_counter = this.attack_counter > dt ? this.attack_counter - dt : 0;
 
         // caculate scaleX
-        this.node.scaleX = this.direction.x > 0 ? 1 : -1;
+        this.node.scaleX = this.direction.x > 0 ? -1 : 1;
         this.updateHPBar();
 
         // calculate displacement (depends on direction and speed)
