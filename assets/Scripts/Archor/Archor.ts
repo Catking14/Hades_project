@@ -44,10 +44,11 @@ export default class Archor extends cc.Component {
     private attack_speed: number = 0.67;
 
     // ultimate
+    private _ultimate: boolean = false;
     private canUltimate: boolean = true;
     private isUltimate: boolean = false;
     private Ultimating: boolean = false;
-    private Ultimate_CD: number = 10;
+    private _ultimate_cd: number = 10;
     private Ultimate_last: number = 3;
 
     private dashAction: any;
@@ -112,12 +113,14 @@ export default class Archor extends cc.Component {
     onKeyDown(event){
         if(event.keyCode == cc.macro.KEY.q){
             if(this.canUltimate){
+                this._ultimate = true;
                 this.canUltimate = false;
                 this.isUltimate = true;
                 this.Ultimate_last_timer();
                 this.scheduleOnce(()=>{
+                    this._ultimate = false;
                     this.canUltimate = true;
-                }, this.Ultimate_CD)
+                }, this._ultimate_cd)
             } 
         }else if(event.keyCode == cc.macro.KEY.e){
             let heal_level = cc.find("Data").getComponent("Data").heal;
@@ -128,6 +131,9 @@ export default class Archor extends cc.Component {
             if(!this.space_pressed && this._dash_ready){
                 this.space_pressed = true;
                 this._dash_ready = false;
+                this.scheduleOnce(()=>{
+                    this._dash_ready = true;
+                }, this._dash_cd)
                 this.dash();
             }
         }
@@ -149,20 +155,6 @@ export default class Archor extends cc.Component {
         this.animation.stop();
         this.animation.play("archor_" + newState);
         this.state = newState;
-
-        // if(this.state == "stand"){
-            
-        // }else if(this.state == "run"){
-            
-        // }else if(this.state == "dash"){
-            
-        // }else if(this.state == "attack"){
-            
-        // }else if(this.state == "getHit"){
-            
-        // }else if(this.state == "death"){
-            
-        // }
     }
 
     dash(){
@@ -179,9 +171,6 @@ export default class Archor extends cc.Component {
         this.scheduleOnce(()=>{
            this.isDashing = false;
         }, 0.2)
-        this.scheduleOnce(()=>{
-            this._dash_ready = true;
-        }, this._dash_cd)
     }
 
     auto_attack(event){
