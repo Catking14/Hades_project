@@ -8,6 +8,8 @@ export default class Arrow extends cc.Component {
     private direction = cc.v2(0, 0);
     private in_wall: boolean = false;
 
+    private Number_of_Hit: number = 0;
+
     onLoad(){
         this.node.getComponent(cc.Animation).play("arrow");
 
@@ -23,6 +25,8 @@ export default class Arrow extends cc.Component {
 
         if(this.direction.x >= 0) this.node.angle = rotation;
         else this.node.angle = rotation + 180;
+
+        this.Number_of_Hit = 0;
     }
 
     start(){
@@ -30,6 +34,7 @@ export default class Arrow extends cc.Component {
     }
 
     update (dt) {
+        if(this.Number_of_Hit == 3) this.node.destroy();
         if(this.in_wall) this.node.getComponent(cc.RigidBody).type = cc.RigidBodyType.Static;
     }
     
@@ -56,6 +61,12 @@ export default class Arrow extends cc.Component {
             contact.disabled = true;
             let damage = cc.find("Canvas/New Node/Archor").getComponent("Archor").dmg;
             other.node.getComponent(other.node.name).damage(damage);
+            if(this.Number_of_Hit == 0){
+                this.schedule(()=>{
+                    this.node.destroy();
+                }, 0.2)
+            }
+            this.Number_of_Hit++;
         }
     }
 }

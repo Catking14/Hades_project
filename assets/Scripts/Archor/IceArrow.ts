@@ -46,7 +46,7 @@ export default class IceArrow extends cc.Component {
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             other.node.getComponent(other.node.name).damage(50);
             tmp = other.node.getComponent(other.node.name).speed;
-            console.log(tmp.x, tmp.y);
+            
             other.node.getComponent(other.node.name).speed = cc.v2(0, 0);
             other.scheduleOnce(()=>{
                 other.node.getComponent(other.node.name).speed = cc.v2(tmp.x, tmp.y);
