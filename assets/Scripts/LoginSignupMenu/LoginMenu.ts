@@ -62,6 +62,5 @@ export default class LoginMenu extends cc.Component {
         this.EmailEditbox.string = "";
         this.PasswordEditbox.string = "";
         cc.find("Canvas/bg").getComponent("LoginSignupMenuManager").handleLogin(this.Email, this.Password);
-        this.node.destroy();
     }
 }

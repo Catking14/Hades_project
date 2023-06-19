@@ -60,7 +60,10 @@ export default class LoginSignupMenuManager extends cc.Component {
     }
 
     PrepareToStartGame(){
+        if(cc.find("Canvas/bg/LoginMenu")) cc.find("Canvas/bg/LoginMenu").destroy();
+        if(cc.find("Canvas/bg/SignupMenu")) cc.find("Canvas/bg/SignupMenu").destroy();
         cc.find("Canvas/bg/Reel").getComponent(cc.Animation).play("reel_inverse");
+        
         this.scheduleOnce(()=>{
             cc.find("Canvas/bg/Reel").destroy();
             const reel = cc.instantiate(this.Reel);
