@@ -117,8 +117,8 @@ export default class Blood extends cc.Component {
 
     start () 
     {
-        console.log(this.die);
-        console.log("what");
+        // console.log(this.die);
+        // console.log("what");
         // blood 1: 0.42s
         // blood 2: 0.32s
         // blood 3: 0.35s

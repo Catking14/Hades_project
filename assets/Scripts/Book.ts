@@ -63,8 +63,8 @@ export default class Book extends cc.Component {
         this.scheduleOnce(() => {
             this.animation_flag = false;
             this.node.removeAllChildren();
+            cc.find("Canvas/New Node").active = true;
         }, 0.5);
-        cc.find("Canvas/New Node").active = true;
     }
 
     clear_page() {

@@ -394,6 +394,18 @@ export default class GameManager extends cc.Component {
     @property(cc.Prefab)
     warrior: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    archor: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    viking: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    wizard: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    assassin: cc.Prefab = null;
+
 
     camera_follow()
     {
@@ -905,6 +917,25 @@ export default class GameManager extends cc.Component {
         }
     }
 
+    player_die()
+    {
+        // stop bgm
+        cc.audioEngine.stopMusic();
+        
+        // change scene
+        cc.director.loadScene("die_scene");
+    }
+
+    player_clear_stage()
+    {
+
+    }
+
+    player_clear_game()
+    {
+
+    }
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () 
@@ -937,7 +968,29 @@ export default class GameManager extends cc.Component {
         this.generate_map();
 
         // generate selected player
-        let p1 = cc.instantiate(this.warrior);
+        let p1;
+        let player_role = cc.find("Data").getComponent("Data").role;
+
+        if(player_role == "Wizard")
+        {
+            p1 = cc.instantiate(this.wizard);
+        }
+        else if(player_role == "Archor")
+        {
+            p1 = cc.instantiate(this.archor);
+        }
+        else if(player_role == "Assassin")
+        {
+            p1 = cc.instantiate(this.assassin);
+        }
+        else if(player_role == "Viking")
+        {
+            p1 = cc.instantiate(this.viking);
+        }
+        else
+        {
+            p1 = cc.instantiate(this.warrior);
+        }
 
         this.follow = p1;
         if (this._obsiticles[4][4] == 0)

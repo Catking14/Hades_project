@@ -1,0 +1,99 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "loading_background",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 6.283333333333333,
+  "sample": 60,
+  "speed": 0.25,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "7a615475-3393-4f82-bd06-877b6d6b2b45"
+            }
+          },
+          {
+            "frame": 1.7833333333333334,
+            "value": {
+              "__uuid__": "6a8613e0-063b-4819-9f09-b7558ee548b6"
+            }
+          },
+          {
+            "frame": 3.283333333333333,
+            "value": {
+              "__uuid__": "999f1a93-8a74-43aa-b437-51cc80821b50"
+            }
+          },
+          {
+            "frame": 4.783333333333333,
+            "value": {
+              "__uuid__": "d6d4f31e-2d31-4ad8-a955-72a4489176e0"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.2833333333333333,
+          "value": 255
+        },
+        {
+          "frame": 1.5,
+          "value": 255
+        },
+        {
+          "frame": 1.7833333333333334,
+          "value": 0
+        },
+        {
+          "frame": 2.0833333333333335,
+          "value": 255
+        },
+        {
+          "frame": 3.0166666666666666,
+          "value": 255
+        },
+        {
+          "frame": 3.283333333333333,
+          "value": 0
+        },
+        {
+          "frame": 3.5833333333333335,
+          "value": 255
+        },
+        {
+          "frame": 4.483333333333333,
+          "value": 255
+        },
+        {
+          "frame": 4.783333333333333,
+          "value": 0
+        },
+        {
+          "frame": 5.1,
+          "value": 255
+        },
+        {
+          "frame": 6,
+          "value": 255
+        },
+        {
+          "frame": 6.283333333333333,
+          "value": 0
+        }
+      ]
+    }
+  },
+  "events": []
+}

@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import { A_Star } from "../A_Star";
+import { A_Star_Slime } from "./A_Star_Slime";
 
 @ccclass
 export default class BossSlime extends cc.Component {
@@ -58,8 +58,8 @@ export default class BossSlime extends cc.Component {
     private isDead: boolean = false;
     private isTransfroming: boolean = false;
     private smashCD:number = 0;
-    private AI: A_Star;
-    public map;
+    private spellCD:number = 0;
+    private AI: A_Star_Slime;
 
     onLoad() {
         this.sprite = this.node.getComponent(cc.Sprite);
@@ -74,7 +74,7 @@ export default class BossSlime extends cc.Component {
 
     start() {
         this.init();
-        // this.AI = new A_Star(this.map);
+        this.AI = new A_Star_Slime();
     }
 
     update(dt) {
@@ -103,7 +103,6 @@ export default class BossSlime extends cc.Component {
         } else if (this.isSpelling) newState = "demon_spell";
         else if (this.isSmashing) newState = "demon_smash"; 
         else if (this.isAttacking) newState = "demon_attack";
-        
         else if (this.direction.x || this.direction.y) {
             if (this.state == "slime") newState = "slime_move";
             else newState = "demon_walk";
@@ -114,13 +113,15 @@ export default class BossSlime extends cc.Component {
         this.setanimState(newState);
 
         //smashCD
-        this.schedule(this.smashCD_controll, 1);
+        this.smashCD_controll(dt);
+        //spellCD
+        this.spellCD_controll(dt);
     }
 
-    smashCD_controll(){
+    smashCD_controll(dt){
         if(!this.isSmashing&&this.state == "demon"){
-            this.smashCD += 1;
-            if(this.smashCD>=10 && !this.isAttacking){
+            this.smashCD += dt;
+            if(this.smashCD>=10 && !this.isAttacking && !this.isSpelling && !this.isDead){
                 this.isSmashing = true;
                 this.collider.enabled = false;
                 this.scheduleOnce(()=>{
@@ -138,6 +139,20 @@ export default class BossSlime extends cc.Component {
             this.smashCD = 0;
         }
     }
+    spellCD_controll(dt){
+        if(!this.isSpelling&&this.state == "demon"){
+            this.spellCD += dt;
+            if(this.spellCD>=7 && !this.isAttacking && !this.isSmashing && !this.isDead){
+                this.isSpelling = true;
+                //call mobs spawn
+                this.scheduleOnce(()=>{
+                    this.isSpelling = false;
+                },1.86);
+            }
+        }else{
+            this.spellCD = 0;
+        }
+    }
     updateHPBar() {
         this.HP_bar.progress = this.HP_val / this.HP;
         this.HP_bar.reverse = this.node.scaleX != 2;
@@ -147,7 +162,6 @@ export default class BossSlime extends cc.Component {
 
     setanimState(newState: string) {
         if (this.animstate == newState) return;
-
         this.animation.stop();
         this.animation.play(newState);
         this.animstate = newState;
@@ -163,7 +177,7 @@ export default class BossSlime extends cc.Component {
         this.isDead = true;
         this.scheduleOnce(() => {
             this.node.destroy();
-        }, 3.14);
+        }, 3.1);
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
@@ -181,8 +195,8 @@ export default class BossSlime extends cc.Component {
                 this.Shield_val = 0;
                 this.isTransfroming = true;
                 this.node.anchorY = 0.2;
-                this.collider.size = cc.size(75.4, 87.2);
-                this.collider.offset = cc.v2(0, 24.7);
+                this.collider.size = cc.size(32, 64);
+                this.collider.offset = cc.v2(0, 14);
                 this.collider.apply();
                 this.state = "demon";
                 this.scheduleOnce(() => {
@@ -212,7 +226,7 @@ export default class BossSlime extends cc.Component {
     }
 
     attack() {
-        if (this.state == "demon" && !this.isSmashing && !this.isAttacking) {
+        if (this.state == "demon" && !this.isSmashing && !this.isAttacking && !this.isDead && !this.isSpelling && !this.isTransfroming) {
             this.isAttacking = true;
             this.attack_counter = this.attack_colddown;
             this.scheduleOnce(() => {
@@ -238,43 +252,43 @@ export default class BossSlime extends cc.Component {
     find_target(dt) {
         this.target_time = this.target_time > dt ? this.target_time - dt : 0;
         if (this.target_time == 0) {
-            // this.target_time = this.target_colddown;
-            // this.target = null;
-            // let mn = -1, mn_val = this.target_distance; // mn代表最近player的index, mn_val代表最近player距離當前節點的距離
-            // for (let i = 0; i < this.target_set.childrenCount; i++) {
-            //     if (this.target_set.children[i].group == 'player') {
-            //         let distance = Math.sqrt(Math.pow(this.target_set.children[i].position.x - this.node.position.x, 2) +
-            //             Math.pow(this.target_set.children[i].position.y - this.node.position.y, 2));
-            //         if (distance < mn_val) {
-            //             mn = i;
-            //             mn_val = distance;
-            //         }
-            //     }
-            // }
-            // if (mn != -1) {
-            //     this.target = this.target_set.children[mn];
+            this.target_time = this.target_colddown;
+            this.target = null;
+            let mn = -1, mn_val = this.target_distance; // mn代表最近player的index, mn_val代表最近player距離當前節點的距離
+            for (let i = 0; i < this.target_set.childrenCount; i++) {
+                if (this.target_set.children[i].group == 'player') {
+                    let distance = Math.sqrt(Math.pow(this.target_set.children[i].position.x - this.node.position.x, 2) +
+                        Math.pow(this.target_set.children[i].position.y - this.node.position.y, 2));
+                    if (distance < mn_val) {
+                        mn = i;
+                        mn_val = distance;
+                    }
+                }
+            }
+            if (mn != -1) {
+                this.target = this.target_set.children[mn];
+                if (this.isAttacking || this.isDead || this.getHitting || this.isTransfroming || this.isSmashing || this.isSpelling) return;
+                let x_diff = this.target.position.x - this.node.position.x;
+                let y_diff = this.target.position.y - this.node.position.y;
+                let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+                let dir = this.AI.search(this.node.position.sub(cc.v3(this.collider.size.width / 2, 0, 0)), this.target.position);
+                if (dir == null) {
+                    this.direction.x = (this.target.position.x - this.node.position.x) / distance;
+                    this.direction.y = (this.target.position.y - this.node.position.y) / distance;
+                }
+                else {
+                    this.direction = dir;
+                }
+            }
+            if (cc.isValid(this.target)) {
                 if (this.isAttacking || this.isDead || this.getHitting) return;
                 let x_diff = this.target.position.x - this.node.position.x;
                 let y_diff = this.target.position.y - this.node.position.y;
                 let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
-            //     let dir = this.AI.search(this.node.position.sub(cc.v3(this.collider.size.width / 2, 0, 0)), this.target.position);
-            //     if (dir == null) {
-                    this.direction.x = (this.target.position.x - this.node.position.x) / distance;
-                    this.direction.y = (this.target.position.y - this.node.position.y) / distance;
-            //     }
-            //     else {
-            //         this.direction = dir;
-            //     }
-            // }
-            // if (cc.isValid(this.target)) {
-                if (this.isAttacking || this.isDead || this.getHitting) return;
-                // let x_diff = this.target.position.x - this.node.position.x;
-                // let y_diff = this.target.position.y - this.node.position.y;
-                // let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
                 if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 25) {
                     if(this.state == "demon") this.attack();
                 }
-            // }
+            }
         }
     }
 }
