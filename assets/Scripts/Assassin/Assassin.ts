@@ -19,15 +19,44 @@ export default class Assassin extends cc.Component {
     @property(cc.Prefab)
     shadowPrefab: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    a1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a2Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a3Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    qSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    e1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    e2Sound: cc.AudioClip = null;
+
+    @property(cc.Prefab)
+    blood: cc.Prefab = null;
+
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
     private Shield: number = 0;
     HP: number = 100;
+    HP_max: number = 100;
+    _dmg: number = 50;
     _ultimate_cd: number = 10;
     _ultimate: boolean = false;
+    _ultimate_ready: boolean = true;
     _dash_ready: boolean = true;
+    _dash_cd: number = 1;
+    _hit: boolean = false;
+    _died: boolean = false;
     money: number = 0;
+    heal: number = 0;
+    _blood_pool: cc.NodePool = null;
 
     // variable
     private state: string = "stand";
@@ -57,6 +86,8 @@ export default class Assassin extends cc.Component {
     }
 
     update(dt) {
+
+        this._hit = this.getHitting;
 
         this._dash_ready = !this.isDashingCD;
 
@@ -146,6 +177,11 @@ export default class Assassin extends cc.Component {
         this.setState(this.nextAttack);
         this.bladeGen(this.nextAttack);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        switch (this.nextAttack) {
+            case "a1": cc.audioEngine.playEffect(this.a1Sound, false); break;
+            case "a2": cc.audioEngine.playEffect(this.a2Sound, false); break;
+            case "a3": cc.audioEngine.playEffect(this.a3Sound, false); break;
+        }
 
         const attacks = ["a1", "a2", "a3"];
         const currentIndex = attacks.indexOf(this.nextAttack);
@@ -164,8 +200,14 @@ export default class Assassin extends cc.Component {
         // damage_effect 代表受到傷害的效果 型別為string array
         console.log("Assassin got damaged");
         console.log(damage_val);
-        damage_val = 10;
         console.log(this.HP);
+
+        let blood_effect = cc.instantiate(this.blood);
+
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+        blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
+
 
         if (this.Shield > 0) {
             // 扣護盾
@@ -181,11 +223,29 @@ export default class Assassin extends cc.Component {
                 }, 0.3);
             } else {
                 this.isDead = true;
+                this._died = true;
+                cc.find("Game Manager").getComponent("GameManager").player_die();
                 this.getComponent(cc.Animation).play("Assassin_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
                 }, this);
             }
+        }
+
+        if(this.HP <= 0){
+            blood_effect.getComponent("Blood").die = true;
+        }
+        cc.find("Canvas/New Node").addChild(blood_effect);
+    }
+
+    generate_blood(){
+        this._blood_pool = new cc.NodePool("Blood");
+
+        for(let bld = 0;bld < 50; bld++){
+            let temp = cc.instantiate(this.blood);
+
+            temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
+            this._blood_pool.put(temp);
         }
     }
 
@@ -196,6 +256,7 @@ export default class Assassin extends cc.Component {
             let shadowPos = shadow.position;
             shadow.setPosition(this.node.position);
             this.node.setPosition(shadowPos);
+            cc.audioEngine.playEffect(this.e2Sound, false);
 
             this.ECD = true;
             // this.scheduleOnce(() => { this.ECD = false; }, 5);
@@ -208,6 +269,7 @@ export default class Assassin extends cc.Component {
                 this.mousePos.y + camerapos.y - 320
             ));
             this.node.parent.addChild(shadow);
+            cc.audioEngine.playEffect(this.e1Sound, false);
             this.nextAttack = "a1";
             
             this._ultimate = true;
@@ -216,8 +278,9 @@ export default class Assassin extends cc.Component {
             this.scheduleOnce(() => { shadow.destroy(); }, 5);
 
             this.ECD = true;
+            this._ultimate_ready = false;
             this.scheduleOnce(() => { this.ECD = false; }, 0.2);
-            this.scheduleOnce(() => { this.ECD = false; }, this._ultimate_cd);
+            this.scheduleOnce(() => { this.ECD = false; this._ultimate_ready = true;}, this._ultimate_cd);
 
         }
     }
@@ -253,6 +316,7 @@ export default class Assassin extends cc.Component {
 
         this.isAttacking = true;
         this.setState("a1");
+        cc.audioEngine.playEffect(this.qSound, false);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
         this.scheduleOnce(() => { 
             this.setState("stand"); 

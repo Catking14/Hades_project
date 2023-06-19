@@ -140,12 +140,12 @@ export default class Blood extends cc.Component {
                         this._anim.stop();
                     }, 0.42);
 
-                    this.scheduleOnce(() => {this._blood_node_pool.put(this.node);}, 5);
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 else
                 {
                     this.node.zIndex -= 5;
-                    this.scheduleOnce(() => {this._blood_node_pool.put(this.node);}, 5);
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 break;
             case 1:
@@ -161,12 +161,12 @@ export default class Blood extends cc.Component {
                         this._anim.stop();
                     }, 0.32);
 
-                    this.scheduleOnce(() => {this._blood_node_pool.put(this.node);}, 5);
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 else
                 {
                     this.node.zIndex -= 5;
-                    this.scheduleOnce(() => {this._blood_node_pool.put(this.node);}, 5);
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 break;
             default:
@@ -182,12 +182,12 @@ export default class Blood extends cc.Component {
                         this._anim.stop();
                     }, 0.35);
 
-                    this.scheduleOnce(() => {this._blood_node_pool.put(this.node);}, 5);
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 else
                 {
                     this.node.zIndex -= 5;
-                    this.scheduleOnce(() => {this._blood_node_pool.put(this.node);}, 5);
+                    this.scheduleOnce(() => {this.node.destroy();}, 5);
                 }
                 break;
         }

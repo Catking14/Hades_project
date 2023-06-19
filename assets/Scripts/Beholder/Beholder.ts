@@ -17,6 +17,18 @@ export default class Beholder extends cc.Component {
     @property(cc.Prefab)
     bladePrefab: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    a1Sound: cc.AudioClip = null;
+
+    // @property(cc.AudioClip)
+    // a2Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a3Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    tpSound: cc.AudioClip = null;
+
     vecSpeed: cc.Vec2 = cc.v2(0, 0);
     ratio: number = 0.8;
     speed: number = 200;
@@ -25,67 +37,109 @@ export default class Beholder extends cc.Component {
 
     isDead: boolean = false;
     getHitting: boolean = false;
+    HP: number = 1000;
+    HP_val: number = 1000;
+    Shield: number = 1000;
+    Shield_val: number = 1000;
 
     dirCount: number = 0;
     isAttacking1: boolean = false;
     isAttacking2: boolean = false;
     isAttacking3: boolean = false;
+    isTPing: boolean = false;
     a3_damage: number = 50;
+
+    HP_bar: cc.ProgressBar;
+    Shield_bar: cc.ProgressBar;
 
     player: cc.Node = null;
 
 
     start() {
-        cc.director.getPhysicsManager().debugDrawFlags = 1;
+        // cc.director.getPhysicsManager().debugDrawFlags = 0;
+        cc.audioEngine.setEffectsVolume(0.5);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
-        this.player = cc.find("Game Manager").getComponent("GameManager").follow;
+        this.HP_bar = this.node.children[1].getComponents(cc.ProgressBar)[0];
+        this.Shield_bar = this.node.children[1].getComponents(cc.ProgressBar)[1];
+        console.log(this.HP_bar);
+
+        this.player = cc.find("BossSlimeManager").getComponent("BossSlimeManager").follow;
         this.schedule(() => {
-            this.node.setPosition(cc.v2(
-                this.player.x + Math.random() * 40 - 20,
-                this.player.y + Math.random() * 40 - 20
-            ));
+            if (!this.isDead){
+                cc.audioEngine.playEffect(this.tpSound, false);
+                this.isTPing = true;
+                this.setState("a1", "_start");
+            } 
             this.scheduleOnce(() => {
-                this.a3();
-            }, 0.5);
+                if (!this.isDead) {
+                    this.node.setPosition(cc.v2(
+                        this.player.x + Math.random() * 40 - 20,
+                        this.player.y + Math.random() * 40 - 20
+                    ));
+                    this.setState("a1", "_start");
+                }
+            }, 1);
             this.scheduleOnce(() => {
-                this.a1();
-            }, 3);
+                if (!this.isDead){
+                    this.a3();
+                    this.isTPing = false;
+                } 
+            }, 1.6);
+            this.scheduleOnce(() => {
+                if (!this.isDead) this.a1();
+            }, 4);
         }, 8);
 
     }
 
     update(dt) {
 
-        if (this.isAttacking1) return;
-        if (this.isAttacking3) return;
+        this.updateHPBar();
+
+        if (this.isAttacking1 || this.isAttacking3 || this.isDead || this.isTPing) {
+            this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+            return;
+        }
 
         this.vecSpeed = cc.v2(0, 0);
 
-        // wasd + dash
-        if (Input[cc.macro.KEY.w] || Input[cc.macro.KEY.up]) {
-            this.vecSpeed.y = 1;
-        }
-        if (Input[cc.macro.KEY.s] || Input[cc.macro.KEY.down]) {
-            this.vecSpeed.y = -1;
-        }
-        if (Input[cc.macro.KEY.a] || Input[cc.macro.KEY.left]) {
-            this.node.scaleX = -2;
-            this.vecSpeed.x = -1;
-        }
-        if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
-            this.node.scaleX = 2;
-            this.vecSpeed.x = 1;
-        }
-        if (Input[cc.macro.KEY.q]) this.a1();
-        if (Input[cc.macro.KEY.e]) this.a3();
+        let targetDir = cc.v2(this.player.x - this.node.position.x, this.player.y - this.node.position.y);
 
-        let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
-        this.getComponent(cc.RigidBody).linearVelocity = (this.isDead || this.getHitting) ? cc.v2(0, 0) : giveSpeed;
+        if (targetDir.x < 0) {
+            this.node.scaleX = -3;
+        }
+        if (targetDir.x > 0) {
+            this.node.scaleX = 3;
+        }
+
+        this.getComponent(cc.RigidBody).linearVelocity = targetDir.mul(0.2);
+        this.vecSpeed = targetDir.mul(0.2);
+
+        // wasd + dash
+        // if (Input[cc.macro.KEY.w] || Input[cc.macro.KEY.up]) {
+        //     this.vecSpeed.y = 1;
+        // }
+        // if (Input[cc.macro.KEY.s] || Input[cc.macro.KEY.down]) {
+        //     this.vecSpeed.y = -1;
+        // }
+        // if (Input[cc.macro.KEY.a] || Input[cc.macro.KEY.left]) {
+        //     this.node.scaleX = -2;
+        //     this.vecSpeed.x = -1;
+        // }
+        // if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
+        //     this.node.scaleX = 2;
+        //     this.vecSpeed.x = 1;
+        // }
+        // if (Input[cc.macro.KEY.q]) this.a1();
+        // if (Input[cc.macro.KEY.e]) this.a3();
+
+        // let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
+        // this.getComponent(cc.RigidBody).linearVelocity = (this.isDead || this.getHitting) ? cc.v2(0, 0) : giveSpeed;
 
         let dir = "";
-        if (this.vecSpeed.y === -1) dir += "_front";
-        if (this.vecSpeed.y === 1) dir += "_back";
+        if (this.vecSpeed.y < 0) dir += "_front";
+        if (this.vecSpeed.y > 0) dir += "_back";
         if (this.vecSpeed.x !== 0) dir += "_side";
         if (dir === "") dir = "_front";
         this.setState("walk", dir);
@@ -94,7 +148,7 @@ export default class Beholder extends cc.Component {
     setState(newState: string, dir?: string) {
 
         if (this.state === newState && this.direction === dir) return;
-        console.log("Beholder_" + newState + dir);
+        // console.log("Beholder_" + newState + dir);
 
         let animation = this.node.getComponent(cc.Animation);
         animation.stop();
@@ -107,14 +161,13 @@ export default class Beholder extends cc.Component {
         this.dirCount = 0;
         this.isAttacking1 = true;
         this.schedule(this.updateDirCount, 0.3);
-
     }
 
     updateDirCount() {
         this.dirCount++;
         let dir: string = "";
-        if (this.dirCount > 5) this.node.scaleX = -2;
-        else this.node.scaleX = 2;
+        if (this.dirCount > 5) this.node.scaleX = -3;
+        else this.node.scaleX = 3;
         switch (this.dirCount) {
             case 0: dir = "_start"; break;
             case 1: dir = "_loop_front"; break;
@@ -139,13 +192,14 @@ export default class Beholder extends cc.Component {
 
     updateLazer() {
         if (this.dirCount === 0) return;
-        let lazer = cc.find("Canvas/New Node/BeholderVFX_lazer");
+        let lazer = cc.find("Canvas/BeholderVFX_lazer");
         if (this.dirCount >= 10) {
             if (lazer) lazer.destroy();
             return;
         }
 
         if (lazer) {
+            lazer.setPosition(cc.v2(this.node.position.x, this.node.position.y - 10));
             lazer.angle = (225 + this.dirCount * 45) % 360;
             // if(this.dirCount === 4 || this.dirCount === 6) 
             // else if(this.dirCount === 3 || this.dirCount === 7) lazer.anchorX = -0.15;
@@ -156,12 +210,14 @@ export default class Beholder extends cc.Component {
             lazer.setPosition(cc.v2(this.node.position.x, this.node.position.y - 10));
             lazer.angle = 270;
             this.node.parent.addChild(lazer);
+            cc.audioEngine.playEffect(this.a1Sound, false);
         }
     }
 
     a3() {
         this.isAttacking3 = true;
         this.setState("a3", "_start");
+        cc.audioEngine.playEffect(this.a3Sound, false);
         this.scheduleOnce(() => {
             this.setState("a3", "_loop");
             this.bladeGen();
@@ -176,15 +232,49 @@ export default class Beholder extends cc.Component {
     }
 
     bladeGen() {
+        this.vecSpeed = cc.v2(0, 0);
 
         let blade = cc.instantiate(this.bladePrefab);
         blade.setPosition(0, 0);
         blade.group = "enemy_attack";
-        blade.getComponent("blade").duration_time = 3.5;
+        blade.getComponent("blade").duration_time = 1.5;
         blade.getComponent("blade").damage_val = this.a3_damage;
-        blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(100, 70);
+        blade.getComponent(cc.PhysicsBoxCollider).size = new cc.Size(100, 60);
+        blade.getComponent(cc.PhysicsBoxCollider).sensor = true;
         this.node.addChild(blade);
         this.node.getChildByName("BeholderVFX_spin").opacity = 255;
+    }
+
+    damage(damage_val: number, ...damage_effect: Array<string>) {
+
+        console.log("Beholder got damaged : " + this.HP);
+
+        if (this.Shield > 0) {
+            // 扣護盾
+            this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
+        } else {
+            // 扣血量
+            this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
+            if (this.HP > 0) {
+                this.getHitting = true;
+                this.scheduleOnce(() => {
+                    this.getHitting = false;
+                }, 0.3);
+            } else {
+                this.isDead = true;
+                this.getComponent(cc.Animation).play("Beholder_death");
+                this.getComponent(cc.Animation).on("finished", () => {
+                    this.node.destroy();
+                }, this);
+            }
+        }
+    }
+
+    updateHPBar() {
+        this.HP_bar.progress = this.HP / this.HP_val;
+        this.HP_bar.reverse = this.node.scaleX < 0;
+        this.Shield_bar.progress = this.Shield / this.Shield_val;
+        this.Shield_bar.reverse = this.node.scaleX < 0;
     }
 
 
