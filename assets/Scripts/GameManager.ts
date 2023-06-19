@@ -61,12 +61,16 @@ export default class GameManager extends cc.Component {
     @property(cc.Prefab)
     spawn_prefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    transporter: cc.Prefab = null;
+
     // map size
     _map_row: number = 1;
     _map_column: number = 1;
     _obsiticles: number[][] = [];
     _obsiticles_transpose: number[][];
     _have_spawn_monster: boolean[][];
+    _last_block = null;
 
     // map array
     private map1_1 = [
@@ -535,6 +539,16 @@ export default class GameManager extends cc.Component {
 
     generate_map()
     {
+        // check current stage
+        if(this.cur_scene == "Stage1")
+        {
+            this.stage = 1;
+        }
+        else if(this.cur_scene == "Stage2")
+        {
+            this.stage = 2;
+        }
+
         // random for row
         // let random = 4 + Math.floor(Math.random() * (this.max_map_row_or_column - 4));
 
@@ -703,7 +717,12 @@ export default class GameManager extends cc.Component {
                     break;
             }
 
-            console.log(queue.length);
+            // console.log(queue.length);
+
+            if(queue.length == 0)
+            {
+                this._last_block = current;
+            }
         }
 
         // init obsiticle array
@@ -923,6 +942,37 @@ export default class GameManager extends cc.Component {
         }
     }
 
+    generate_transporter()
+    {
+        let transporter_created = false;
+
+        for(let i = 0;i < 30;i++)
+        {
+            for(let j = 0;j < 30;j++)
+            {
+                if(!transporter_created && this._obsiticles[this._last_block.x * 30 + i][this._last_block.y * 30 + j] == 0 && Math.random() > 0.5)
+                {
+                    let trans = cc.instantiate(this.transporter);
+                    
+                    trans.setPosition((this._last_block.y * 30 + j) * 32 - 480, (this._last_block.x * 30 + i) * 32 - 480);     // 480 to make (0, 0) to (-480, -480)
+                    cc.find("Canvas/New Node").addChild(trans);
+
+                    transporter_created = true;
+                }
+                else if(i > 20 && j > 20 && !transporter_created)
+                {
+                    if(this._obsiticles[this._last_block.x * 30 + i][this._last_block.y * 30 + j] == 0)
+                    {
+                        let trans = cc.instantiate(this.transporter);
+                    
+                        trans.setPosition((this._last_block.y * 30 + j) * 32 - 480, (this._last_block.x * 30 + i) * 32 - 480);     // 480 to make (0, 0) to (-480, -480)
+                        cc.find("Canvas/New Node").addChild(trans);
+                    }
+                }
+            }
+        }
+    }
+
     player_die()
     {
         // stop bgm
@@ -981,6 +1031,7 @@ export default class GameManager extends cc.Component {
         if(this.cur_scene != "BossSlime" && this.cur_scene != "BossBeholder")
         {
             this.generate_map();
+            this.generate_transporter();
         }
 
         // generate selected player

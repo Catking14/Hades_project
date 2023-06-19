@@ -5,13 +5,14 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+import GameManager from "./GameManager";
+
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BossSlimeManager extends cc.Component {
 
     // follow selected player
-    @property(cc.Node)
     follow: cc.Node = null;
 
     // volume
@@ -27,14 +28,32 @@ export default class BossSlimeManager extends cc.Component {
     @property
     shake_scale: number = 20;
 
+    // player characters
+    @property(cc.Prefab)
+    warrior: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    archor: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    viking: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    wizard: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    assassin: cc.Prefab = null;
+
     // camera 
     _camera: cc.Node = null;
 
-    camera_follow()
-    {
+    // play timer
+    timer: number = 0;
+
+    camera_follow() {
         let player_pos = this.follow.getPosition();
         let camera_pos = this._camera.getPosition();
-    
+
         camera_pos.lerp(player_pos, 0.1, camera_pos);
 
         // if(camera_pos.x < 0)
@@ -58,28 +77,24 @@ export default class BossSlimeManager extends cc.Component {
         this._camera.setPosition(camera_pos);
     }
 
-    camera_shake()
-    {
+    camera_shake() {
         // generate random points 
         let points = [];
         let camera_pos = this._camera.getPosition();
         let player_pos = this.follow.getPosition();
         let idx = 0;
 
-        for(let i = 0;i < this.shakes;i++)
-        {
-            points.push({x: Math.random() * 2 - 1, y: Math.random() * 2 - 1});
+        for (let i = 0; i < this.shakes; i++) {
+            points.push({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1 });
         }
 
         // quinitic interpolation
-        let smooth = (x) =>
-        {
-            return 6 * (x**5) - 15 * (x**4) + 10 * (x**3);
+        let smooth = (x) => {
+            return 6 * (x ** 5) - 15 * (x ** 4) + 10 * (x ** 3);
         }
 
         // interpolate with linear method and smoothed data
-        let perlin_shake = () =>
-        {
+        let perlin_shake = () => {
             let UI = this._camera.getChildByName("UI");
             let new_x = player_pos.x + smooth(points[idx].x) * this.shake_scale;
             let new_y = player_pos.y + smooth(points[idx].y) * this.shake_scale;
@@ -96,22 +111,33 @@ export default class BossSlimeManager extends cc.Component {
 
         this.schedule(perlin_shake, this.shake_duration);
 
-        this.scheduleOnce(() =>
-        {
+        this.scheduleOnce(() => {
             this.unschedule(perlin_shake);
         }, this.shake_duration * this.shakes);
 
     }
 
-    z_transform()
+    z_transform() {
+
+    }
+
+    player_die()
     {
+        // stop bgm
+        cc.audioEngine.stopMusic();
+
+        // store data
+        this.unscheduleAllCallbacks();
         
+        cc.find("Data").getComponent("Data").total_playtime += this.timer;
+
+        // change scene
+        cc.director.loadScene("die_scene");
     }
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () 
-    {
+    onLoad() {
         let physics_manager = cc.director.getPhysicsManager();
 
         // enable physics function
@@ -125,12 +151,33 @@ export default class BossSlimeManager extends cc.Component {
         cc.audioEngine.setEffectsVolume(this.volume + 0.05);
     }
 
-    start () {
+    start() {
+        // generate selected player
+        let p1;
+        let player_role = cc.find("Data").getComponent("Data").role;
 
+        if (player_role == "Wizard") {
+            p1 = cc.instantiate(this.wizard);
+        }
+        else if (player_role == "Archor") {
+            p1 = cc.instantiate(this.archor);
+        }
+        else if (player_role == "Assassin") {
+            p1 = cc.instantiate(this.assassin);
+        }
+        else if (player_role == "Viking") {
+            p1 = cc.instantiate(this.viking);
+        }
+        else {
+            p1 = cc.instantiate(this.warrior);
+        }
+
+        this.follow = p1;
+        cc.find("Canvas/New Node").addChild(p1);
+        this.schedule(() => {this.timer += 1}, 1);
     }
 
-    update (dt) 
-    {
+    update(dt) {
         this.camera_follow();
     }
 }
