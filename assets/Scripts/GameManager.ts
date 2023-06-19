@@ -405,6 +405,12 @@ export default class GameManager extends cc.Component {
 
     @property(cc.Prefab)
     assassin: cc.Prefab = null;
+    
+    // current scene
+    cur_scene: string = "";
+
+    // play timer
+    timer: number = 0;
 
 
     camera_follow()
@@ -921,7 +927,12 @@ export default class GameManager extends cc.Component {
     {
         // stop bgm
         cc.audioEngine.stopMusic();
+
+        // store data
+        this.unscheduleAllCallbacks();
         
+        cc.find("Data").getComponent("Data").total_playtime += this.timer;
+
         // change scene
         cc.director.loadScene("die_scene");
     }
@@ -961,11 +972,16 @@ export default class GameManager extends cc.Component {
             this.monster_pool[i] = new cc.NodePool();
         }
         this._spawn_pool = new cc.NodePool();
+
+        this.cur_scene = cc.find("Data").getComponent("Data").scene;
     }
 
     start () 
     {
-        this.generate_map();
+        if(this.cur_scene != "BossSlime" && this.cur_scene != "BossBeholder")
+        {
+            this.generate_map();
+        }
 
         // generate selected player
         let p1;
@@ -999,11 +1015,16 @@ export default class GameManager extends cc.Component {
             p1.setPosition(15 * 32 - 480, 15 * 32 - 480);
 
         cc.find("Canvas/New Node").addChild(p1);
+
+        this.schedule(() => {this.timer += 1}, 1);
     }
 
     update (dt) 
     {
-        this.camera_follow();
-        this.generate_mobs_detect();
+        if(this.cur_scene != "BossSlime" && this.cur_scene != "BossBeholder")
+        {
+            this.camera_follow();
+            this.generate_mobs_detect();
+        }
     }
 }
