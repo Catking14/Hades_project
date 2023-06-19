@@ -37,15 +37,26 @@ export default class Assassin extends cc.Component {
     @property(cc.AudioClip)
     e2Sound: cc.AudioClip = null;
 
+    @property(cc.Prefab)
+    blood: cc.Prefab = null;
+
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
     private Shield: number = 0;
     HP: number = 100;
+    HP_max: number = 100;
+    _dmg: number = 50;
     _ultimate_cd: number = 10;
     _ultimate: boolean = false;
+    _ultimate_ready: boolean = true;
     _dash_ready: boolean = true;
+    _dash_cd: number = 1;
+    _hit: boolean = false;
+    _died: boolean = false;
     money: number = 0;
+    heal: number = 0;
+    _blood_pool: cc.NodePool = null;
 
     // variable
     private state: string = "stand";
@@ -75,6 +86,8 @@ export default class Assassin extends cc.Component {
     }
 
     update(dt) {
+
+        this._hit = this.getHitting;
 
         this._dash_ready = !this.isDashingCD;
 
@@ -189,6 +202,13 @@ export default class Assassin extends cc.Component {
         console.log(damage_val);
         console.log(this.HP);
 
+        let blood_effect = cc.instantiate(this.blood);
+
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+        blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
+
+
         if (this.Shield > 0) {
             // 扣護盾
             this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
@@ -197,17 +217,35 @@ export default class Assassin extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
-                // cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
             } else {
                 this.isDead = true;
+                this._died = true;
+                cc.find("Game Manager").getComponent("GameManager").player_die();
                 this.getComponent(cc.Animation).play("Assassin_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
                 }, this);
             }
+        }
+
+        if(this.HP <= 0){
+            blood_effect.getComponent("Blood").die = true;
+        }
+        cc.find("Canvas/New Node").addChild(blood_effect);
+    }
+
+    generate_blood(){
+        this._blood_pool = new cc.NodePool("Blood");
+
+        for(let bld = 0;bld < 50; bld++){
+            let temp = cc.instantiate(this.blood);
+
+            temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
+            this._blood_pool.put(temp);
         }
     }
 
@@ -240,8 +278,9 @@ export default class Assassin extends cc.Component {
             this.scheduleOnce(() => { shadow.destroy(); }, 5);
 
             this.ECD = true;
+            this._ultimate_ready = false;
             this.scheduleOnce(() => { this.ECD = false; }, 0.2);
-            this.scheduleOnce(() => { this.ECD = false; }, this._ultimate_cd);
+            this.scheduleOnce(() => { this.ECD = false; this._ultimate_ready = true;}, this._ultimate_cd);
 
         }
     }
