@@ -144,6 +144,7 @@ export default class Archor extends cc.Component {
                 this.isUltimate = true;
                 this.Ultimate_last_timer();
                 this._Ult = cc.audioEngine.playEffect(this.ultimate_effect, false);
+                cc.audioEngine.setVolume(this._Ult, 0.7)
                 this.scheduleOnce(()=>{
                     this._ultimate = false;
                     this.canUltimate = true;
@@ -266,7 +267,6 @@ export default class Archor extends cc.Component {
     Ultimate_last_timer(){
         this.schedule(function timer(){
             this.Ultimate_last -= 1;
-            console.log(this.Ultimate_last);
             if(this.Ultimate_last <= 0){
                 this.isUltimate = false;
                 this.unschedule(timer);

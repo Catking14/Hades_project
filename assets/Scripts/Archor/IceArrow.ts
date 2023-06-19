@@ -1,14 +1,10 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class IceArrow extends cc.Component {
+    @property(cc.Node)
+    target_set: cc.Node = null;
+
     @property(cc.Prefab)
     iceArrowCrashEffect: cc.Prefab = null;
 
@@ -29,7 +25,8 @@ export default class IceArrow extends cc.Component {
 
         if(this.direction.x >= 0) this.node.angle = rotation;
         else this.node.angle = rotation + 180;
-        console.log(this.direction.x, this.direction.y);
+        
+        this.target_set = cc.find("Canvas/New Node");
     }
 
     start(){
@@ -42,15 +39,31 @@ export default class IceArrow extends cc.Component {
     
     onBeginContact(contact, self, other){
         if(other.node.group == "enemy"){
-            let tmp: any;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-            other.node.getComponent(other.node.name).damage(50);
-            tmp = other.node.getComponent(other.node.name).speed;
-            
-            other.node.getComponent(other.node.name).speed = cc.v2(0, 0);
-            other.scheduleOnce(()=>{
-                other.node.getComponent(other.node.name).speed = cc.v2(tmp.x, tmp.y);
-            }, 5)
+            this.node.getComponent(cc.RigidBody).enabledContactListener = false;
+            this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
+            this.node.getComponent(cc.PhysicsBoxCollider).apply();
+
+            let collide_pos = contact.getWorldManifold().points[0];
+            for (let i = 0; i < this.target_set.childrenCount; i++) {
+                if (this.target_set.children[i].group == "enemy") {
+                    let child = this.target_set.children[i];
+                    let child_pos = child.position;
+                    child_pos = this.target_set.convertToWorldSpaceAR(child_pos);
+                    let distance = Math.sqrt(Math.pow(child_pos.x - collide_pos.x, 2) + Math.pow(child_pos.y - collide_pos.y, 2));
+        
+                    if(distance <= 100){
+                        console.log("find_target");
+                        child.getComponent(child.name).damage(cc.find("Canvas/New Node/Archor").getComponent("Archor").dmg * 1.5);
+                        let tmp: any;
+                        tmp = child.getComponent(child.name).speed;
+                        child.getComponent(child.name).speed = cc.v2(0, 0);
+                        child.getComponent(child.name).scheduleOnce(()=>{
+                            child.getComponent(child.name).speed = cc.v2(tmp.x, tmp.y);
+                        }, 5)
+                    }
+                }
+            }
         }
 
         const ice_arrow_crash_effect = cc.instantiate(this.iceArrowCrashEffect);

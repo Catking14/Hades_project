@@ -42,7 +42,7 @@ export default class Data extends cc.Component {
     damage: number = 0;
 
     // money for next level upgrade 
-    money: number = 0;
+    money: number = 100;
     next_health: number = 100;
     next_heal: number = 100;
     next_dash: number = 100;

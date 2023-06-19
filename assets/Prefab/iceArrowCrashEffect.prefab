@@ -99,9 +99,9 @@
     "_stopped": true,
     "playOnLoad": true,
     "autoRemoveOnFinish": true,
-    "totalParticles": 300,
-    "duration": 0.05,
-    "emissionRate": 6000,
+    "totalParticles": 800,
+    "duration": 0.1,
+    "emissionRate": 60000,
     "life": 0.20000000298023224,
     "lifeVar": 0.5,
     "_startColor": {
