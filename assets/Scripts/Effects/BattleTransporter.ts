@@ -31,7 +31,29 @@ export default class BattleTransporter extends cc.Component {
         if(other.node.group == "player")
         {
             // change scene
-            cc.find("Data").getComponent("Data").next_scene = "catking_test";
+            let cur_scene = cc.find("Data").getComponent("Data").scene;
+
+            if(cur_scene == "lobby")
+            {
+                cc.find("Data").getComponent("Data").next_scene = "Stage1";
+            }
+            else if(cur_scene == "Stage1")
+            {
+                cc.find("Data").getComponent("Data").next_scene = "BossSlime";
+            }
+            else if(cur_scene == "BossSlime")
+            {
+                cc.find("Data").getComponent("Data").next_scene = "Stage2";
+            }
+            else if(cur_scene == "Stage2")
+            {
+                cc.find("Data").getComponent("Data").next_scene = "BossBeholder";
+            }
+            else if(cur_scene == "BossBeholder")
+            {
+                cc.find("Data").getComponent("Data").next_scene = "win_scene";
+            }
+            
             cc.director.loadScene("loading");
         }
     }

@@ -91,9 +91,14 @@ export default class UI extends cc.Component {
     start () 
     {
         // get tracing player
-        if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder"){
+        if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder")
+        {
             this._player = cc.find("BossSlimeManager").getComponent("BossSlimeManager").follow;
-        }else this._player = cc.find("Game Manager").getComponent("GameManager").follow;
+        }
+        else
+        {
+            this._player = cc.find("Game Manager").getComponent("GameManager").follow;
+        }
 
         // set initial blood (HP)
         this._hp = this._player.getComponent(this._player.name).HP;
