@@ -107,9 +107,13 @@ export default class Beholder extends cc.Component {
 
     update(dt) {
 
+        if(this.isDead){
+            return;
+        }
+
         this.updateHPBar();
 
-        if (this.isAttacking1 || this.isAttacking3 || this.isDead || this.isTPing) {
+        if (this.isAttacking1 || this.isAttacking3|| this.isTPing) {
             this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             return;
         }

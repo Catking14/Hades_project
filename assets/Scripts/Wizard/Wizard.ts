@@ -117,7 +117,7 @@ export default class Wizard extends cc.Component {
             case cc.macro.KEY.e:
                 let heal_level = cc.find("Data").getComponent("Data").heal;
 
-                if (this.heal >= 10 - heal_level) {
+                if (this.heal >= 50 - heal_level) {
                     this.healing();
                 }
                 break;
@@ -125,7 +125,7 @@ export default class Wizard extends cc.Component {
     }
     healing() {
         if (this.HP < this.HP_max) {
-            this.heal -= 10;
+            this.heal -= 50;
             this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
         }
     }

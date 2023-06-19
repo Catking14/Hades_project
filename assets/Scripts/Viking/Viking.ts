@@ -63,7 +63,7 @@ export default class Viking extends cc.Component {
     private vecSpeed: cc.Vec2 = cc.v2(0, 0);
     private attack_time: number = 0.5;
     private attack_delay: number = 0.2;
-    private attack_damage: number = 30;
+    private attack_damage: number = 40;
     private mousePos: any = null;
     private isUltCD: boolean = false;
     private QCD: boolean = false;
@@ -247,22 +247,28 @@ export default class Viking extends cc.Component {
     skillE() {
         if (this.ECD) return;
 
-        this.Shield = 100;
-        let bubble = new cc.Node;
-        bubble.addComponent(cc.Sprite);
-        bubble.getComponent(cc.Sprite).spriteFrame = this.bubbleSprite;
-        bubble.opacity = 128;
-        bubble.scale = 4;
-        this.node.addChild(bubble);
-        cc.audioEngine.playEffect(this.laughSound, false);
+        if(this.heal >= 5 - cc.find("Data").getComponent("Data").heal){
 
-        this.scheduleOnce(() => {
-            this.Shield = 0;
-            bubble.destroy();
-        }, 2);
+            this.heal -= 5;
+            this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
+            this.Shield = 100;
+            let bubble = new cc.Node;
+            bubble.addComponent(cc.Sprite);
+            bubble.getComponent(cc.Sprite).spriteFrame = this.bubbleSprite;
+            bubble.opacity = 128;
+            bubble.scale = 4;
+            this.node.addChild(bubble);
+            cc.audioEngine.playEffect(this.laughSound, false);
+    
+            this.scheduleOnce(() => {
+                this.Shield = 0;
+                bubble.destroy();
+            }, 2);
+    
+            this.ECD = true;
+            this.scheduleOnce(() => { this.ECD = false; }, 5);
+        }
 
-        this.ECD = true;
-        this.scheduleOnce(() => { this.ECD = false; }, 5);
     }
 
     skillQ() {
