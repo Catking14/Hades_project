@@ -17,6 +17,7 @@ export default class Book extends cc.Component {
 
     private animation: cc.Animation;
     private main_book: cc.Node = null;
+    private cur_page: cc.Node = null;
 
     onLoad() {
 
@@ -45,7 +46,7 @@ export default class Book extends cc.Component {
         this.main_book = new_book;
         this.animation = new_book.getComponent(cc.Animation);
         this.node.addChild(new_book);
-        this.animation.play("open");
+        this.animation.play("book_flip_left");
         this.animation_flag = true;
         this.isopen = true;
         this.scheduleOnce(() => {
@@ -56,7 +57,7 @@ export default class Book extends cc.Component {
     }
 
     closebook() {
-        this.animation.play("close");
+        this.animation.play("book_flip_right");
         this.animation_flag = true;
         this.isopen = false;
         this.clear_page();
@@ -68,12 +69,15 @@ export default class Book extends cc.Component {
     }
 
     clear_page() {
-        this.main_book.removeAllChildren();
+        this.cur_page.destroy();
     }
 
     create_page(name: string) {
         if (name === "setting") {
             let new_page = cc.instantiate(this.setting_prefab);
+            this.node.addChild(new_page);
+            this.cur_page = new_page;
+
             let slide_array = new_page.getComponentsInChildren(cc.Slider);
 
             let master_EventHandler = new cc.Component.EventHandler();
@@ -96,8 +100,6 @@ export default class Book extends cc.Component {
             sfx_EventHandler.handler = 'sfx_volume_handler';
             slide_array[2].slideEvents.push(sfx_EventHandler);
             slide_array[2].progress = this.sfx_volume;
-
-            this.main_book.addChild(new_page);
         }
     }
 
@@ -109,6 +111,7 @@ export default class Book extends cc.Component {
     master_volume_handler(event) {
         this.master_volume = event.progress;
         this.set_volume();
+        console.log("uwu");
     }
 
     music_volume_handler(event) {

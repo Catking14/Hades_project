@@ -17,6 +17,8 @@ export default class Loading extends cc.Component {
     onLoad () 
     {
         this.next = cc.find("Data").getComponent("Data").next_scene;
+        
+        cc.audioEngine.stopMusic();
     }
 
     start () 

@@ -7,6 +7,8 @@
 
 const {ccclass, property} = cc._decorator;
 
+declare const firebase: any;
+
 @ccclass
 export default class Data extends cc.Component {
 
@@ -40,7 +42,7 @@ export default class Data extends cc.Component {
     damage: number = 0;
 
     // money for next level upgrade 
-    money: number = 1000;
+    money: number = 0;
     next_health: number = 100;
     next_heal: number = 100;
     next_dash: number = 100;
@@ -61,7 +63,56 @@ export default class Data extends cc.Component {
     // statistic for single round
     time: number = 0;
     kills: number = 0;
+    death: number = 0;
+    clear: number = 0;
     damage_made: number = 0;
+    boss_killed: number = 0;
+
+    // Main Menu Data
+    Warrior_lock: boolean = false;
+    Viking_lock: boolean = true;
+    Archor_lock: boolean = true;
+    Wizard_lock: boolean = true;
+    Assassin_lock: boolean = true;
+    curCharacter: string = "Warrior";
+    curName: string = "Hades";
+    curEmail: string = "Hades@gmail.com";
+    curPage: number = 1;
+
+    curMasterVolume: number = 50;
+    curMusicVolume: number = 50;
+    curSFXVolume: number = 50;
+    CameraShakeEnable: boolean = true;
+
+    Kills: number = 0;
+    Deaths: number = 0;
+    DamageMade: number = 0;
+    DamageTaken: number = 0;
+    GameCleared: number = 0;
+    Gold: number = 0;
+    Spend: number = 0;
+    BossKills: number = 0;
+    LevelUP: number = 0;
+    TotalPlaytime: number = 0;
+
+    refresh_round()
+    {
+        this.time = 0;
+        this.kills = 0;
+        this.clear = 0;
+        this.damage_made = 0;
+        this.boss_killed = 0;
+        this.death = 0;
+
+        this.total_money_get += this.coin_num;
+        this.coin_num = 0;
+        this.heal_posion_num = 0;
+    }
+
+    write_data()
+    {
+        let uid = firebase.auth().currentUser;
+    }
 
     // LIFE-CYCLE CALLBACKS:
 

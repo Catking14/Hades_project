@@ -113,7 +113,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 138.09,
+      "width": 0,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -283,7 +283,7 @@
       "__uuid__": "472df5d3-35e7-4184-9e6c-7f41bee65ee3"
     },
     "_texture": null,
-    "_stopped": true,
+    "_stopped": false,
     "playOnLoad": true,
     "autoRemoveOnFinish": false,
     "totalParticles": 200,
@@ -293,38 +293,38 @@
     "lifeVar": 0.5,
     "_startColor": {
       "__type__": "cc.Color",
-      "r": 202,
-      "g": 200,
-      "b": 86,
-      "a": 163
+      "r": 0,
+      "g": 51,
+      "b": 255,
+      "a": 255
     },
     "_startColorVar": {
       "__type__": "cc.Color",
-      "r": 229,
-      "g": 255,
-      "b": 173,
-      "a": 198
+      "r": 117,
+      "g": 0,
+      "b": 0,
+      "a": 86
     },
     "_endColor": {
       "__type__": "cc.Color",
-      "r": 173,
-      "g": 19,
-      "b": 19,
-      "a": 214
+      "r": 0,
+      "g": 184,
+      "b": 255,
+      "a": 255
     },
     "_endColorVar": {
       "__type__": "cc.Color",
-      "r": 107,
-      "g": 249,
-      "b": 249,
-      "a": 188
+      "r": 168,
+      "g": 166,
+      "b": 166,
+      "a": 151
     },
     "angle": 360,
     "angleVar": 360,
-    "startSize": 3.369999885559082,
-    "startSizeVar": 50,
-    "endSize": 40,
-    "endSizeVar": 0,
+    "startSize": 80,
+    "startSizeVar": 60,
+    "endSize": 50,
+    "endSizeVar": 30,
     "startSpin": -47.369998931884766,
     "startSpinVar": 0,
     "endSpin": -47.369998931884766,
@@ -341,11 +341,11 @@
     },
     "_positionType": 1,
     "positionType": 1,
-    "emitterMode": 0,
+    "emitterMode": 1,
     "gravity": {
       "__type__": "cc.Vec2",
       "x": 0.25,
-      "y": 0.8600000143051147
+      "y": 0
     },
     "speed": 0,
     "speedVar": 190.7899932861328,
@@ -354,13 +354,13 @@
     "radialAccel": -671.0499877929688,
     "radialAccelVar": 65.79000091552734,
     "rotationIsDir": false,
-    "startRadius": 0,
-    "startRadiusVar": 0,
-    "endRadius": 0,
-    "endRadiusVar": 0,
+    "startRadius": 50,
+    "startRadiusVar": 20,
+    "endRadius": 16,
+    "endRadiusVar": 20,
     "rotatePerS": 0,
     "rotatePerSVar": 0,
-    "_N$preview": false,
+    "_N$preview": true,
     "_id": ""
   },
   {

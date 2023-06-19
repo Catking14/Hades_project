@@ -309,10 +309,12 @@ export default class Warrior extends cc.Component {
             if(this._ultimate)
             {
                 this.HP -= (damage_val / 2);
+                cc.find("Data").getComponent("Data").total_damage_taken += (damage_val / 2);
             }
             else
             {
                 this.HP -= damage_val;
+                cc.find("Data").getComponent("Data").total_damage_taken += damage_val;
             }
 
             if(this.HP <= 0)
@@ -359,7 +361,7 @@ export default class Warrior extends cc.Component {
     {
         if(this.HP < this.HP_max)
         {
-            this.heal = 0;
+            this.heal -= 50;
             this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
         }
     }

@@ -12,7 +12,6 @@ export default class Worm_fire_ball extends cc.Component {
 
     onLoad() {
         this.node.getComponent(cc.Animation).play("move");
-        console.log("uwu");
     }
 
     start() {

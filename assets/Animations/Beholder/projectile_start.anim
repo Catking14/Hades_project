@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "projectile_start",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.4,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "786fef7e-8cef-49ff-93d9-fad8104bf2e7"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "888a2e4b-0757-4885-8be7-bfe84781627e"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "429497c7-6b5b-4c87-817f-0aacb8bb726f"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "370d53ad-d5af-475d-8862-aae5f6f07ba9"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

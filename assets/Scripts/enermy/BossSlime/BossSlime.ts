@@ -11,6 +11,9 @@ export default class BossSlime extends cc.Component {
     @property(cc.Prefab)
     blade: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    transporter: cc.Prefab = null;
+
     pool_num: number;
 
     // 血量
@@ -25,8 +28,12 @@ export default class BossSlime extends cc.Component {
     @property(cc.v2)
     speed = cc.v2(200, 150);
 
+    @property(cc.Prefab)
+    monster:cc.Prefab = null; 
+
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
+
 
     // private target: cc.Node = null;
     private target_time: number = 0;      // 重新找目標的計時器
@@ -145,7 +152,15 @@ export default class BossSlime extends cc.Component {
             if(this.spellCD>=7 && !this.isAttacking && !this.isSmashing && !this.isDead){
                 this.isSpelling = true;
                 //call mobs spawn
-                this.mob_spawn();
+                this.scheduleOnce(()=>{
+                    this.mob_spawn();
+                },0.5);
+                this.scheduleOnce(()=>{
+                    this.mob_spawn();
+                },1);
+                this.scheduleOnce(()=>{
+                    this.mob_spawn();
+                },1.5);
                 this.scheduleOnce(()=>{
                     this.isSpelling = false;
                 },1.86);
@@ -155,7 +170,10 @@ export default class BossSlime extends cc.Component {
         }
     }
     mob_spawn(){
-        
+            let newmob = cc.instantiate(this.monster);
+            newmob.getComponent(newmob.name).target = this.target;
+            newmob.setPosition(this.node.position);
+            cc.find("Canvas/New Node").addChild(newmob);
     }
     updateHPBar() {
         this.HP_bar.progress = this.HP_val / this.HP;
@@ -181,6 +199,9 @@ export default class BossSlime extends cc.Component {
         this.isDead = true;
         this.scheduleOnce(() => {
             this.node.destroy();
+            let portol = cc.instantiate(this.transporter);
+            portol.setPosition(this.node.position);
+            cc.find("Canvas/New Node").addChild(portol);
         }, 3.1);
     }
 

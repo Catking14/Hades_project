@@ -166,13 +166,13 @@
     },
     "monster_density": 10,
     "monster0": {
-      "__uuid__": "51ee9a72-b6d1-46e6-8da0-1d4aa2068178"
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "monster1": {
-      "__uuid__": "51ee9a72-b6d1-46e6-8da0-1d4aa2068178"
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "monster2": {
-      "__uuid__": "51ee9a72-b6d1-46e6-8da0-1d4aa2068178"
+      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "warrior": {
       "__uuid__": "302ddf94-aa1d-4bc8-89cd-8edda069eb96"

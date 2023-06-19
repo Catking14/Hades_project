@@ -117,16 +117,15 @@ export default class Wizard extends cc.Component {
             case cc.macro.KEY.e:
                 let heal_level = cc.find("Data").getComponent("Data").heal;
 
-                if (this.heal == 100 - heal_level) {
+                if (this.heal >= 10 - heal_level) {
                     this.healing();
                 }
-                break;
                 break;
         }
     }
     healing() {
         if (this.HP < this.HP_max) {
-            this.heal = 0;
+            this.heal -= 10;
             this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
         }
     }
@@ -328,7 +327,8 @@ export default class Wizard extends cc.Component {
                 // blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
                 cc.audioEngine.playEffect(this.hit_sound_effect, false);
-                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder") cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                else cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.ishit = false;
                 }, 0.5);

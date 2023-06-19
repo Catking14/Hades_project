@@ -56,7 +56,9 @@ export default class ShopMenu extends cc.Component {
         {
             cc.find("Data").getComponent("Data").HP += this.hp_amount;
             cc.find("Data").getComponent("Data").money -= next_health;
+            cc.find("Data").getComponent("Data").total_money_spent += next_health;
             cc.find("Data").getComponent("Data").next_health *= 1.2;
+            cc.find("Data").getComponent("Data").total_upgrades++;
 
             cc.audioEngine.playEffect(this.buy, false);
         }
@@ -75,7 +77,9 @@ export default class ShopMenu extends cc.Component {
         {
             cc.find("Data").getComponent("Data").heal += this.heal_amount;
             cc.find("Data").getComponent("Data").money -= next_heal;
+            cc.find("Data").getComponent("Data").total_money_spent += next_heal;
             cc.find("Data").getComponent("Data").next_heal *= 2;
+            cc.find("Data").getComponent("Data").total_upgrades++;
 
             cc.audioEngine.playEffect(this.buy, false);
         }
@@ -94,7 +98,9 @@ export default class ShopMenu extends cc.Component {
         {
             cc.find("Data").getComponent("Data").dash += this.dash_amount;
             cc.find("Data").getComponent("Data").money -= next_dash;
+            cc.find("Data").getComponent("Data").total_money_spent += next_dash;
             cc.find("Data").getComponent("Data").next_dash *= 1.2;
+            cc.find("Data").getComponent("Data").total_upgrades++;
 
             cc.audioEngine.playEffect(this.buy, false);
         }
@@ -114,7 +120,9 @@ export default class ShopMenu extends cc.Component {
         {
             cc.find("Data").getComponent("Data").damage += this.damage_amount;
             cc.find("Data").getComponent("Data").money -= next_damage;
+            cc.find("Data").getComponent("Data").total_money_spent += next_damage;
             cc.find("Data").getComponent("Data").next_damage *= 1.2;
+            cc.find("Data").getComponent("Data").total_upgrades++;
 
             cc.audioEngine.playEffect(this.buy, false);
         }

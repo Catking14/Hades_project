@@ -146,7 +146,7 @@ export default class BossSlimeManager extends cc.Component {
 
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
-        physics_manager.debugDrawFlags = 1;
+        // physics_manager.debugDrawFlags = 1;
         cc.audioEngine.setMusicVolume(this.volume);
         cc.audioEngine.setEffectsVolume(this.volume + 0.05);
     }
