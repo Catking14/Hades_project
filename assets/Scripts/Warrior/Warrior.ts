@@ -214,7 +214,18 @@ export default class Warrior extends cc.Component {
         this.scheduleOnce(() => 
         {
             this.node.zIndex -= 5;
-            cc.find("Game Manager").getComponent("GameManager").player_die();
+            
+            try
+            {
+                cc.find("Game Manager").getComponent("GameManager").player_die();
+            }
+            catch
+            {
+                cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+            }
+
+            // store data to DATA node
+        cc.find("Data").getComponent("Data").money = this.money;
         }, 1.2);
     }
 
@@ -313,7 +324,15 @@ export default class Warrior extends cc.Component {
 
             console.log("add");
             cc.find("Canvas/New Node").addChild(blood_effect);
-            cc.find("Game Manager").getComponent("GameManager").camera_shake();
+            
+            try
+            {
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+            }
+            catch
+            {
+                cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+            }
 
             this.scheduleOnce(() => 
             {
@@ -421,7 +440,7 @@ export default class Warrior extends cc.Component {
             case cc.macro.KEY.e:
                 let heal_level = cc.find("Data").getComponent("Data").heal;
 
-                if(this.heal == 100 - heal_level)
+                if(this.heal == 50 - heal_level)
                 {
                     this.healing();
                 }
