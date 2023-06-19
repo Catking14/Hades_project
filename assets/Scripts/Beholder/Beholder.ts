@@ -63,7 +63,7 @@ export default class Beholder extends cc.Component {
 
 
     start() {
-        cc.director.getPhysicsManager().debugDrawFlags = 0;
+        // cc.director.getPhysicsManager().debugDrawFlags = 1;
         cc.audioEngine.setEffectsVolume(0.5);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
@@ -231,6 +231,7 @@ export default class Beholder extends cc.Component {
             lazer = cc.instantiate(this.lazerPrefab);
             lazer.setPosition(cc.v2(this.node.position.x, this.node.position.y - 10));
             lazer.angle = 270;
+            lazer.group = "enemy_attack";
             this.node.parent.addChild(lazer);
             cc.audioEngine.playEffect(this.a1Sound, false);
         }

@@ -45,7 +45,7 @@ export default class Assassin extends cc.Component {
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
-    private Shield: number = 100;
+    private Shield: number = 0;
     HP: number = 100;
     HP_max: number = 100;
     _dmg: number = 50;
@@ -66,13 +66,14 @@ export default class Assassin extends cc.Component {
     private isBegin: boolean = false;
     private isDashing: boolean = false;
     private isDashingCD: boolean = false;
+    private dashCD: number = 0.5;
     private isAttacking: boolean = false;
     private getHitting: boolean = false;
     private isDead: boolean = false;
     private vecSpeed: cc.Vec2 = cc.v2(0, 0);
     private attack_time: number = 0.5;
     private attack_delay: number = 0.2;
-    private attack_damage: number = 50;
+    private attack_damage: number = 40;
     private mousePos: any = null;
     private QCD: boolean = false;
     private ECD: boolean = false;
@@ -85,6 +86,9 @@ export default class Assassin extends cc.Component {
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.setMousePos, this);
+        this.HP_max = cc.find("Data").getComponent("Data").HP;
+        this.dashCD -= cc.find("Data").getComponent("Data").dash;
+        this.attack_damage += cc.find("Data").getComponent("Data").damage;
 
         // this.node.scale = 0.6;
     }
@@ -175,12 +179,12 @@ export default class Assassin extends cc.Component {
 
         this.scheduleOnce(() => {
             this.isDashingCD = false;
-        }, 1);
+        }, 0.5 + this.dashCD);
     }
 
     attack(event) {
 
-        if (this.isAttacking) return;
+        if (this.isAttacking || cc.find("Data").getComponent("Data").in_shop) return;
 
         this.isAttacking = true;
 
@@ -223,17 +227,22 @@ export default class Assassin extends cc.Component {
             this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
         } else {
             // 扣血量
+            let sceneName = cc.director.getScene().name;
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
-                // cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                }
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
+
             } else {
                 this.isDead = true;
                 this._died = true;
-                let sceneName = cc.director.getScene().name;
                 if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
                     cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
                 } else {
