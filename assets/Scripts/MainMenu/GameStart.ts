@@ -30,7 +30,7 @@ export default class GameStart extends cc.Component {
     }
 
     handleStartButtonClick(){
-        let direction = cc.v2(198.969, -98.12);
+        let direction = cc.v2(196.969, -98.12);
         cc.find("Canvas/Main Camera").runAction(cc.moveBy(0.5, direction));
 
         this.scheduleOnce(()=>{
@@ -39,6 +39,6 @@ export default class GameStart extends cc.Component {
         
         this.scheduleOnce(()=>{
             cc.director.loadScene("lobby");
-        }, 1.2)
+        }, 0.5)
     }
 }

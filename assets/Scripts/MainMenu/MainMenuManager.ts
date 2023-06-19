@@ -16,7 +16,7 @@ export default class MainMenuManager extends cc.Component {
     public Archor_lock: boolean = true;
     public Wizard_lock: boolean = true;
     public Assassin_lock: boolean = true;
-    public curCharacter: string = "Assassin";
+    public curCharacter: string = "Warrior";
     public curName: string = "Hades";
     public curEmail: string = "Hades@gmail.com";
     public curPage: number = 1;
