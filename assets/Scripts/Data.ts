@@ -97,21 +97,48 @@ export default class Data extends cc.Component {
 
     refresh_round()
     {
+        // clear data
         this.time = 0;
         this.kills = 0;
         this.clear = 0;
         this.damage_made = 0;
         this.boss_killed = 0;
         this.death = 0;
-
-        this.total_money_get += this.coin_num;
         this.coin_num = 0;
         this.heal_posion_num = 0;
     }
 
+    summarize()
+    {
+        // sum data to total
+        this.total_playtime += this.time;
+        this.total_kills += this.kills;
+        this.total_death += this.death;
+        this.total_clear += this.clear;
+        this.total_damage_made += this.damage_made;
+        this.total_Boss_killed += this.boss_killed;
+        this.total_money_get += this.coin_num;
+    }
+
     write_data()
     {
-        let uid = firebase.auth().currentUser;
+        let uid = firebase.auth().currentUser.uid;
+        let ref = firebase.database().ref("Player/" + uid);
+
+        ref.set(
+            {
+                total_kills: this.total_kills,
+                total_death: this.total_death,
+                total_clear: this.total_clear,
+                total_damage_taken: this.total_damage_taken,
+                total_damage_made: this.total_damage_made,
+                total_money_get: this.total_money_get,
+                total_money_spent: this.total_money_spent,
+                total_upgrades: this.total_upgrades,
+                total_playtime: this.total_playtime,
+                total_Boss_killed: this.total_Boss_killed
+            }
+        )
     }
 
     // LIFE-CYCLE CALLBACKS:

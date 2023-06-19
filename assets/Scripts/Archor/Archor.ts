@@ -28,7 +28,7 @@ export default class Archor extends cc.Component {
     // player status
     private HP: number;
     private HP_max: number = 100;
-    private dmg: number = 90;
+    private dmg: number = 70;
     private money: number = 0;
     private heal: number = 0;
     
@@ -36,7 +36,7 @@ export default class Archor extends cc.Component {
     // dash
     private space_pressed: boolean = false;
     private _dash_ready: boolean = true;
-    private _dash_cd: number = 1;
+    private _dash_cd: number = 1.5;
     private isDashing: boolean = false;
 
 

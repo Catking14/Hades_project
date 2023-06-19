@@ -161,6 +161,7 @@
     "spawn_prefab": {
       "__uuid__": "9b5517d1-23f5-4279-a0c8-7ef9d95c0dd0"
     },
+    "transporter": null,
     "Megalovania": {
       "__uuid__": "19ad8fdb-8b8b-4eec-a4c9-b7ae77bba5d9"
     },
@@ -215,10 +216,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 94
+        "__id__": 91
       },
       {
-        "__id__": 95
+        "__id__": 92
       }
     ],
     "_prefab": null,
@@ -506,15 +507,12 @@
     "_children": [
       {
         "__id__": 11
-      },
-      {
-        "__id__": 90
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 93
+        "__id__": 90
       }
     ],
     "_prefab": null,
@@ -3443,97 +3441,6 @@
     },
     "asset": {
       "__uuid__": "d4ede29e-1017-4d2d-bdb5-8147c1a31feb"
-    },
-    "fileId": "",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "Book",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 10
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 91
-      }
-    ],
-    "_prefab": {
-      "__id__": 92
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1.2
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 5,
-    "groupIndex": 5,
-    "_id": "d61NF2yNdHu6bnZoVWAShF"
-  },
-  {
-    "__type__": "ba8c8qIv8FKsLNRVy0guAPt",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 90
-    },
-    "_enabled": true,
-    "main_book_prefab": {
-      "__uuid__": "bd90729d-db14-496c-b5ef-1252a7b50831"
-    },
-    "setting_prefab": {
-      "__uuid__": "864d2352-7ac7-42c3-ace3-9941b357c4c5"
-    },
-    "_id": "e2s7iN4qdEKqOlQGLoZWuV"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 90
-    },
-    "asset": {
-      "__uuid__": "cae3a4ac-d445-4b26-bc97-3576b92ee93f"
     },
     "fileId": "",
     "sync": false
