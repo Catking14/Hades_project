@@ -28,6 +28,9 @@ export default class BossSlimeManager extends cc.Component {
     @property
     shake_scale: number = 20;
 
+    @property(cc.AudioClip)
+    BGM: cc.AudioClip = null;
+
     // player characters
     @property(cc.Prefab)
     warrior: cc.Prefab = null;
@@ -147,8 +150,6 @@ export default class BossSlimeManager extends cc.Component {
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
         // physics_manager.debugDrawFlags = 1;
-        cc.audioEngine.setMusicVolume(this.volume);
-        cc.audioEngine.setEffectsVolume(this.volume + 0.05);
     }
 
     start() {
@@ -175,6 +176,9 @@ export default class BossSlimeManager extends cc.Component {
         this.follow = p1;
         cc.find("Canvas/New Node").addChild(p1);
         this.schedule(() => {this.timer += 1}, 1);
+        let bgm = cc.audioEngine.playMusic(this.BGM,true);
+        let vol = cc.find("Data").getComponent("Data").curMusicVolume;
+        cc.audioEngine.setVolume(bgm,vol+0.2);
     }
 
     update(dt) {

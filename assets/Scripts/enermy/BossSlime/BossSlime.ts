@@ -14,6 +14,11 @@ export default class BossSlime extends cc.Component {
     @property(cc.Prefab)
     transporter: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    attack_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    smash_effect: cc.AudioClip = null;
+
     pool_num: number;
 
     // 血量
@@ -43,7 +48,7 @@ export default class BossSlime extends cc.Component {
     private attack_distance: number = 100; // 低於這個距離 會進行攻擊
     private attack_counter: number = 0;   // 攻擊的計時器
     private attack_colddown: number = 3;  // 攻擊的CD
-    private attack_delay: number = 1.5;   // 攻擊的延遲 (攻擊之前的準備時間)
+    private attack_delay: number = 1;   // 攻擊的延遲 (攻擊之前的準備時間)
     private attack_time: number = 1.93;   // 整個攻擊動作所需要的時間
     private attack_damage: number = 20;   // 攻擊傷害
 
@@ -133,9 +138,14 @@ export default class BossSlime extends cc.Component {
                 this.collider.enabled = false;
                 this.scheduleOnce(()=>{
                     this.node.runAction(cc.moveTo(1,cc.v2(this.target.position.x,this.target.position.y)));
+                    
                 },0.5);
                 this.scheduleOnce(()=>{
+                    cc.audioEngine.playEffect(this.smash_effect,false);
+                },1);
+                this.scheduleOnce(()=>{
                     cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                    
                 },1.7);
                 this.scheduleOnce(()=>{
                     this.isSmashing = false;
@@ -279,7 +289,7 @@ export default class BossSlime extends cc.Component {
                 this.isAttacking = false;
                 // this.setanimState("idle");
             }, this.attack_time);
-
+            
             this.scheduleOnce(() => {
                 if (this.isAttacking) {
                     let blade = cc.instantiate(this.blade);
@@ -289,6 +299,7 @@ export default class BossSlime extends cc.Component {
                     blade.getComponent("blade").duration_time = this.attack_time - this.attack_delay;
                     blade.getComponent("blade").damage_val = this.attack_damage;
                     cc.find("Canvas").addChild(blade);
+                    cc.audioEngine.playEffect(this.attack_effect,false);
                 }
             }, this.attack_delay);
         }
