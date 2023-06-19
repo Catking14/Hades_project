@@ -117,9 +117,55 @@ export default class Skeleton extends cc.Component {
 
     dead() {
         this.isDead = true;
+
+        let Data = cc.find("Data").getComponent("Data");
+        let coin_random = Math.floor(Math.random() * 3 + 1);
+        let new_coin = [];
+        for (let i = 0; i < coin_random; i++)
+        {
+            console.log(Data.coin_num);
+            if (Data.coin_num > 0)
+            {
+                new_coin[i] = Data.coin_pool.get();
+                Data.coin_num--;
+            }
+            else
+            {
+                new_coin[i] = cc.instantiate(Data.coin_prefab);
+            }
+            new_coin[i].setPosition(this.node.x, this.node.y);
+        }
+
+        let heal_posion_random = Math.floor(Math.random() * 4);
+        let new_heal_posion;
+        console.log(heal_posion_random);
+        if (heal_posion_random > 2)
+        {
+            if (Data.heal_posion_num > 0)
+            {
+                new_heal_posion = Data.heal_posion_pool.get();
+                Data.heal_posion_num--;
+            }
+            else
+            {
+                new_heal_posion = cc.instantiate(Data.heal_posion_prefab);
+            }
+            new_heal_posion.setPosition(this.node.x, this.node.y);
+        }
+        
         this.scheduleOnce(() => {
             cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
             cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
+            for (let i = 0; i < coin_random; i++)
+            {
+                cc.find("Canvas/New Node").addChild(new_coin[i]);
+                new_coin[i].runAction(cc.moveTo(0.2 ,cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
+            }
+            if (heal_posion_random > 2)
+            {
+                cc.find("Canvas/New Node").addChild(new_heal_posion);
+                new_heal_posion.runAction(cc.moveTo(0.2 ,cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
+            }
         }, 0.6);
     }
 

@@ -10,6 +10,18 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Data extends cc.Component {
 
+    @property (cc.Prefab)
+    coin_prefab: cc.Prefab = null;
+
+    @property (cc.Prefab)
+    heal_posion_prefab: cc.Prefab = null;
+
+    // node pool
+    coin_pool: cc.NodePool = null;
+    coin_num: number = 0;
+    heal_posion_pool: cc.NodePool = null;
+    heal_posion_num: number = 0;
+
     // current scene
     scene: string = null;
     next_scene: string = null;
@@ -56,6 +68,17 @@ export default class Data extends cc.Component {
 
     start () 
     {
+        // init node pool
+        this.coin_pool = new cc.NodePool();
+        this.coin_num = 100;
+        for (let i = 0; i < 100; i++)
+            this.coin_pool.put(cc.instantiate(this.coin_prefab));
+        
+        this.heal_posion_pool = new cc.NodePool();
+        this.heal_posion_num = 30;
+        for (let i = 0; i < 30; i++)
+            this.heal_posion_pool.put(cc.instantiate(this.heal_posion_prefab));
+
         // get data from firebase
         // TODO
     }

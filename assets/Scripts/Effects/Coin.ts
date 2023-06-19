@@ -26,7 +26,10 @@ export default class Coin extends cc.Component {
         {
             other.node.getComponent(other.node.name).money += Math.ceil(10 * (Math.random() + 1));
 
-            this.node.destroy()     // to pool TODO!!
+            // to pool TODO!!
+            let Data = cc.find("Data").getComponent("Data");
+            Data.coin_pool.put(this.node);
+            Data.coin_num++;
         }
     }
 }

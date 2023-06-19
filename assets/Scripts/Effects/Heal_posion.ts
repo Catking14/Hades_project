@@ -36,7 +36,10 @@ export default class HealPosion extends cc.Component {
                 other.node.getComponent(other.node.name).heal += add;
             }
 
-            this.node.destroy()     // to pool TODO!!
+            // to pool TODO!!
+            let Data = cc.find("Data").getComponent("Data");
+            Data.heal_posion_pool.put(this.node);
+            Data.heal_posion_num++;
         }
     }
 }
