@@ -55,8 +55,8 @@
         0,
         0,
         1,
-        1.2,
-        1.2,
+        1,
+        1,
         1
       ]
     },
@@ -82,10 +82,13 @@
     },
     "_enabled": true,
     "main_book_prefab": {
-      "__uuid__": "a1f5d6fc-767f-42b8-a0f9-b352584f69ad"
+      "__uuid__": "bd90729d-db14-496c-b5ef-1252a7b50831"
     },
     "setting_prefab": {
-      "__uuid__": "97e5eef8-8f11-4508-b33c-d014653624ef"
+      "__uuid__": "864d2352-7ac7-42c3-ace3-9941b357c4c5"
+    },
+    "left_page_prefab": {
+      "__uuid__": "bccbdc25-ddf9-44ff-a0c8-3736e787484c"
     },
     "_id": ""
   },

@@ -8,6 +8,9 @@ export default class Book extends cc.Component {
     @property(cc.Prefab)
     setting_prefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    left_page_prefab: cc.Prefab = null;
+
     private master_volume: number = 0.5;
     private music_volume: number = 0.3;
     private sfx_volume: number = 0.3;
@@ -17,7 +20,8 @@ export default class Book extends cc.Component {
 
     private animation: cc.Animation;
     private main_book: cc.Node = null;
-    private cur_page: cc.Node = null;
+    private left_page: cc.Node = null;
+    private right_page: cc.Node = null;
 
     onLoad() {
 
@@ -26,12 +30,13 @@ export default class Book extends cc.Component {
     start() {
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         this.set_volume();
+        console.log("uwu");
     }
 
-    onKeyDown(event){
+    onKeyDown(event) {
         if (this.animation_flag)
             return;
-        if(event.keyCode == cc.macro.KEY.escape){
+        if (event.keyCode == cc.macro.KEY.escape) {
             if (this.isopen) {
                 this.closebook();
             }
@@ -52,6 +57,7 @@ export default class Book extends cc.Component {
         this.scheduleOnce(() => {
             this.animation_flag = false;
             this.create_page("setting");
+            this.create_page("statistics");
         }, 0.5);
         cc.find("Canvas/New Node").active = false;
     }
@@ -69,14 +75,15 @@ export default class Book extends cc.Component {
     }
 
     clear_page() {
-        this.cur_page.destroy();
+        this.left_page.destroy();
+        this.right_page.destroy();
     }
 
     create_page(name: string) {
         if (name === "setting") {
             let new_page = cc.instantiate(this.setting_prefab);
             this.node.addChild(new_page);
-            this.cur_page = new_page;
+            this.right_page = new_page;
 
             let slide_array = new_page.getComponentsInChildren(cc.Slider);
 
@@ -100,6 +107,11 @@ export default class Book extends cc.Component {
             sfx_EventHandler.handler = 'sfx_volume_handler';
             slide_array[2].slideEvents.push(sfx_EventHandler);
             slide_array[2].progress = this.sfx_volume;
+        }
+        else if (name === "statistics") {
+            let new_page = cc.instantiate(this.left_page_prefab);
+            this.node.addChild(new_page);
+            this.left_page = new_page;
         }
     }
 
