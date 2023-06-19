@@ -84,7 +84,7 @@ export default class Assassin extends cc.Component {
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.setMousePos, this);
-        
+
         // this.node.scale = 0.6;
     }
 
@@ -226,7 +226,12 @@ export default class Assassin extends cc.Component {
             } else {
                 this.isDead = true;
                 this._died = true;
-                cc.find("Game Manager").getComponent("GameManager").player_die();
+                let sceneName = cc.director.getScene().name;
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").player_die();
+                }
                 this.getComponent(cc.Animation).play("Assassin_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();

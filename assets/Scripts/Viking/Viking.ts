@@ -220,7 +220,12 @@ export default class Viking extends cc.Component {
             } else {
                 this.isDead = true;
                 this._died = true;
-                cc.find("Game Manager").getComponent("GameManager").player_die();
+                let sceneName = cc.director.getScene().name;
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").player_die();
+                }
                 this.getComponent(cc.Animation).play("viking_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
