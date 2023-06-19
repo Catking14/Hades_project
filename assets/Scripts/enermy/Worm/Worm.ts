@@ -9,7 +9,7 @@ export default class Worm extends cc.Component {
     @property(cc.Prefab)
     worm_fire_ball: cc.Prefab = null;
 
-    pool_num: number;
+    pool_num: number = 87;
 
     // 血量
     @property
@@ -148,8 +148,6 @@ export default class Worm extends cc.Component {
         }
 
         this.scheduleOnce(() => {
-            cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
-            cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
             for (let i = 0; i < coin_random; i++) {
                 cc.find("Canvas/New Node").addChild(new_coin[i]);
                 new_coin[i].runAction(cc.moveTo(0.2, cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
@@ -157,6 +155,13 @@ export default class Worm extends cc.Component {
             if (heal_posion_random > 2) {
                 cc.find("Canvas/New Node").addChild(new_heal_posion);
                 new_heal_posion.runAction(cc.moveTo(0.2, cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
+            }
+            if (this.pool_num != 87) {
+                cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
+                cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
+            }
+            else {
+                this.node.destroy();
             }
         }, 0.6);
     }
