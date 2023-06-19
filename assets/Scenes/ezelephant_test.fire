@@ -134,27 +134,25 @@
     },
     "_enabled": true,
     "size_of_map_block": 960,
-    "min_map_row_or_column": 4,
+    "min_map_row_or_column": 5,
     "max_map_row_or_column": 9,
-    "stage": 2,
+    "stage": 1,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,
     "map1": {
-      "__uuid__": "18edab46-4d23-4caa-88d5-119fe03f3ce1"
+      "__uuid__": "f121ad15-4dc5-4286-acb5-8f1fdd9977d7"
     },
     "map2": {
-      "__uuid__": "1de42f50-d267-49d6-81f4-7b2ec91fff2a"
+      "__uuid__": "c057066c-b64d-4a6d-a148-fd9306e11a75"
     },
     "map3": {
-      "__uuid__": "2c9102d6-b55e-441f-8a1a-975b39d058bc"
+      "__uuid__": "b081de2b-8d40-4c69-b818-5c35aa61ec2e"
     },
     "map4": {
-      "__uuid__": "f022a858-e9cd-40a5-b986-7f98837b6775"
+      "__uuid__": "12de8268-bf26-432f-a9fd-77898734f45e"
     },
-    "map5": {
-      "__uuid__": "e9fac407-4269-4e3c-82e9-67e68775f873"
-    },
+    "map5": null,
     "air_wall": {
       "__uuid__": "2119cb3a-4c72-4ddb-8d09-3109fe8b3eb7"
     },
