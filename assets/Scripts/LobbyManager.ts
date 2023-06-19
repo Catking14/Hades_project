@@ -87,6 +87,6 @@ export default class Lobby extends cc.Component {
     {
         this.camera_follow();
         
-        cc.find("Data").getComponent("Data").follow = this.follow;
+        cc.find("Data").getComponent("Data").role = this.follow.name;
     }
 }

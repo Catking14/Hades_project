@@ -62,8 +62,10 @@ export default class Warrior extends cc.Component {
 
     // player status
     HP: number = 100;
+    HP_max: number = 100;
     _dmg: number = 30;
     money: number = 0;
+    heal: number = 0;
 
     // Music effects
     @property(cc.AudioClip)
@@ -212,6 +214,7 @@ export default class Warrior extends cc.Component {
         this.scheduleOnce(() => 
         {
             this.node.zIndex -= 5;
+            cc.find("Game Manager").getComponent("GameManager").player_die();
         }, 1.2);
     }
 
@@ -333,6 +336,15 @@ export default class Warrior extends cc.Component {
         }
     }
 
+    healing()
+    {
+        if(this.HP < this.HP_max)
+        {
+            this.heal = 0;
+            this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
+        }
+    }
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () 
@@ -404,6 +416,14 @@ export default class Warrior extends cc.Component {
                     this.ultimate();
 
                     this.scheduleOnce(() => {this._ultimate_ready = true;}, this._ultimate_cd);
+                }
+                break;
+            case cc.macro.KEY.e:
+                let heal_level = cc.find("Data").getComponent("Data").heal;
+
+                if(this.heal == 100 - heal_level)
+                {
+                    this.healing();
                 }
                 break;
             case cc.macro.KEY.space:

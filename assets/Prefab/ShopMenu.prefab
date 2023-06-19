@@ -3732,7 +3732,7 @@
     },
     "_enabled": true,
     "hp_amount": 10,
-    "heal_amount": 5,
+    "heal_amount": 1,
     "dash_amount": 0.05,
     "damage_amount": 5,
     "buy": {

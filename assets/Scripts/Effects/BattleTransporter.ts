@@ -31,7 +31,8 @@ export default class BattleTransporter extends cc.Component {
         if(other.node.group == "player")
         {
             // change scene
-            cc.director.loadScene("catking_test");
+            cc.find("Data").getComponent("Data").next_scene = "catking_test";
+            cc.director.loadScene("loading");
         }
     }
 }

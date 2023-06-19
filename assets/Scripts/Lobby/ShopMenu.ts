@@ -14,7 +14,7 @@ export default class ShopMenu extends cc.Component {
     hp_amount: number = 10;
 
     @property
-    heal_amount: number = 5;
+    heal_amount: number = 1;
 
     @property
     dash_amount: number = 0.05;
@@ -69,11 +69,11 @@ export default class ShopMenu extends cc.Component {
     upgrade_heal()
     {
         let cur_money = cc.find("Data").getComponent("Data").money;
-        let next_heal = cc.find("Data").getComponent("Data").next_health;
+        let next_heal = cc.find("Data").getComponent("Data").next_heal;
 
         if(cur_money >= next_heal)
         {
-            cc.find("Data").getComponent("Data").heal -= this.heal_amount;
+            cc.find("Data").getComponent("Data").heal += this.heal_amount;
             cc.find("Data").getComponent("Data").money -= next_heal;
             cc.find("Data").getComponent("Data").next_heal *= 2;
 
@@ -182,7 +182,7 @@ export default class ShopMenu extends cc.Component {
     {
         this.money.string = cc.find("Data").getComponent("Data").money.toString();
         this.health_level.string = cc.find("Data").getComponent("Data").HP.toString();
-        this.heal_level.string = cc.find("Data").getComponent("Data").heal.toString();
+        this.heal_level.string = "- " + cc.find("Data").getComponent("Data").heal.toString();
         this.damage_level.string = "+ " + cc.find("Data").getComponent("Data").damage.toString();
         this.dash_level.string = "- " + cc.find("Data").getComponent("Data").dash.toString() + "s";
 
