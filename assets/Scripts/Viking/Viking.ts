@@ -210,17 +210,22 @@ export default class Viking extends cc.Component {
             this.Shield = this.Shield > damage_val ? this.Shield - damage_val : 0;
         } else {
             // 扣血量
+            let sceneName = cc.director.getScene().name;
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
-                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+
+                if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                } else {
+                    cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                }
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
             } else {
                 this.isDead = true;
                 this._died = true;
-                let sceneName = cc.director.getScene().name;
                 if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
                     cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
                 } else {

@@ -32,6 +32,9 @@ export default class Beholder extends cc.Component {
     @property(cc.Prefab)
     fireballPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    transporterPrefab: cc.Prefab = null;
+
     vecSpeed: cc.Vec2 = cc.v2(0, 0);
     ratio: number = 0.8;
     speed: number = 200;
@@ -60,7 +63,7 @@ export default class Beholder extends cc.Component {
 
 
     start() {
-        // cc.director.getPhysicsManager().debugDrawFlags = 0;
+        cc.director.getPhysicsManager().debugDrawFlags = 0;
         cc.audioEngine.setEffectsVolume(0.5);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
@@ -98,7 +101,7 @@ export default class Beholder extends cc.Component {
             this.scheduleOnce(() => {
                 if (!this.isDead) this.a2();
             }, 8);
-            
+
         }, 16);
     }
 
@@ -290,6 +293,9 @@ export default class Beholder extends cc.Component {
                 this.isDead = true;
                 this.getComponent(cc.Animation).play("Beholder_death");
                 this.getComponent(cc.Animation).on("finished", () => {
+                    let transporter = cc.instantiate(this.transporterPrefab);
+                    transporter.setPosition(this.node.position);
+                    this.node.parent.addChild(transporter);
                     this.node.destroy();
                 }, this);
             }
