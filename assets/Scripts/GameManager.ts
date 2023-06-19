@@ -394,6 +394,12 @@ export default class GameManager extends cc.Component {
     @property(cc.Prefab)
     monster2: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    monster3: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    monster4: cc.Prefab = null;
+
     // player characters
     @property(cc.Prefab)
     warrior: cc.Prefab = null;
@@ -885,7 +891,14 @@ export default class GameManager extends cc.Component {
                         }
                         else
                         {
-                            new_mob = cc.instantiate(this.monster0);
+                            if(this.stage == 1)
+                            {
+                                new_mob = cc.instantiate(this.monster0);
+                            }
+                            else
+                            {
+                                new_mob = cc.instantiate(this.monster3);
+                            }
                         }
                         new_mob.getComponent(new_mob.name).pool_num = 0;
                     }
@@ -898,7 +911,14 @@ export default class GameManager extends cc.Component {
                         }
                         else
                         {
-                            new_mob = cc.instantiate(this.monster1);
+                           if(this.stage == 1)
+                            {
+                                new_mob = cc.instantiate(this.monster1);
+                            }
+                           else
+                            {
+                                new_mob = cc.instantiate(this.monster4);
+                            }
                         }
                         new_mob.getComponent(new_mob.name).pool_num = 1;
                     }

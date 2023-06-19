@@ -147,6 +147,8 @@ export default class CharChange extends cc.Component {
                         else if(cc.find("Data").getComponent("Data").money >= 1)
                         {
                             cc.find("Data").getComponent("Data").Archor_lock = false;
+                            cc.find("Data").getComponent("Data").money--;
+                            cc.find("Data").getComponent("Data").write_data();
 
                             cc.audioEngine.playEffect(this.buy, false);
                         }
@@ -174,6 +176,8 @@ export default class CharChange extends cc.Component {
                         else if(cc.find("Data").getComponent("Data").money >= 1)
                         {
                             cc.find("Data").getComponent("Data").Viking_lock = false;
+                            cc.find("Data").getComponent("Data").money--;
+                            cc.find("Data").getComponent("Data").write_data();
 
                             cc.audioEngine.playEffect(this.buy, false);
                         }
@@ -201,6 +205,8 @@ export default class CharChange extends cc.Component {
                         else if(cc.find("Data").getComponent("Data").money >= 1)
                         {
                             cc.find("Data").getComponent("Data").Wizard_lock = false;
+                            cc.find("Data").getComponent("Data").money--;
+                            cc.find("Data").getComponent("Data").write_data();
 
                             cc.audioEngine.playEffect(this.buy, false);
                         }
@@ -228,6 +234,8 @@ export default class CharChange extends cc.Component {
                         else if(cc.find("Data").getComponent("Data").money >= 1)
                         {
                             cc.find("Data").getComponent("Data").Assassin_lock = false;
+                            cc.find("Data").getComponent("Data").money--;
+                            cc.find("Data").getComponent("Data").write_data();
 
                             cc.audioEngine.playEffect(this.buy, false);
                         }

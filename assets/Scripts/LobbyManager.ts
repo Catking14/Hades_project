@@ -14,6 +14,18 @@ export default class Lobby extends cc.Component {
     @property(cc.Prefab)
     warrior: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    archor: cc.Prefab = null;
+    
+    @property(cc.Prefab)
+    viking: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    wizard: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    assassin: cc.Prefab = null;
+
     // follow selected player
     @property(cc.Node)
     follow: cc.Node = null;
@@ -21,6 +33,10 @@ export default class Lobby extends cc.Component {
     // volume
     @property
     volume: number = 0.1;
+
+    // BGM
+    @property(cc.AudioClip)
+    BGM: cc.AudioClip = null;
 
     // camera 
     _camera: cc.Node = null;
@@ -71,7 +87,36 @@ export default class Lobby extends cc.Component {
         cc.audioEngine.setEffectsVolume(this.volume + 0.05);
 
         // generate warrior for default
-        let p1 = cc.instantiate(this.warrior);
+        let p1;
+        let cur_role = cc.find("Data").getComponent("Data").role;
+
+        if(cur_role != "")
+        {
+            if(cur_role == "Warrior")
+            {
+                p1 = cc.instantiate(this.warrior);
+            }
+            else if(cur_role == "Wizard")
+            {
+                p1 = cc.instantiate(this.wizard);
+            }
+            else if(cur_role == "Archor")
+            {
+                p1 = cc.instantiate(this.archor);
+            }
+            else if(cur_role == "Assassin")
+            {
+                p1 = cc.instantiate(this.assassin);
+            }
+            else
+            {
+                p1 = cc.instantiate(this.viking);
+            }
+        }
+        else
+        {
+            p1 = cc.instantiate(this.warrior);
+        }
 
         p1.setPosition(-179.04, -207.689);
         cc.find("Canvas/New Node").addChild(p1);
@@ -79,8 +124,9 @@ export default class Lobby extends cc.Component {
         this.follow = p1;
     }
 
-    start () {
-
+    start () 
+    {
+        cc.audioEngine.playMusic(this.BGM, false);
     }
 
     update (dt) 
