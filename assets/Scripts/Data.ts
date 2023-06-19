@@ -63,10 +63,7 @@ export default class Data extends cc.Component {
     // statistic for single round
     time: number = 0;
     kills: number = 0;
-    death: number = 0;
-    clear: number = 0;
     damage_made: number = 0;
-    boss_killed: number = 0;
 
     // Main Menu Data
     Warrior_lock: boolean = false;
@@ -84,28 +81,23 @@ export default class Data extends cc.Component {
     curSFXVolume: number = 50;
     CameraShakeEnable: boolean = true;
 
-    Kills: number = 0;
-    Deaths: number = 0;
-    DamageMade: number = 0;
-    DamageTaken: number = 0;
-    GameCleared: number = 0;
-    Gold: number = 0;
-    Spend: number = 0;
-    BossKills: number = 0;
-    LevelUP: number = 0;
-    TotalPlaytime: number = 0;
+    // Kills: number = 0;
+    // Deaths: number = 0;
+    // DamageMade: number = 0;
+    // DamageTaken: number = 0;
+    // GameCleared: number = 0;
+    // Gold: number = 0;
+    // Spend: number = 0;
+    // BossKills: number = 0;
+    // LevelUP: number = 0;
+    // TotalPlaytime: number = 0;
 
     refresh_round()
     {
         // clear data
         this.time = 0;
         this.kills = 0;
-        this.clear = 0;
         this.damage_made = 0;
-        this.boss_killed = 0;
-        this.death = 0;
-        this.coin_num = 0;
-        this.heal_posion_num = 0;
     }
 
     summarize()
@@ -113,11 +105,7 @@ export default class Data extends cc.Component {
         // sum data to total
         this.total_playtime += this.time;
         this.total_kills += this.kills;
-        this.total_death += this.death;
-        this.total_clear += this.clear;
         this.total_damage_made += this.damage_made;
-        this.total_Boss_killed += this.boss_killed;
-        this.total_money_get += this.coin_num;
     }
 
     write_data()
@@ -127,6 +115,15 @@ export default class Data extends cc.Component {
 
         ref.set(
             {
+                HP: this.HP,
+                heal: this.heal,
+                dash: this.dash,
+                damage: this.damage,
+                next_health: this.next_health,
+                next_heal: this.next_heal,
+                next_dash: this.next_dash,
+                next_damage: this.next_damage,
+                money: this.money,
                 total_kills: this.total_kills,
                 total_death: this.total_death,
                 total_clear: this.total_clear,
@@ -136,7 +133,12 @@ export default class Data extends cc.Component {
                 total_money_spent: this.total_money_spent,
                 total_upgrades: this.total_upgrades,
                 total_playtime: this.total_playtime,
-                total_Boss_killed: this.total_Boss_killed
+                total_Boss_killed: this.total_Boss_killed,
+                Warrior_lock: this.Warrior_lock,
+                Viking_lock: this.Viking_lock,
+                Archor_lock: this.Archor_lock,
+                Wizard_lock: this.Wizard_lock,
+                Assassin_lock: this.Assassin_lock
             }
         )
     }
@@ -164,6 +166,68 @@ export default class Data extends cc.Component {
 
         // get data from firebase
         // TODO
+        let uid = firebase.auth().currentUser.uid;
+        // let uid = "";
+        let ref = firebase.database().ref("Player/" + uid);
+
+        ref.once("value").then((snapshot) => 
+        {
+            let info = snapshot.val();
+
+            this.HP = info.HP;
+            this.heal = info.heal;
+            this.dash = info.dash;
+            this.damage = info.damage;
+            this.next_health = info.next_health;
+            this.next_heal = info.next_heal;
+            this.next_dash = info.next_dash;
+            this.next_damage = info.next_damage;
+            this.money = info.money;
+            this.total_kills = info.total_kills;
+            this.total_death = info.total_death;
+            this.total_clear = info.total_clear;
+            this.total_damage_made = info.total_damage_made;
+            this.total_damage_taken = info.total_damage_taken;
+            this.total_money_get = info.total_money_get;
+            this.total_money_spent = info.total_money_spent;
+            this.total_upgrades = info.total_upgrades;
+            this.total_playtime = info.total_playtime;
+            this.total_Boss_killed = info.total_Boss_killed;
+            this.Warrior_lock = info.Warrior_lock;
+            this.Viking_lock = info.Viking_lock;
+            this.Archor_lock = info.Archor_lock;
+            this.Wizard_lock = info.Wizard_lock;
+            this.Assassin_lock = info.Assassin_lock;
+        })
+        .catch((error) =>
+        {
+            console.log(error.message);
+            
+            this.HP = 100;
+            this.heal = 0;
+            this.dash = 0;
+            this.damage = 0;
+            this.next_health = 100;
+            this.next_heal = 100;
+            this.next_dash = 100;
+            this.next_damage = 100;
+            this.money = 0;
+            this.total_kills = 0;
+            this.total_death = 0;
+            this.total_clear = 0;
+            this.total_damage_made = 0;
+            this.total_damage_taken = 0;
+            this.total_money_get = 0;
+            this.total_money_spent = 0;
+            this.total_upgrades = 0;
+            this.total_playtime = 0;
+            this.total_Boss_killed = 0;
+            this.Warrior_lock = false;
+            this.Viking_lock = true;
+            this.Archor_lock = true;
+            this.Wizard_lock = true;
+            this.Assassin_lock = true;
+        })
     }
 
     update (dt) 

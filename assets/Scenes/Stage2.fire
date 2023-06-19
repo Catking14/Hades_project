@@ -136,7 +136,7 @@
     "size_of_map_block": 960,
     "min_map_row_or_column": 4,
     "max_map_row_or_column": 9,
-    "stage": 1,
+    "stage": 2,
     "shake_duration": 0.02,
     "shakes": 4,
     "shake_scale": 5,

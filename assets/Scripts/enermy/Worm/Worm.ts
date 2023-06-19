@@ -156,13 +156,13 @@ export default class Worm extends cc.Component {
                 cc.find("Canvas/New Node").addChild(new_heal_posion);
                 new_heal_posion.runAction(cc.moveTo(0.2, cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
             }
-            if (this.pool_num != 87) {
-                cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
-                cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
-            }
-            else {
+            // if (this.pool_num != 87) {
+            //     cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
+            //     cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
+            // }
+            // else {
                 this.node.destroy();
-            }
+            // }
         }, 0.6);
     }
 

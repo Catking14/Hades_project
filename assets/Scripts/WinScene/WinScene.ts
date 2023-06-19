@@ -112,6 +112,7 @@ export default class WinScene extends cc.Component {
 
         this.scheduleOnce(() =>
         {
+            cc.find("Data").getComponent("Data").summarize();
             this._tag.opacity = 255;
             this.finish = true;
         }, 5.5);

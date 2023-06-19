@@ -76,6 +76,7 @@ export default class Assassin extends cc.Component {
     private mousePos: any = null;
     private QCD: boolean = false;
     private ECD: boolean = false;
+    private isRing: boolean = false;
 
     start() {
         // cc.director.getPhysicsManager().debugDrawFlags = 1;
@@ -93,6 +94,11 @@ export default class Assassin extends cc.Component {
         this._hit = this.getHitting;
 
         this._dash_ready = !this.isDashingCD;
+
+        if(this.isRing){
+            this.setState("dash");
+            return;
+        }
 
         if (this.isDashing || this.isAttacking) return;
 
@@ -133,6 +139,7 @@ export default class Assassin extends cc.Component {
         }
         if (this.Input[cc.macro.KEY.q]) this.skillQ();
         if (this.Input[cc.macro.KEY.e]) this.skillE();
+        if (this.Input[cc.macro.KEY.r]) this.skillR();
     }
 
 
@@ -245,20 +252,62 @@ export default class Assassin extends cc.Component {
         cc.find("Canvas/New Node").addChild(blood_effect);
     }
 
-    generate_blood() {
-        this._blood_pool = new cc.NodePool("Blood");
+    skillR(){
+        let shadowR = this.node.parent.getChildByName("Assassin_shadowR");
+        let shadowRed = this.node.parent.getChildByName("Assassin_shadowRed");
+        
+        if(this.isRing) return;
 
-        for (let bld = 0; bld < 50; bld++) {
-            let temp = cc.instantiate(this.blood);
+        if (shadowR) {
+            
+            let shadowPos = shadowR.position;
+            shadowR.setPosition(this.node.position);
+            this.node.setPosition(shadowPos);
+            shadowR.name = "Assassin_shadowRed";
+            cc.audioEngine.playEffect(this.e2Sound, false);
 
-            temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
-            this._blood_pool.put(temp);
+        } else if(!shadowRed){
+            if(this.heal >= 25 - cc.find("Data").getComponent("Data").heal){
+            
+                this.heal -= 25;
+                shadowR = cc.instantiate(this.shadowPrefab);
+                let camerapos = cc.find("Canvas/Main Camera").position;
+                let Rpos = cc.v2(
+                    this.mousePos.x + camerapos.x - 480,
+                    this.mousePos.y + camerapos.y - 320
+                );
+                shadowR.setPosition(this.node.position);
+                shadowR.name = "Assassin_shadowR";
+                this.node.parent.addChild(shadowR);
+                this.node.runAction(cc.moveTo(0.3, Rpos));
+                cc.audioEngine.playEffect(this.e1Sound, false);
+                this.nextAttack = "a1";
+    
+                this.isRing = true;
+                this.scheduleOnce(() => { this.isRing = false; }, 0.3);
+                this.scheduleOnce(() => { shadowR.destroy(); }, 5);
+            }
         }
     }
 
     skillE() {
-        if (this.ECD) return;
         let shadow = this.node.parent.getChildByName("Assassin_shadow");
+        if (this.ECD){
+            // if(this.heal == 50 - cc.find("Data").getComponent("Data").heal){
+            //     this.heal -= 50;
+            //     shadow = cc.instantiate(this.shadowPrefab);
+            //     let camerapos = cc.find("Canvas/Main Camera").position;
+            //     shadow.setPosition(cc.v2(
+            //         this.mousePos.x + camerapos.x - 480,
+            //         this.mousePos.y + camerapos.y - 320
+            //     ));
+            //     shadow.name = "Assassin_shadowR";
+            //     this.node.parent.addChild(shadow);
+            //     cc.audioEngine.playEffect(this.e1Sound, false);
+            // }
+            return;
+        } 
+        
         if (shadow) {
             let shadowPos = shadow.position;
             shadow.setPosition(this.node.position);

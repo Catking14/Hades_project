@@ -63,9 +63,12 @@ export default class DieScene extends cc.Component {
             this.character.play("warrior_die");
         }
 
-        this.scheduleOnce(() => {this.tag.opacity = 255;}, 3);
+        this.scheduleOnce(() => {this.tag.opacity = 255;}, 3.5);
 
         this.DIE = cc.audioEngine.playEffect(this.die, false);
+
+        cc.find("Data").getComponent("Data").total_death++;
+        cc.find("Data").getComponent("Data").summarize();
     }
 
     onKeyPressed()
@@ -83,7 +86,7 @@ export default class DieScene extends cc.Component {
 
     update (dt) 
     {
-        this.you_died.opacity = this.you_died.opacity >= 255 ? 255 : this.you_died.opacity + Math.ceil(10 * dt);
-        this.remind.opacity = this.remind.opacity >= 255 ? 255 : this.remind.opacity + Math.ceil(10 * dt);
+        this.you_died.opacity = this.you_died.opacity >= 255 ? 255 : this.you_died.opacity + Math.ceil(5 * dt);
+        this.remind.opacity = this.remind.opacity >= 255 ? 255 : this.remind.opacity + Math.ceil(5 * dt);
     }
 }

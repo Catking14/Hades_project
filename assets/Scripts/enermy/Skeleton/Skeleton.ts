@@ -66,7 +66,6 @@ export default class Skeleton extends cc.Component {
     }
 
     start() {
-        this.init();
         this.AI = new A_Star(this.map);
     }
 
@@ -122,7 +121,6 @@ export default class Skeleton extends cc.Component {
         let coin_random = Math.floor(Math.random() * 3 + 1);
         let new_coin = [];
         for (let i = 0; i < coin_random; i++) {
-            console.log(Data.coin_num);
             if (Data.coin_num > 0) {
                 new_coin[i] = Data.coin_pool.get();
                 Data.coin_num--;
@@ -155,13 +153,13 @@ export default class Skeleton extends cc.Component {
                 cc.find("Canvas/New Node").addChild(new_heal_posion);
                 new_heal_posion.runAction(cc.moveTo(0.2, cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
             }
-            if (this.pool_num != 87) {
-                cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
-                cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
-            }
-            else {
+            // if (this.pool_num != 87) {
+            //     cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
+            //     cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
+            // }
+            // else {
                 this.node.destroy();
-            }
+            // }
         }, 0.6);
     }
 
