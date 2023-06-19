@@ -65,7 +65,7 @@ export default class Warrior extends cc.Component {
     HP_max: number = 100;
     _dmg: number = 50;
     money: number = 0;
-    heal: number = 50;
+    heal: number = 0;
 
     // Music effects
     @property(cc.AudioClip)

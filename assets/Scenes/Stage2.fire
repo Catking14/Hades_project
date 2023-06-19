@@ -172,10 +172,16 @@
       "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
     },
     "monster1": {
-      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
+      "__uuid__": "aee777c7-abc5-49c2-bf25-d534fff90934"
     },
     "monster2": {
-      "__uuid__": "436caaab-463c-477a-93c5-2f22df04af8c"
+      "__uuid__": "9f1e3b5a-c084-400c-b13c-7aaf2a936ec7"
+    },
+    "monster3": {
+      "__uuid__": "d20f7175-e098-4e94-a72b-9a1c442846c7"
+    },
+    "monster4": {
+      "__uuid__": "21065d71-e2d9-4e12-b69f-a0607a907d79"
     },
     "warrior": {
       "__uuid__": "302ddf94-aa1d-4bc8-89cd-8edda069eb96"

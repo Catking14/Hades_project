@@ -39,18 +39,54 @@ export default class BattleTransporter extends cc.Component {
             }
             else if(cur_scene == "Stage1")
             {
+                try
+                {
+                    cc.find("Game Manager").getComponent("GameManager").player_clear_stage();
+                }
+                catch
+                {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_clear_stage();
+                }
+
                 cc.find("Data").getComponent("Data").next_scene = "BossSlime";
             }
             else if(cur_scene == "BossSlime")
             {
+                try
+                {
+                    cc.find("Game Manager").getComponent("GameManager").player_clear_stage();
+                }
+                catch
+                {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_clear_stage();
+                }
+
                 cc.find("Data").getComponent("Data").next_scene = "Stage2";
             }
             else if(cur_scene == "Stage2")
             {
+                try
+                {
+                    cc.find("Game Manager").getComponent("GameManager").player_clear_stage();
+                }
+                catch
+                {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_clear_stage();
+                }
+
                 cc.find("Data").getComponent("Data").next_scene = "BossBeholder";
             }
             else if(cur_scene == "BossBeholder")
             {
+                try
+                {
+                    cc.find("Game Manager").getComponent("GameManager").player_clear_stage();
+                }
+                catch
+                {
+                    cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_clear_stage();
+                }
+
                 cc.find("Data").getComponent("Data").next_scene = "win_scene";
             }
             

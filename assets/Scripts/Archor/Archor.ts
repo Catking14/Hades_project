@@ -152,7 +152,7 @@ export default class Archor extends cc.Component {
             } 
         }else if(event.keyCode == cc.macro.KEY.e){
             let heal_level = cc.find("Data").getComponent("Data").heal;
-            if(this.heal == 100 - heal_level) this.healing();
+            if(this.heal == 50 - heal_level) this.healing();
             
         }else if(event.keyCode == cc.macro.KEY.space){
             // handle dash

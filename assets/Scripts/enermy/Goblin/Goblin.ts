@@ -117,7 +117,7 @@ export default class Skeleton extends cc.Component {
 
     dead() {
         this.isDead = true;
-
+        cc.find("Data").getComponent("Data").kills += 1;
         let Data = cc.find("Data").getComponent("Data");
         let coin_random = Math.floor(Math.random() * 3 + 1);
         let new_coin = [];
@@ -155,19 +155,20 @@ export default class Skeleton extends cc.Component {
                 cc.find("Canvas/New Node").addChild(new_heal_posion);
                 new_heal_posion.runAction(cc.moveTo(0.2, cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
             }
-            if (this.pool_num != 87) {
-                cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
-                cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
-            }
-            else {
+            // if (this.pool_num != 87) {
+            //     cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
+            //     cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
+            // }
+            // else {
                 this.node.destroy();
-            }
+            // }
         }, 0.7);
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
+        cc.find("Data").getComponent("Data").damage_made += damage_val;
         if (this.Shield_val > 0) {
             // 扣護盾
             this.Shield_val = this.Shield_val > damage_val ? this.Shield_val - damage_val : 0;
