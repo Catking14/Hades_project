@@ -168,7 +168,6 @@
     "IceArrow": {
       "__uuid__": "017d5770-916f-4cf2-9ca5-90f70b9b5cb7"
     },
-    "HP": 100,
     "speed": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -178,6 +177,21 @@
       "__type__": "cc.Vec2",
       "x": 0,
       "y": 0
+    },
+    "ultimate_effect": {
+      "__uuid__": "6ca0607d-cd42-40e2-bb48-84633bac3c4a"
+    },
+    "attack_effect": {
+      "__uuid__": "86bb3bda-fb7c-41e6-be76-f8f0340de9c1"
+    },
+    "damage_effect": {
+      "__uuid__": "adb620cb-c992-4ad2-a8b6-2c5c2e0032ae"
+    },
+    "death_effect": {
+      "__uuid__": "9661df0e-2902-41da-b289-e884e16160c7"
+    },
+    "dash_effect": {
+      "__uuid__": "b79bc314-a42b-4da8-b1d5-082c669ac46e"
     },
     "_id": ""
   },

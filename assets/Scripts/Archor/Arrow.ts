@@ -37,7 +37,7 @@ export default class Arrow extends cc.Component {
         if(other.node.group == "default"){
             this.in_wall = true;
             this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-            this.node.getComponent(cc.PhysicsBoxCollider).size.width = 16;
+            this.node.getComponent(cc.RigidBody).enabledContactListener = false;
             this.node.getComponent(cc.PhysicsBoxCollider).enabled = false;
             this.node.getComponent(cc.PhysicsBoxCollider).apply();
             this.node.getComponent(cc.Animation).stop();
@@ -53,9 +53,9 @@ export default class Arrow extends cc.Component {
         }
 
         if(other.node.group == "enemy"){
-            this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
-            other.node.getComponent(other.node.name).damage(50);
-            this.node.destroy();
+            contact.disabled = true;
+            let damage = cc.find("Canvas/New Node/Archor").getComponent("Archor").dmg;
+            other.node.getComponent(other.node.name).damage(damage);
         }
     }
 }
