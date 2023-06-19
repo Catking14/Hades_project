@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "damage",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.8,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "34320ab8-8258-49fc-b307-ac65eda46b59"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "54c3eb5c-3593-4019-909c-33b3ec69e5b3"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "b464228d-1d20-471e-9718-c212245d6486"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "d10853a2-cd00-4afe-a86a-605a18c5503e"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
