@@ -188,7 +188,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Book",
+    "_name": "PageFlip",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -229,7 +229,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        4,
         0,
         0,
         0,
@@ -237,7 +237,7 @@
         1,
         1.25,
         1.35,
-        1
+        1.3
       ]
     },
     "_eulerAngles": {
@@ -308,12 +308,12 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 1
+      "__id__": 5
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "306991f9-a0d8-4df9-b820-2bb3bd63a1c2"
     },
-    "fileId": "91pjcYZh5FHoFYLW3MU/0p",
+    "fileId": "9elAQhaZ1O0IDt5jZC50e4",
     "sync": false
   },
   {
