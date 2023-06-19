@@ -1,0 +1,31 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Beholder_getHit",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.2857142857142857,
+  "sample": 7,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "e25001c8-cd91-49f0-8b3b-addee2d55e1f"
+            }
+          },
+          {
+            "frame": 0.14285714285714285,
+            "value": {
+              "__uuid__": "dc62c11f-3920-48ed-926b-0dd4d560723f"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

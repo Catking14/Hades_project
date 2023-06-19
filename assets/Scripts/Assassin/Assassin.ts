@@ -267,9 +267,9 @@ export default class Assassin extends cc.Component {
             cc.audioEngine.playEffect(this.e2Sound, false);
 
         } else if(!shadowRed){
-            if(this.heal >= 10 - cc.find("Data").getComponent("Data").heal){
+            if(this.heal >= 25 - cc.find("Data").getComponent("Data").heal){
             
-                this.heal -= 10;
+                this.heal -= 25;
                 shadowR = cc.instantiate(this.shadowPrefab);
                 let camerapos = cc.find("Canvas/Main Camera").position;
                 let Rpos = cc.v2(

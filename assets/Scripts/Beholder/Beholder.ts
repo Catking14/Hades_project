@@ -28,7 +28,7 @@ export default class Beholder extends cc.Component {
 
     @property(cc.AudioClip)
     tpSound: cc.AudioClip = null;
-    
+
     @property(cc.Prefab)
     fireballPrefab: cc.Prefab = null;
 
@@ -43,17 +43,17 @@ export default class Beholder extends cc.Component {
 
     isDead: boolean = false;
     getHitting: boolean = false;
-    HP: number = 500;
-    HP_val: number = 500;
-    Shield: number = 500;
-    Shield_val: number = 500;
+    HP: number = 1000;
+    HP_val: number = 1000;
+    Shield: number = 1000;
+    Shield_val: number = 1000;
 
     dirCount: number = 0;
     isAttacking1: boolean = false;
     isAttacking2: boolean = false;
     isAttacking3: boolean = false;
     isTPing: boolean = false;
-    a3_damage: number = 50;
+    a3_damage: number = 40;
     fireCount: number = 0;
 
     HP_bar: cc.ProgressBar;
@@ -74,6 +74,12 @@ export default class Beholder extends cc.Component {
         this.player = cc.find("BossSlimeManager").getComponent("BossSlimeManager").follow;
         // this.player = cc.find("Game Manager").getComponent("GameManager").follow;
         // cc.find("Canvas/Main Camera/UI").getComponent("UI")._player = this.player;
+        this.scheduleOnce(() => {
+            if (!this.isDead) this.a2();
+        }, 3);
+        this.scheduleOnce(() => {
+            if (!this.isDead) this.a1();
+        }, 9);
         this.schedule(() => {
             if (!this.isDead) {
                 cc.audioEngine.playEffect(this.tpSound, false);
@@ -107,13 +113,13 @@ export default class Beholder extends cc.Component {
 
     update(dt) {
 
-        if(this.isDead){
+        if (this.isDead) {
             return;
         }
 
         this.updateHPBar();
 
-        if (this.isAttacking1 || this.isAttacking3|| this.isTPing) {
+        if (this.isAttacking1 || this.isAttacking3 || this.isTPing || this.getHitting) {
             this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             return;
         }
@@ -233,7 +239,7 @@ export default class Beholder extends cc.Component {
     a2() {
         this.fireCount = 0;
         this.schedule(this.fireballGen, 0.2);
-        this.scheduleOnce(()=>{ this.unschedule(this.fireballGen); }, 6);
+        this.scheduleOnce(() => { this.unschedule(this.fireballGen); }, 6);
     }
 
     fireballGen() {
@@ -241,7 +247,7 @@ export default class Beholder extends cc.Component {
         fireball.setPosition(cc.v2(this.node.position.x, this.node.position.y - 10));
         this.node.parent.addChild(fireball);
         fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(
-            Math.cos(this.fireCount * Math.PI / 180) * 200, 
+            Math.cos(this.fireCount * Math.PI / 180) * 200,
             Math.sin(this.fireCount * Math.PI / 180) * 200
         );
         this.fireCount -= 20;
@@ -290,6 +296,8 @@ export default class Beholder extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
+                this.coinGen(1);
+                this.setState("getHit", "");
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
@@ -300,10 +308,34 @@ export default class Beholder extends cc.Component {
                     let transporter = cc.instantiate(this.transporterPrefab);
                     transporter.setPosition(this.node.position);
                     this.node.parent.addChild(transporter);
+
+                    this.coinGen(30);
                     this.node.destroy();
                 }, this);
             }
         }
+    }
+
+    coinGen(num: number) {
+        let Data = cc.find("Data").getComponent("Data");
+        let coin_random = Math.floor(Math.random() * num + 1);
+        let new_coin = [];
+        for (let i = 0; i < coin_random; i++) {
+            // console.log(Data.coin_num);
+            if (Data.coin_num > 0) {
+                new_coin[i] = Data.coin_pool.get();
+                Data.coin_num--;
+            } else {
+                new_coin[i] = cc.instantiate(Data.coin_prefab);
+            }
+            new_coin[i].setPosition(this.node.x, this.node.y);
+        }
+        this.scheduleOnce(() => {
+            for (let i = 0; i < coin_random; i++) {
+                cc.find("Canvas/New Node").addChild(new_coin[i]);
+                new_coin[i].runAction(cc.moveTo(0.2, cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
+            }
+        }, 0.2);
     }
 
     updateHPBar() {
