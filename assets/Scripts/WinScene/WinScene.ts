@@ -52,8 +52,8 @@ export default class WinScene extends cc.Component {
 
     start () 
     {
-        // let role = cc.find("Data").getComponent("Data").role;
-        let role = "Viking";
+        let role = cc.find("Data").getComponent("Data").role;
+        // let role = "Viking";
 
         if(role == "Wizard")
         {
