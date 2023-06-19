@@ -2,6 +2,11 @@ const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class LoginMenu extends cc.Component {
+    private EmailEditbox: any;
+    private PasswordEditbox: any;
+
+    private Email: string;
+    private Password: string;
 
     onLoad(){
         let Loginbtn = new cc.Component.EventHandler();
@@ -21,6 +26,11 @@ export default class LoginMenu extends cc.Component {
         Battlebtn.component = "LoginMenu";
         Battlebtn.handler = "handleBattleClick";
         this.node.getChildByName("enter").getComponent(cc.Button).clickEvents.push(Battlebtn);
+
+        this.EmailEditbox = this.node.getChildByName("email").getComponent(cc.EditBox);
+        this.EmailEditbox.node.on('text-changed', this.setEmail, this);
+        this.PasswordEditbox = this.node.getChildByName("password").getComponent(cc.EditBox);
+        this.PasswordEditbox.node.on('text-changed', this.setPassword, this);
     }
 
     start () {
@@ -28,6 +38,15 @@ export default class LoginMenu extends cc.Component {
     }
 
     // update (dt) {}
+
+
+    setEmail(){
+        this.Email = this.EmailEditbox.string;
+    }
+
+    setPassword(){
+        this.Password = this.PasswordEditbox.string;
+    }
 
     handleLoginClick(){
         cc.find("Canvas/bg").getComponent("LoginSignupMenuManager").SwitchToLoginMenu();
@@ -40,7 +59,9 @@ export default class LoginMenu extends cc.Component {
     }
 
     handleBattleClick(){
-        cc.find("Canvas/bg").getComponent("LoginSignupMenuManager").PrepareToStartGame();
+        this.EmailEditbox.string = "";
+        this.PasswordEditbox.string = "";
+        cc.find("Canvas/bg").getComponent("LoginSignupMenuManager").handleLogin(this.Email, this.Password);
         this.node.destroy();
     }
 }
