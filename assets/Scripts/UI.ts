@@ -166,7 +166,7 @@ export default class UI extends cc.Component {
         let heal_level = cc.find("Data").getComponent("Data").heal;
         this._heal_point = this._player.getComponent(this._player.name).heal;
 
-        if(this._heal_point < 100 - heal_level)
+        if(this._heal_point < 50 - heal_level)
         {
             this._heal.opacity = 150;
         }
