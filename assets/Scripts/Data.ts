@@ -264,7 +264,7 @@ export default class Data extends cc.Component {
     Login(email: string, password: string){
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            console.log("sign in successfully");
+            console.log("log in successfully");
             cc.find("Canvas/bg").getComponent("LoginSignupMenuManager").PrepareToStartGame();
         })
         .catch(e => {
