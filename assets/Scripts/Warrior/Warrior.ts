@@ -22,6 +22,9 @@ export default class Warrior extends cc.Component {
     @property(cc.Prefab)
     blood: cc.Prefab = null;
 
+    // blood node pool
+    _blood_pool: cc.NodePool = null;
+
     @property(cc.Prefab)
     extreme: cc.Prefab = null;
 
@@ -59,7 +62,10 @@ export default class Warrior extends cc.Component {
 
     // player status
     HP: number = 100;
+    HP_max: number = 100;
     _dmg: number = 30;
+    money: number = 0;
+    heal: number = 0;
 
     // Music effects
     @property(cc.AudioClip)
@@ -85,7 +91,7 @@ export default class Warrior extends cc.Component {
     fire(event)
     {
         // console.log("?");
-        if(!this._firing && !this._died)
+        if(!this._firing && !this._died && !cc.find("Data").getComponent("Data").in_shop)
         {
             this._firing = true;
 
@@ -119,7 +125,7 @@ export default class Warrior extends cc.Component {
             attack_range.setPosition(0, 0);
             attack_range.group = "player_attack";
             attack_range.getComponent("blade").duration_time = 0.1;
-            attack_range.getComponent("blade").damage_val = this._dmg;
+            attack_range.getComponent("blade").damage_val = this._dmg + cc.find("Data").getComponent("Data").damage;
 
             // play effect
             this._ATK = cc.audioEngine.playEffect(this.attack_effect, false);
@@ -163,6 +169,7 @@ export default class Warrior extends cc.Component {
         if(!this._firing && !this._died)
         {
             this._dashing = true;
+            this._dash_ready = false;
 
             if(this._move_dir.x == 0 && this._move_dir.y == 0)
             {
@@ -207,12 +214,13 @@ export default class Warrior extends cc.Component {
         this.scheduleOnce(() => 
         {
             this.node.zIndex -= 5;
+            cc.find("Game Manager").getComponent("GameManager").player_die();
         }, 1.2);
     }
 
     ultimate()
     {
-        if(!this._ultimate)
+        if(!this._ultimate && !this._died)
         {
             let extreme_effect = cc.instantiate(this.extreme);
 
@@ -272,9 +280,11 @@ export default class Warrior extends cc.Component {
        if(!this._hit && !this._died)
        {
             let blood_effect = cc.instantiate(this.blood);
+            // let blood_effect = this._blood_pool.get();
 
             blood_effect.setPosition(this.node.x, this.node.y);
             blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+            blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
             this._hit = true;
 
@@ -297,9 +307,11 @@ export default class Warrior extends cc.Component {
             if(this.HP <= 0)
             {
                 blood_effect.getComponent("Blood").die = true;
+
                 this.die();
             }
 
+            console.log("add");
             cc.find("Canvas/New Node").addChild(blood_effect);
             cc.find("Game Manager").getComponent("GameManager").camera_shake();
 
@@ -309,6 +321,28 @@ export default class Warrior extends cc.Component {
                 this.node.color = new cc.Color(255, 255, 255);
             }, 0.15);
        }
+    }
+
+    generate_blood()
+    {
+        this._blood_pool = new cc.NodePool("Blood");
+
+        for(let bld = 0;bld < 50;bld++)
+        {
+            let temp = cc.instantiate(this.blood);
+
+            temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
+            this._blood_pool.put(temp);
+        }
+    }
+
+    healing()
+    {
+        if(this.HP < this.HP_max)
+        {
+            this.heal = 0;
+            this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
+        }
     }
 
     // LIFE-CYCLE CALLBACKS:
@@ -328,10 +362,14 @@ export default class Warrior extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyPressed, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyRelease, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.fire, this);
+
+        this.generate_blood();
     }
 
-    start () {
-
+    start () 
+    {
+        this.HP = cc.find("Data").getComponent("Data").HP;
+        this.money = cc.find("Data").getComponent("Data").money;
     }
 
     onKeyPressed(event)
@@ -380,15 +418,24 @@ export default class Warrior extends cc.Component {
                     this.scheduleOnce(() => {this._ultimate_ready = true;}, this._ultimate_cd);
                 }
                 break;
+            case cc.macro.KEY.e:
+                let heal_level = cc.find("Data").getComponent("Data").heal;
+
+                if(this.heal == 100 - heal_level)
+                {
+                    this.healing();
+                }
+                break;
             case cc.macro.KEY.space:
                 if(!this._space_pressed && this._dash_ready)
                 {
+                    let dash_level = cc.find("Data").getComponent("Data").dash;
+
                     this._space_pressed = true;
-                    this._dash_ready = false;
                     this.dash();
 
                     // set dash CD time
-                    this.scheduleOnce(() => {this._dash_ready = true;}, this._dash_cd);
+                    this.scheduleOnce(() => {this._dash_ready = true;}, this._dash_cd - dash_level);
                 }
                 break;
         }

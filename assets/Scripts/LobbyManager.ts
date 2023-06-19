@@ -10,6 +10,10 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class Lobby extends cc.Component {
 
+    // initial player character
+    @property(cc.Prefab)
+    warrior: cc.Prefab = null;
+
     // follow selected player
     @property(cc.Node)
     follow: cc.Node = null;
@@ -28,26 +32,27 @@ export default class Lobby extends cc.Component {
     
         camera_pos.lerp(player_pos, 0.1, camera_pos);
 
-        if(camera_pos.x < 0)
-        {
-            camera_pos.x = 0;
-        }
-        else if(camera_pos.x > 640)
-        {
-            camera_pos.x = 640;
-        }
+        // if(camera_pos.x < 0)
+        // {
+        //     camera_pos.x = 0;
+        // }
+        // else if(camera_pos.x > 640)
+        // {
+        //     camera_pos.x = 640;
+        // }
 
-        if(camera_pos.y < 0)
-        {
-            camera_pos.y = 0;
-        }
-        else if(camera_pos.y > 960)
-        {
-            camera_pos.y = 960;
-        }
+        // if(camera_pos.y < 0)
+        // {
+        //     camera_pos.y = 0;
+        // }
+        // else if(camera_pos.y > 960)
+        // {
+        //     camera_pos.y = 960;
+        // }
 
         this._camera.setPosition(camera_pos);
     }
+
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -64,6 +69,14 @@ export default class Lobby extends cc.Component {
 
         cc.audioEngine.setMusicVolume(this.volume);
         cc.audioEngine.setEffectsVolume(this.volume + 0.05);
+
+        // generate warrior for default
+        let p1 = cc.instantiate(this.warrior);
+
+        p1.setPosition(-179.04, -207.689);
+        cc.find("Canvas/New Node").addChild(p1);
+
+        this.follow = p1;
     }
 
     start () {
@@ -73,5 +86,7 @@ export default class Lobby extends cc.Component {
     update (dt) 
     {
         this.camera_follow();
+        
+        cc.find("Data").getComponent("Data").role = this.follow.name;
     }
 }

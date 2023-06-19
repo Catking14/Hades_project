@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "5769f2e3-5870-4427-99c9-8a8b80ef5d32",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "point",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 288,
+  "height": 160,
+  "platformSettings": {},
+  "subMetas": {
+    "demon_fire_breath_21": {
+      "ver": "1.0.6",
+      "uuid": "588e6a4f-4cc1-478a-860a-79c37beadbb0",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "5769f2e3-5870-4427-99c9-8a8b80ef5d32",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 2,
+      "offsetY": -27.5,
+      "trimX": 108,
+      "trimY": 56,
+      "width": 76,
+      "height": 103,
+      "rawWidth": 288,
+      "rawHeight": 160,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

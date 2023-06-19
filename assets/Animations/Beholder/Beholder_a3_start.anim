@@ -1,0 +1,31 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Beholder_a3_start",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.25,
+  "sample": 8,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "440d0a97-9947-4df5-a8d9-41da64c472c5"
+            }
+          },
+          {
+            "frame": 0.125,
+            "value": {
+              "__uuid__": "425833fd-cf11-4f06-bbfe-bde0115aec87"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,31 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Beholder_a1_loop_back_side",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.25,
+  "sample": 8,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "2b47a726-5f84-4e1d-a8e2-2362cfa98b74"
+            }
+          },
+          {
+            "frame": 0.125,
+            "value": {
+              "__uuid__": "5c230b62-e4c5-4409-8ada-f12c024cbb3a"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

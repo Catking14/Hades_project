@@ -39,32 +39,42 @@ export class A_Star {
         this.heap = new BinaryHeap();
     }
 
+    can_walk(x: number, y: number): boolean {
+        if (x + 1 >= this.width || y + 1 >= this.height || x < 0 || y - 1 < 0)
+            return false;
+        if (this.map[x][y] == 1 || this.map[x][y - 1] == 1 || this.map[x][y + 1] == 1 || this.map[x + 1][y] == 1)
+            return false;
+        return true;
+    }
+
     walk_neighbors(cur: Node) {
         // 上下左右距離是 10 斜走是 14(目前還沒有)
         let x = cur.x, y = cur.y;
-        if (x + 1 < this.width && !this.map[x + 1][y]) {
+        let r = this.can_walk(x + 1, y), l = this.can_walk(x - 1, y);
+        let u = this.can_walk(x, y + 1), d = this.can_walk(x, y - 1);
+        if (r) {
             this.insert_node(this.node[x + 1][y], cur.g + 10, 1, 0);
         }
-        if (x - 1 > 0 && !this.map[x - 1][y]) {
+        if (l) {
             this.insert_node(this.node[x - 1][y], cur.g + 10, -1, 0);
         }
-        if (y + 1 < this.height && !this.map[x][y + 1]) {
+        if (u) {
             this.insert_node(this.node[x][y + 1], cur.g + 10, 0, 1);
         }
-        if (y - 1 > 0 && !this.map[x][y - 1]) {
+        if (d) {
             this.insert_node(this.node[x][y - 1], cur.g + 10, 0, -1);
         }
 
-        if (x + 1 < this.width && y + 1 < this.height && !this.map[x + 1][y + 1]) {
+        if (r && u && this.can_walk(x + 1, y + 1)) {
             this.insert_node(this.node[x + 1][y + 1], cur.g + 14, 1, 1);
         }
-        if (x + 1 < this.width && y - 1 > 0 && !this.map[x + 1][y - 1]) {
+        if (r && d && this.can_walk(x + 1, y - 1)) {
             this.insert_node(this.node[x + 1][y - 1], cur.g + 14, 1, -1);
         }
-        if (x - 1 > 0 && y + 1 < this.height && !this.map[x - 1][y + 1]) {
+        if (l && u && this.can_walk(x - 1, y + 1)) {
             this.insert_node(this.node[x - 1][y + 1], cur.g + 14, -1, 1);
         }
-        if (x - 1 > 0 && y - 1 > 0 && !this.map[x - 1][y - 1]) {
+        if (l && d && this.can_walk(x - 1, y - 1)) {
             this.insert_node(this.node[x - 1][y - 1], cur.g + 14, -1, -1);
         }
     }
@@ -83,35 +93,45 @@ export class A_Star {
         }
     }
 
-    search(s: cc.Vec3, e: cc.Vec3): cc.Vec2 {
+    search(s: cc.Vec3, e: cc.Vec3): cc.Vec2 | null {
         // time complexity: O(h*w*log(h*w))
-        this.start = cc.v2((s.x + this.Canvas_offset.x) >> 5, (s.y + this.Canvas_offset.y) >> 5);
-        this.end = cc.v2((e.x + this.Canvas_offset.x) >> 5, (e.y + this.Canvas_offset.y) >> 5);
+        try {
+            this.start = cc.v2(Math.floor((s.x + this.Canvas_offset.x) / 32), Math.floor((s.y + this.Canvas_offset.y) / 32));
+            this.end = cc.v2(Math.floor((e.x + this.Canvas_offset.x) / 32), Math.floor((e.y + this.Canvas_offset.y) / 32));
 
-        this.init();
+            if (this.map[this.end.x][this.end.y] == 1)
+                return null;
 
-        this.insert_node(this.node[this.start.x][this.start.y], 0, 0, 0);
-        let search_cnt = 0;
-        let cur: Node;
+            this.init();
 
-        while (this.heap.size() > 0) {
-            cur = this.heap.pop();
-            if (cur.x == this.end.x && cur.y == this.end.y) {
-                while (cur.x - cur.prev_x != this.start.x && cur.y - cur.prev_y != this.start.y) {
-                    cur = this.node[cur.x - cur.prev_x][cur.y - cur.prev_y];
+            this.insert_node(this.node[this.start.x][this.start.y], 0, 0, 0);
+            let search_cnt = 0;
+            let cur: Node;
+
+            while (this.heap.size() > 0 && search_cnt < 4870) {
+                cur = this.heap.pop();
+                if (Math.abs(cur.x - this.end.x) + Math.abs(cur.y - this.end.y) <= 2) {
+                    while (cur.x - cur.prev_x != this.start.x || cur.y - cur.prev_y != this.start.y) {
+                        cur = this.node[cur.x - cur.prev_x][cur.y - cur.prev_y];
+                    }
+                    if (search_cnt == 0)
+                        return null;
+                    return new cc.Vec2(cur.prev_x, cur.prev_y);
                 }
-                return new cc.Vec2(cur.prev_x, cur.prev_y);
+                if (cur.visited)
+                    continue;
+
+                this.node[cur.x][cur.y].visited = true;
+                search_cnt++;
+
+                this.walk_neighbors(cur);
             }
-            if (cur.visited)
-                continue;
 
-            this.node[cur.x][cur.y].visited = true;
-            search_cnt++;
-
-            this.walk_neighbors(cur);
+            return null;
         }
-
-        return new cc.Vec2(0, 0);
+        catch {
+            return null;
+        }
     }
 }
 

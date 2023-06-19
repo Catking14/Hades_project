@@ -19,16 +19,48 @@ export default class Assassin extends cc.Component {
     @property(cc.Prefab)
     shadowPrefab: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    a1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a2Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a3Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    qSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    e1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    e2Sound: cc.AudioClip = null;
+
+    @property(cc.Prefab)
+    blood: cc.Prefab = null;
+
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
     private Shield: number = 0;
-    private HP: number = 100;
+    HP: number = 100;
+    HP_max: number = 100;
+    _dmg: number = 50;
+    _ultimate_cd: number = 10;
+    _ultimate: boolean = false;
+    _ultimate_ready: boolean = true;
+    _dash_ready: boolean = true;
+    _dash_cd: number = 1;
+    _hit: boolean = false;
+    _died: boolean = false;
+    money: number = 0;
+    heal: number = 0;
+    _blood_pool: cc.NodePool = null;
 
     // variable
     private state: string = "stand";
     private nextAttack: string = "a1";
-    private doNextAttack: boolean = false;
     private isBegin: boolean = false;
     private isDashing: boolean = false;
     private isDashingCD: boolean = false;
@@ -54,7 +86,10 @@ export default class Assassin extends cc.Component {
     }
 
     update(dt) {
-        // console.log(this.nextAttack);
+
+        this._hit = this.getHitting;
+
+        this._dash_ready = !this.isDashingCD;
 
         if (this.isDashing || this.isAttacking) return;
 
@@ -76,8 +111,6 @@ export default class Assassin extends cc.Component {
             this.vecSpeed.x = 1;
         }
         if (Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
-        if (Input[cc.macro.KEY.q]) this.skillQ();
-        if (Input[cc.macro.KEY.e]) this.skillE();
 
         // give speed
         let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
@@ -95,30 +128,19 @@ export default class Assassin extends cc.Component {
         } else {
             this.setState("stand");
         }
+        if (Input[cc.macro.KEY.q]) this.skillQ();
+        if (Input[cc.macro.KEY.e]) this.skillE();
     }
 
 
     setState(newState: string) {
+        
         if (this.state == newState) return;
 
         let animation = this.node.getComponent(cc.Animation);
         animation.stop();
         animation.play("Assassin_" + newState);
         this.state = newState;
-
-        // if(this.state == "stand"){
-
-        // }else if(this.state == "run"){
-
-        // }else if(this.state == "dash"){
-
-        // }else if(this.state == "attack"){
-
-        // }else if(this.state == "getHit"){
-
-        // }else if(this.state == "death"){
-
-        // }
     }
 
     dash() {
@@ -147,19 +169,19 @@ export default class Assassin extends cc.Component {
     }
 
     attack(event) {
-        // console.log("Viking is attacking");
-        if (this.isAttacking) {
-            console.log("attackCD");
-            this.doNextAttack = true;
-            return;
-        }
+
+        if (this.isAttacking)  return;
+        
         this.isAttacking = true;
 
         this.setState(this.nextAttack);
-
         this.bladeGen(this.nextAttack);
-
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        switch (this.nextAttack) {
+            case "a1": cc.audioEngine.playEffect(this.a1Sound, false); break;
+            case "a2": cc.audioEngine.playEffect(this.a2Sound, false); break;
+            case "a3": cc.audioEngine.playEffect(this.a3Sound, false); break;
+        }
 
         const attacks = ["a1", "a2", "a3"];
         const currentIndex = attacks.indexOf(this.nextAttack);
@@ -178,8 +200,14 @@ export default class Assassin extends cc.Component {
         // damage_effect 代表受到傷害的效果 型別為string array
         console.log("Assassin got damaged");
         console.log(damage_val);
-        damage_val = 10;
         console.log(this.HP);
+
+        let blood_effect = cc.instantiate(this.blood);
+
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+        blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
+
 
         if (this.Shield > 0) {
             // 扣護盾
@@ -189,16 +217,35 @@ export default class Assassin extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
             } else {
                 this.isDead = true;
+                this._died = true;
+                cc.find("Game Manager").getComponent("GameManager").player_die();
                 this.getComponent(cc.Animation).play("Assassin_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
                 }, this);
             }
+        }
+
+        if(this.HP <= 0){
+            blood_effect.getComponent("Blood").die = true;
+        }
+        cc.find("Canvas/New Node").addChild(blood_effect);
+    }
+
+    generate_blood(){
+        this._blood_pool = new cc.NodePool("Blood");
+
+        for(let bld = 0;bld < 50; bld++){
+            let temp = cc.instantiate(this.blood);
+
+            temp.getComponent("Blood")._blood_node_pool = this._blood_pool;
+            this._blood_pool.put(temp);
         }
     }
 
@@ -209,9 +256,10 @@ export default class Assassin extends cc.Component {
             let shadowPos = shadow.position;
             shadow.setPosition(this.node.position);
             this.node.setPosition(shadowPos);
+            cc.audioEngine.playEffect(this.e2Sound, false);
 
             this.ECD = true;
-            this.scheduleOnce(() => { this.ECD = false; }, 5);
+            // this.scheduleOnce(() => { this.ECD = false; }, 5);
 
         } else {
             shadow = cc.instantiate(this.shadowPrefab);
@@ -221,23 +269,32 @@ export default class Assassin extends cc.Component {
                 this.mousePos.y + camerapos.y - 320
             ));
             this.node.parent.addChild(shadow);
+            cc.audioEngine.playEffect(this.e1Sound, false);
             this.nextAttack = "a1";
-            this.scheduleOnce(() => {
-                shadow.destroy();
-            }, 5);
+            
+            this._ultimate = true;
+            this.scheduleOnce(() => { this._ultimate = false; }, 0.5);
+
+            this.scheduleOnce(() => { shadow.destroy(); }, 5);
 
             this.ECD = true;
-            this.scheduleOnce(() => { this.ECD = false; }, 0.5);
+            this._ultimate_ready = false;
+            this.scheduleOnce(() => { this.ECD = false; }, 0.2);
+            this.scheduleOnce(() => { this.ECD = false; this._ultimate_ready = true;}, this._ultimate_cd);
 
         }
     }
 
     skillQ() {
-
-        if (this.QCD) return;
+        
+        if (this.QCD || this.isAttacking) return;
+        
         const fireball = cc.instantiate(this.fireballPrefab);
         let camerapos = cc.find("Canvas/Main Camera").position;
-        let direction = cc.v2(this.mousePos.x + camerapos.x - 480 - this.node.position.x, this.mousePos.y + camerapos.y - 320 - this.node.position.y);
+        let direction = cc.v2(
+            this.mousePos.x + camerapos.x - 480 - this.node.position.x, 
+            this.mousePos.y + camerapos.y - 320 - this.node.position.y
+        );
         let distance = Math.sqrt(Math.pow(direction.x, 2) + Math.pow(direction.y, 2));
         direction = cc.v2(direction.x / distance, direction.y / distance);
 
@@ -250,9 +307,21 @@ export default class Assassin extends cc.Component {
             this.node.scaleX = -1;
         }
 
-        fireball.setPosition(cc.v2(0, 0));
-        this.node.addChild(fireball);
-        fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
+        this.scheduleOnce(()=>{
+            fireball.setPosition(cc.v2(0, 0));
+            this.node.addChild(fireball);
+            fireball.getComponent(cc.RigidBody).linearVelocity = cc.v2(direction.x * 100, direction.y * 100);
+        }, 0.45);
+
+
+        this.isAttacking = true;
+        this.setState("a1");
+        cc.audioEngine.playEffect(this.qSound, false);
+        this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        this.scheduleOnce(() => { 
+            this.setState("stand"); 
+            this.isAttacking = false; 
+        }, this.attack_time);
 
         this.QCD = true;
         this.scheduleOnce(() => { this.QCD = false; }, 2);

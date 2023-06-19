@@ -9,6 +9,8 @@ export default class Skeleton extends cc.Component {
     @property(cc.Prefab)
     blade: cc.Prefab = null;
 
+    pool_num: number;
+
     // 血量
     @property
     HP: number = 100;
@@ -26,7 +28,7 @@ export default class Skeleton extends cc.Component {
 
     private target: cc.Node = null;
     private target_time: number = 0;      // 重新找目標的計時器
-    private target_colddown: number = 0;  // 重新找目標的冷卻
+    private target_colddown: number = 0.1;  // 重新找目標的冷卻
     private target_distance: number = 1000; // 小於這個距離會觸發怪物的追擊
 
     private attack_distance: number = 50; // 低於這個距離 會進行攻擊
@@ -50,38 +52,8 @@ export default class Skeleton extends cc.Component {
     private getHitting: boolean = false;
     private isDead: boolean = false;
 
-    private AI: A_Star; 
-    private tmp_map = [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+    private AI: A_Star;
+    public map;
 
     onLoad() {
         this.sprite = this.node.getComponent(cc.Sprite);
@@ -94,9 +66,8 @@ export default class Skeleton extends cc.Component {
     }
 
     start() {
-        this.HP_val = this.HP;
-        this.Shield_val = this.Shield;
-        this.AI = new A_Star(this.tmp_map);
+        this.init();
+        this.AI = new A_Star(this.map);
     }
 
     update(dt) {
@@ -138,6 +109,66 @@ export default class Skeleton extends cc.Component {
         this.state = newState;
     }
 
+    init() {
+        this.isDead = false;
+        this.HP_val = this.HP;
+        this.Shield_val = this.Shield;
+    }
+
+    dead() {
+        this.isDead = true;
+
+        let Data = cc.find("Data").getComponent("Data");
+        let coin_random = Math.floor(Math.random() * 3 + 1);
+        let new_coin = [];
+        for (let i = 0; i < coin_random; i++)
+        {
+            console.log(Data.coin_num);
+            if (Data.coin_num > 0)
+            {
+                new_coin[i] = Data.coin_pool.get();
+                Data.coin_num--;
+            }
+            else
+            {
+                new_coin[i] = cc.instantiate(Data.coin_prefab);
+            }
+            new_coin[i].setPosition(this.node.x, this.node.y);
+        }
+
+        let heal_posion_random = Math.floor(Math.random() * 4);
+        let new_heal_posion;
+        console.log(heal_posion_random);
+        if (heal_posion_random > 2)
+        {
+            if (Data.heal_posion_num > 0)
+            {
+                new_heal_posion = Data.heal_posion_pool.get();
+                Data.heal_posion_num--;
+            }
+            else
+            {
+                new_heal_posion = cc.instantiate(Data.heal_posion_prefab);
+            }
+            new_heal_posion.setPosition(this.node.x, this.node.y);
+        }
+        
+        this.scheduleOnce(() => {
+            cc.find("Game Manager").getComponent("GameManager").monster_pool[this.pool_num].put(this.node);
+            cc.find("Game Manager").getComponent("GameManager").monster_num[this.pool_num]++;
+            for (let i = 0; i < coin_random; i++)
+            {
+                cc.find("Canvas/New Node").addChild(new_coin[i]);
+                new_coin[i].runAction(cc.moveTo(0.2 ,cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
+            }
+            if (heal_posion_random > 2)
+            {
+                cc.find("Canvas/New Node").addChild(new_heal_posion);
+                new_heal_posion.runAction(cc.moveTo(0.2 ,cc.v2(this.node.x + Math.floor(Math.random() * 50 - 25), this.node.y + Math.floor(Math.random() * 25))));
+            }
+        }, 0.6);
+    }
+
     damage(damage_val: number, ...damage_effect: Array<string>) {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
@@ -156,10 +187,7 @@ export default class Skeleton extends cc.Component {
                 }, 0.35);
             }
             else {
-                this.isDead = true;
-                this.scheduleOnce(() => {
-                    this.node.destroy();
-                }, 0.6);
+                this.dead();
             }
         }
     }
@@ -203,16 +231,33 @@ export default class Skeleton extends cc.Component {
             }
             if (mn != -1) {
                 this.target = this.target_set.children[mn];
-                this.direction = this.AI.search(this.node.position, this.target.position);
+                if (this.isAttacking || this.isDead || this.getHitting) return;
+                let x_diff = this.target.position.x - this.node.position.x;
+                let y_diff = this.target.position.y - this.node.position.y;
+                let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+                let dir = this.AI.search(this.node.position.sub(cc.v3(this.collider.size.width / 2, 0, 0)), this.target.position);
+                if (dir == null)
+                {
+                    this.direction.x = (this.target.position.x - this.node.position.x) / distance;
+                    this.direction.y = (this.target.position.y - this.node.position.y) / distance;
+                }
+                else
+                {
+                    this.direction = dir;
+                }
             }
-        }
-        if (cc.isValid(this.target)) {
-            if (this.isAttacking || this.isDead || this.getHitting) return;
-            let x_diff = this.target.position.x - this.node.position.x;
-            let y_diff = this.target.position.y - this.node.position.y;
-            let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
-            if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 25) {
-                this.attack();
+            else
+            {
+                this.direction = cc.v2(0, 0);
+            }
+            if (cc.isValid(this.target)) {
+                if (this.isAttacking || this.isDead || this.getHitting) return;
+                let x_diff = this.target.position.x - this.node.position.x;
+                let y_diff = this.target.position.y - this.node.position.y;
+                let distance = Math.sqrt(Math.pow(x_diff, 2) + Math.pow(y_diff, 2));
+                if (distance < this.attack_distance && this.attack_counter == 0 && Math.abs(y_diff) < 25) {
+                    this.attack();
+                }
             }
         }
     }

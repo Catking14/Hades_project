@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "16fac573-b9c0-4a9e-8fe4-0ea17c80378c",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 256,
+  "height": 96,
+  "platformSettings": {},
+  "subMetas": {
+    "beholder-atk2-front view-finishing": {
+      "ver": "1.0.6",
+      "uuid": "5e5ffd97-2d58-4e98-b03c-9891ef6453c6",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "16fac573-b9c0-4a9e-8fe4-0ea17c80378c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -5.5,
+      "offsetY": 3,
+      "trimX": 17,
+      "trimY": 11,
+      "width": 211,
+      "height": 68,
+      "rawWidth": 256,
+      "rawHeight": 96,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

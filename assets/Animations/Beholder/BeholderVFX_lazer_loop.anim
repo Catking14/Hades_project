@@ -1,0 +1,65 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "BeholderVFX_lazer_loop",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.4,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "dde5c1dc-dc44-46bf-8bd8-d8ca3448be9d"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "06b93694-f872-4742-b44c-5435aa2af849"
+            }
+          }
+        ]
+      }
+    },
+    "paths": {
+      "lazer_impact": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "9f7bf613-8fda-4d8b-8003-bdb5b4dd739b"
+                }
+              },
+              {
+                "frame": 0.1,
+                "value": {
+                  "__uuid__": "7954b7ff-8bbc-4424-b2d8-6a6dc914bbee"
+                }
+              },
+              {
+                "frame": 0.2,
+                "value": {
+                  "__uuid__": "ddbe68e3-55ae-430a-8389-c05e00f82b04"
+                }
+              },
+              {
+                "frame": 0.3,
+                "value": {
+                  "__uuid__": "0dd76c87-f6e0-4dfa-b542-afee5eb49904"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "events": []
+}

@@ -13,12 +13,40 @@ export default class Viking extends cc.Component {
     @property(cc.SpriteFrame)
     bubbleSprite: cc.SpriteFrame = null;
 
+    @property(cc.AudioClip)
+    a1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a2Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a3Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    ultimateSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    laughSound: cc.AudioClip = null;
+
+    @property(cc.Prefab)
+    blood: cc.Prefab = null;
 
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
     private Shield: number = 0;
-    private HP: number = 100;
+    HP: number = 200;
+    HP_max: number = 200;
+    _dmg: number = 30;
+    _ultimate_cd: number = 10;
+    _ultimate: boolean = false;
+    _dash_ready: boolean = true;
+    _dash_cd: number = 1;
+    _hit: boolean = false;
+    _died: boolean = false;
+    money: number = 0;
+    heal: number = 0;
+    _blood_pool: cc.NodePool = null;
 
     // variable
     private state: string = "stand";
@@ -33,8 +61,11 @@ export default class Viking extends cc.Component {
     private vecSpeed: cc.Vec2 = cc.v2(0, 0);
     private attack_time: number = 0.5;
     private attack_delay: number = 0.2;
-    private attack_damage: number = 50;
+    private attack_damage: number = 30;
     private mousePos: any = null;
+    private isUltCD: boolean = false;
+    private QCD: boolean = false;
+    private ECD: boolean = false;
 
     start() {
         // cc.director.getPhysicsManager().debugDrawFlags = 1;
@@ -47,7 +78,9 @@ export default class Viking extends cc.Component {
     }
 
     update(dt) {
+        this._hit = this.getHitting;
         // console.log(this.nextAttack);
+        this._dash_ready = !this.isDashingCD;
 
         if (this.isDashing || this.isAttacking) return;
 
@@ -99,20 +132,6 @@ export default class Viking extends cc.Component {
         animation.stop();
         animation.play("viking_" + newState);
         this.state = newState;
-
-        // if(this.state == "stand"){
-
-        // }else if(this.state == "run"){
-
-        // }else if(this.state == "dash"){
-
-        // }else if(this.state == "attack"){
-
-        // }else if(this.state == "getHit"){
-
-        // }else if(this.state == "death"){
-
-        // }
     }
 
     dash() {
@@ -152,6 +171,12 @@ export default class Viking extends cc.Component {
         this.setState(this.nextAttack);
         this.bladeGen(this.nextAttack);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        switch (this.nextAttack) {
+            case "a1": cc.audioEngine.playEffect(this.a1Sound, false); break;
+            case "a2": cc.audioEngine.playEffect(this.a2Sound, false); break;
+            case "a3": cc.audioEngine.playEffect(this.a3Sound, false); break;
+            case "ultimate": cc.audioEngine.playEffect(this.ultimateSound, false); break;
+        }
 
         const attacks = ["a1", "a2", "a3", "ultimate"];
         const currentIndex = attacks.indexOf(this.nextAttack);
@@ -170,8 +195,13 @@ export default class Viking extends cc.Component {
         // damage_effect 代表受到傷害的效果 型別為string array
         console.log("Viking got damaged");
         console.log(damage_val);
-        damage_val = 10;
         console.log(this.HP);
+
+        let blood_effect = cc.instantiate(this.blood);
+
+        blood_effect.setPosition(this.node.x, this.node.y);
+        blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+        blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
         if (this.Shield > 0) {
             // 扣護盾
@@ -181,20 +211,30 @@ export default class Viking extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
+                cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
             } else {
                 this.isDead = true;
+                this._died = true;
+                cc.find("Game Manager").getComponent("GameManager").player_die();
                 this.getComponent(cc.Animation).play("viking_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
                 }, this);
             }
         }
+
+        if(this.HP <= 0){
+            blood_effect.getComponent("Blood").die = true;
+        }
+        cc.find("Canvas/New Node").addChild(blood_effect);
     }
 
     skillE() {
+        if (this.ECD) return;
+
         this.Shield = 100;
         let bubble = new cc.Node;
         bubble.addComponent(cc.Sprite);
@@ -202,22 +242,34 @@ export default class Viking extends cc.Component {
         bubble.opacity = 128;
         bubble.scale = 4;
         this.node.addChild(bubble);
+        cc.audioEngine.playEffect(this.laughSound, false);
 
         this.scheduleOnce(() => {
             this.Shield = 0;
             bubble.destroy();
         }, 2);
+
+        this.ECD = true;
+        this.scheduleOnce(() => { this.ECD = false; }, 5);
     }
 
     skillQ() {
+        if (this.QCD) return;
+        
         if (!this.node.parent.getChildByName("shield")) {
             let shield = cc.instantiate(this.shieldPrefab);
             shield.setPosition(cc.v2(this.node.position.x, this.node.position.y));
             this.node.parent.addChild(shield);
+            cc.audioEngine.playEffect(this.laughSound, false);
+            this._ultimate = true;
             this.scheduleOnce(() => {
+                this._ultimate = false;
                 shield.destroy();
             }, 5);
         }
+
+        this.QCD = true;
+        this.scheduleOnce(() => { this.QCD = false; }, this._ultimate_cd);
     }
 
     setMousePos(event) {

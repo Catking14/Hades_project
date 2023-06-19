@@ -52,7 +52,7 @@ export default class Book extends cc.Component {
             this.animation_flag = false;
             this.create_page("setting");
         }, 0.5);
-        console.log("book open");
+        cc.find("Canvas/New Node").active = false;
     }
 
     closebook() {
@@ -63,8 +63,8 @@ export default class Book extends cc.Component {
         this.scheduleOnce(() => {
             this.animation_flag = false;
             this.node.removeAllChildren();
+            cc.find("Canvas/New Node").active = true;
         }, 0.5);
-        console.log("book close");
     }
 
     clear_page() {

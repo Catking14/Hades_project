@@ -11,12 +11,16 @@ const {ccclass, property} = cc._decorator;
 export default class UI extends cc.Component {
     // icon component
     _icon: cc.Node = null;
+    _heal: cc.Node = null;
+    _black: cc.Node = null;
 
     // bar component
     _hp_bar: cc.Node = null;
     _temp_hp_bar: cc.Node = null;
     _mana_bar: cc.Node = null;
     _dash_bar: cc.Node = null;
+    _money_bar: cc.Label = null;
+    _heal_bar: cc.Label = null;
 
     _hp_bar_length: number = 300;
     _mana_bar_length: number = 210;
@@ -37,6 +41,8 @@ export default class UI extends cc.Component {
     _mana_fire: boolean = false;
 
     _dash_ready: boolean = true;
+
+    _heal_point: number = 0;
 
     // animation
     glass_broke: boolean = false;
@@ -72,10 +78,14 @@ export default class UI extends cc.Component {
     {
         // get UI elements
         this._icon = this.node.getChildByName("Icon");
+        this._heal = this.node.getChildByName("Heal");
+        this._black = this.node.getChildByName("Black");
         this._hp_bar = this.node.getChildByName("HP").getChildByName("actual_health");
         this._temp_hp_bar = this.node.getChildByName("HP").getChildByName("temp_health");
         this._mana_bar = this.node.getChildByName("MP").getChildByName("cd");
         this._dash_bar = this.node.getChildByName("Dash").getChildByName("point");
+        this._heal_bar = this.node.getChildByName("Heal").getChildByName("count").getComponent(cc.Label);
+        this._money_bar = this.node.getChildByName("Money").getChildByName("count").getComponent(cc.Label);
     }
 
     start () 
@@ -90,6 +100,13 @@ export default class UI extends cc.Component {
 
         this._mana = 100;
         this._mana_cd = this._player.getComponent(this._player.name)._ultimate_cd;
+
+        this._black.opacity = 0;
+    }
+
+    death_effect()
+    {
+        this._black.opacity = 255;
     }
 
     update (dt) 
@@ -138,6 +155,19 @@ export default class UI extends cc.Component {
             this._dash_bar.opacity = 255;
         }
 
+        // update heal
+        let heal_level = cc.find("Data").getComponent("Data").heal;
+        this._heal_point = this._player.getComponent(this._player.name).heal;
+
+        if(this._heal_point < 100 - heal_level)
+        {
+            this._heal.opacity = 150;
+        }
+        else
+        {
+            this._heal.opacity = 255;
+        }
+
         // check hp and mana range before update
         if(this._hp <= 0)
         {
@@ -148,6 +178,7 @@ export default class UI extends cc.Component {
             {
                 this.glass_broke = true;
                 this.break_glass();
+                this.death_effect();
             }
         }
         
@@ -160,6 +191,8 @@ export default class UI extends cc.Component {
         this._hp_bar.width = this._hp_bar_length * (this._hp / this._max_hp);
         this._temp_hp_bar.width = this._hp_bar_length * (this._next_hp / this._max_hp);
         this._mana_bar.width = this._mana_bar_length * (this._mana / 100);
+        this._money_bar.string = this._player.getComponent(this._player.name).money.toString();
+        this._heal_bar.string = this._heal_point.toString();
 
 
         // position lerp
