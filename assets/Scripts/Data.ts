@@ -58,6 +58,11 @@ export default class Data extends cc.Component {
     total_playtime: number = 0;     // in sec maybe?
     total_Boss_killed: number = 0;
 
+    // statistic for single round
+    time: number = 0;
+    kills: number = 0;
+    damage_made: number = 0;
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () 
