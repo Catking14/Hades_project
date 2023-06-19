@@ -180,6 +180,24 @@
     "shadowPrefab": {
       "__uuid__": "e52baa0f-3adf-4374-be7a-1c9d18124858"
     },
+    "a1Sound": {
+      "__uuid__": "6603d238-6183-4a80-9765-f459e98441c9"
+    },
+    "a2Sound": {
+      "__uuid__": "e30c3861-985e-4fd7-ab43-b1352ed41f0c"
+    },
+    "a3Sound": {
+      "__uuid__": "af6701ed-c65b-4ff7-8604-50947fee4df0"
+    },
+    "qSound": {
+      "__uuid__": "609a2938-d5c4-4840-bdbe-fa54d71ffba0"
+    },
+    "e1Sound": {
+      "__uuid__": "139cc37d-fd42-4eb8-bc51-a30f66ca3fc3"
+    },
+    "e2Sound": {
+      "__uuid__": "b2693c8f-e4f9-4c2d-82ad-88a4291b1a62"
+    },
     "_id": ""
   },
   {

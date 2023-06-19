@@ -19,6 +19,24 @@ export default class Assassin extends cc.Component {
     @property(cc.Prefab)
     shadowPrefab: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    a1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a2Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a3Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    qSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    e1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    e2Sound: cc.AudioClip = null;
+
     // info
     private ratio: number = 0.8;
     private speed: number = 200;
@@ -146,6 +164,11 @@ export default class Assassin extends cc.Component {
         this.setState(this.nextAttack);
         this.bladeGen(this.nextAttack);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        switch (this.nextAttack) {
+            case "a1": cc.audioEngine.playEffect(this.a1Sound, false); break;
+            case "a2": cc.audioEngine.playEffect(this.a2Sound, false); break;
+            case "a3": cc.audioEngine.playEffect(this.a3Sound, false); break;
+        }
 
         const attacks = ["a1", "a2", "a3"];
         const currentIndex = attacks.indexOf(this.nextAttack);
@@ -164,7 +187,6 @@ export default class Assassin extends cc.Component {
         // damage_effect 代表受到傷害的效果 型別為string array
         console.log("Assassin got damaged");
         console.log(damage_val);
-        damage_val = 10;
         console.log(this.HP);
 
         if (this.Shield > 0) {
@@ -175,7 +197,7 @@ export default class Assassin extends cc.Component {
             this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
             if (this.HP > 0) {
                 this.getHitting = true;
-                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                // cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.getHitting = false;
                 }, 0.3);
@@ -196,6 +218,7 @@ export default class Assassin extends cc.Component {
             let shadowPos = shadow.position;
             shadow.setPosition(this.node.position);
             this.node.setPosition(shadowPos);
+            cc.audioEngine.playEffect(this.e2Sound, false);
 
             this.ECD = true;
             // this.scheduleOnce(() => { this.ECD = false; }, 5);
@@ -208,6 +231,7 @@ export default class Assassin extends cc.Component {
                 this.mousePos.y + camerapos.y - 320
             ));
             this.node.parent.addChild(shadow);
+            cc.audioEngine.playEffect(this.e1Sound, false);
             this.nextAttack = "a1";
             
             this._ultimate = true;
@@ -253,6 +277,7 @@ export default class Assassin extends cc.Component {
 
         this.isAttacking = true;
         this.setState("a1");
+        cc.audioEngine.playEffect(this.qSound, false);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
         this.scheduleOnce(() => { 
             this.setState("stand"); 

@@ -13,6 +13,21 @@ export default class Viking extends cc.Component {
     @property(cc.SpriteFrame)
     bubbleSprite: cc.SpriteFrame = null;
 
+    @property(cc.AudioClip)
+    a1Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a2Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    a3Sound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    ultimateSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    laughSound: cc.AudioClip = null;
+
 
     // info
     private ratio: number = 0.8;
@@ -146,6 +161,12 @@ export default class Viking extends cc.Component {
         this.setState(this.nextAttack);
         this.bladeGen(this.nextAttack);
         this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+        switch (this.nextAttack) {
+            case "a1": cc.audioEngine.playEffect(this.a1Sound, false); break;
+            case "a2": cc.audioEngine.playEffect(this.a2Sound, false); break;
+            case "a3": cc.audioEngine.playEffect(this.a3Sound, false); break;
+            case "ultimate": cc.audioEngine.playEffect(this.ultimateSound, false); break;
+        }
 
         const attacks = ["a1", "a2", "a3", "ultimate"];
         const currentIndex = attacks.indexOf(this.nextAttack);
@@ -164,7 +185,6 @@ export default class Viking extends cc.Component {
         // damage_effect 代表受到傷害的效果 型別為string array
         console.log("Viking got damaged");
         console.log(damage_val);
-        damage_val = 10;
         console.log(this.HP);
 
         if (this.Shield > 0) {
@@ -199,6 +219,7 @@ export default class Viking extends cc.Component {
         bubble.opacity = 128;
         bubble.scale = 4;
         this.node.addChild(bubble);
+        cc.audioEngine.playEffect(this.laughSound, false);
 
         this.scheduleOnce(() => {
             this.Shield = 0;
@@ -216,6 +237,7 @@ export default class Viking extends cc.Component {
             let shield = cc.instantiate(this.shieldPrefab);
             shield.setPosition(cc.v2(this.node.position.x, this.node.position.y));
             this.node.parent.addChild(shield);
+            cc.audioEngine.playEffect(this.laughSound, false);
             this._ultimate = true;
             this.scheduleOnce(() => {
                 this._ultimate = false;

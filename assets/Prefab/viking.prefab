@@ -199,6 +199,21 @@
     "bubbleSprite": {
       "__uuid__": "ace95271-6c3a-4a19-aa49-80c65a1a6f5c"
     },
+    "a1Sound": {
+      "__uuid__": "61995bfe-9cb1-4701-b686-4ce711a61a23"
+    },
+    "a2Sound": {
+      "__uuid__": "acc41786-2298-41b8-9949-63e29dbe89f7"
+    },
+    "a3Sound": {
+      "__uuid__": "92fc3396-d074-48b2-94f4-e1513529906a"
+    },
+    "ultimateSound": {
+      "__uuid__": "7d796b0e-bc7c-4746-9d3c-38b6ec492b83"
+    },
+    "laughSound": {
+      "__uuid__": "160f1385-3baf-4c78-a039-4a71c499eaed"
+    },
     "_id": ""
   },
   {

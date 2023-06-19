@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
  <tileset firstgid="1" source="Tiles.tsx"/>
  <tileset firstgid="626" source="Props.tsx"/>
- <layer id="1" name="floor" width="30" height="30" visible="0">
+ <layer id="1" name="floor" width="30" height="30">
   <data encoding="csv">
 31,31,31,31,31,31,31,31,31,31,31,31,31,31,176,177,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
 31,31,31,31,31,31,31,31,31,31,31,31,31,31,201,202,31,31,31,31,31,31,31,31,31,31,31,31,31,31,
