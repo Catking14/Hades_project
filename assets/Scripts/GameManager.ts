@@ -993,6 +993,7 @@ export default class GameManager extends cc.Component {
     {
         cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
         cc.find("Data").getComponent("Data").time += this.follow.getComponent(this.follow.name).timer;
+        cc.find("Data").getComponent("Data").clear++;
     }
 
     player_clear_game()

@@ -24,10 +24,12 @@ export default class Coin extends cc.Component {
     {
         if(other.node.group == "player")
         {
-            other.node.getComponent(other.node.name).money += Math.ceil(10 * (Math.random() + 1));
+            let add = Math.ceil(10 * (Math.random() + 1))
+            other.node.getComponent(other.node.name).money += add;
 
             // to pool TODO!!
             let Data = cc.find("Data").getComponent("Data");
+            Data.total_money_get += add;
             Data.coin_pool.put(this.node);
             Data.coin_num++;
         }

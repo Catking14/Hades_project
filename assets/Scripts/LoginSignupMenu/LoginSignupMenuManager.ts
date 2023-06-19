@@ -1,4 +1,5 @@
 const {ccclass, property} = cc._decorator;
+declare const firebase: any;
 
 @ccclass
 export default class LoginSignupMenuManager extends cc.Component {
@@ -115,5 +116,23 @@ export default class LoginSignupMenuManager extends cc.Component {
         this.scheduleOnce(()=>{
             cc.director.loadScene("MainMenu");
         }, 1.13)
+    }
+
+    handelSignUp()
+    {
+        let name = this.node.getChildByName("SignupMenu").getChildByName("name").getChildByName("TEXT_LABEL").getComponent(cc.Label).string;
+        let email = this.node.getChildByName("SignupMenu").getChildByName("email").getChildByName("TEXT_LABEL").getComponent(cc.Label).string;
+        let password = this.node.getChildByName("SignupMenu").getChildByName("password").getChildByName("TEXT_LABEL").getComponent(cc.Label).string;
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userinfo) =>
+        {
+            let user = userinfo.user;
+
+        })
+        .catch(() =>
+        {
+
+        })
     }
 }

@@ -17,7 +17,7 @@ export default class Loading extends cc.Component {
     onLoad () 
     {
         this.next = cc.find("Data").getComponent("Data").next_scene;
-        
+
         cc.audioEngine.stopMusic();
     }
 
@@ -46,6 +46,11 @@ export default class Loading extends cc.Component {
         else
         {
             anim.play("warrior_run");
+        }
+
+        if(this.next == "lobby")
+        {
+            cc.find("Data").getComponent("Data").write_data();
         }
 
         this.scheduleOnce(() => {cc.director.loadScene(this.next);}, 2);

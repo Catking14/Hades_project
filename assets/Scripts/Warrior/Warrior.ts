@@ -63,9 +63,9 @@ export default class Warrior extends cc.Component {
     // player status
     HP: number = 100;
     HP_max: number = 100;
-    _dmg: number = 30;
+    _dmg: number = 50;
     money: number = 0;
-    heal: number = 0;
+    heal: number = 50;
 
     // Music effects
     @property(cc.AudioClip)
@@ -442,7 +442,7 @@ export default class Warrior extends cc.Component {
             case cc.macro.KEY.e:
                 let heal_level = cc.find("Data").getComponent("Data").heal;
 
-                if(this.heal == 50 - heal_level)
+                if(this.heal >= 50 - heal_level)
                 {
                     this.healing();
                 }
