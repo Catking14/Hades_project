@@ -549,6 +549,8 @@ export default class GameManager extends cc.Component {
             this.stage = 2;
         }
 
+        console.log(this.stage);
+
         // random for row
         // let random = 4 + Math.floor(Math.random() * (this.max_map_row_or_column - 4));
 
@@ -989,7 +991,8 @@ export default class GameManager extends cc.Component {
 
     player_clear_stage()
     {
-
+        cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
+        cc.find("Data").getComponent("Data").time += this.follow.getComponent(this.follow.name).timer;
     }
 
     player_clear_game()
