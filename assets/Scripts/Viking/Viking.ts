@@ -1,8 +1,10 @@
 const { ccclass, property } = cc._decorator;
-const Input = {};
+
 
 @ccclass
 export default class Viking extends cc.Component {
+
+    private Input = {};
 
     @property(cc.Prefab)
     bladePrefab: cc.Prefab = null;
@@ -87,23 +89,23 @@ export default class Viking extends cc.Component {
         this.vecSpeed = cc.v2(0, 0);
 
         // wasd + dash
-        if (Input[cc.macro.KEY.w] || Input[cc.macro.KEY.up]) {
+        if (this.Input[cc.macro.KEY.w] || this.Input[cc.macro.KEY.up]) {
             this.vecSpeed.y = 1;
         }
-        if (Input[cc.macro.KEY.s] || Input[cc.macro.KEY.down]) {
+        if (this.Input[cc.macro.KEY.s] || this.Input[cc.macro.KEY.down]) {
             this.vecSpeed.y = -1;
         }
-        if (Input[cc.macro.KEY.a] || Input[cc.macro.KEY.left]) {
+        if (this.Input[cc.macro.KEY.a] || this.Input[cc.macro.KEY.left]) {
             this.node.scaleX = -1;
             this.vecSpeed.x = -1;
         }
-        if (Input[cc.macro.KEY.d] || Input[cc.macro.KEY.right]) {
+        if (this.Input[cc.macro.KEY.d] || this.Input[cc.macro.KEY.right]) {
             this.node.scaleX = 1;
             this.vecSpeed.x = 1;
         }
-        if (Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
-        if (Input[cc.macro.KEY.q]) this.skillQ();
-        if (Input[cc.macro.KEY.e]) this.skillE();
+        if (this.Input[cc.macro.KEY.space] && !this.isDashing) this.dash();
+        if (this.Input[cc.macro.KEY.q]) this.skillQ();
+        if (this.Input[cc.macro.KEY.e]) this.skillE();
 
         // give speed
         let giveSpeed = cc.v2(this.vecSpeed.x * this.speed, this.vecSpeed.y * this.speed * this.ratio);
@@ -315,6 +317,6 @@ export default class Viking extends cc.Component {
         this.scheduleOnce(() => { this.node.addChild(blade); }, this.attack_delay);
     }
 
-    onKeyDown(event) { Input[event.keyCode] = 1; }
-    onKeyUp(event) { Input[event.keyCode] = 0; }
+    onKeyDown(event) { this.Input[event.keyCode] = 1; }
+    onKeyUp(event) { this.Input[event.keyCode] = 0; }
 }
