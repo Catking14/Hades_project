@@ -28,8 +28,10 @@ export default class Archor extends cc.Component {
     // player status
     private HP: number;
     private HP_max: number = 100;
+    private dmg: number = 90;
     private money: number = 0;
     private heal: number = 0;
+    
 
     // dash
     private space_pressed: boolean = false;
@@ -44,13 +46,32 @@ export default class Archor extends cc.Component {
     private attack_speed: number = 0.67;
 
     // ultimate
+    private _ultimate: boolean = false;
     private canUltimate: boolean = true;
     private isUltimate: boolean = false;
     private Ultimating: boolean = false;
-    private Ultimate_CD: number = 10;
-    private Ultimate_last: number = 3;
+    private _ultimate_cd: number = 15;
+    private Ultimate_last: number = 5;
 
     private dashAction: any;
+
+    // Music effects
+    @property(cc.AudioClip)
+    ultimate_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    attack_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    damage_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    death_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    dash_effect: cc.AudioClip = null;
+    // music ids'
+    _Ult: number = null;
+    _ATK: number = null;
+    _DMG: number = null;
+    _DIE: number = null;
+    _DASH: number = null;
 
 
     onLoad(){
@@ -63,6 +84,12 @@ export default class Archor extends cc.Component {
         this.speed = cc.v2(200, 160);
         this.direction = cc.v2(0, 0);
         this.state = "stand";
+
+        let data = cc.find("Data").getComponent("Data");
+        this.HP = data.HP;
+        this.HP_max = this.HP;
+        this.dmg += data.damage;
+        this.money = data.money;
     }
 
     start(){
@@ -112,12 +139,15 @@ export default class Archor extends cc.Component {
     onKeyDown(event){
         if(event.keyCode == cc.macro.KEY.q){
             if(this.canUltimate){
+                this._ultimate = true;
                 this.canUltimate = false;
                 this.isUltimate = true;
                 this.Ultimate_last_timer();
+                this._Ult = cc.audioEngine.playEffect(this.ultimate_effect, false);
                 this.scheduleOnce(()=>{
+                    this._ultimate = false;
                     this.canUltimate = true;
-                }, this.Ultimate_CD)
+                }, this._ultimate_cd)
             } 
         }else if(event.keyCode == cc.macro.KEY.e){
             let heal_level = cc.find("Data").getComponent("Data").heal;
@@ -128,6 +158,9 @@ export default class Archor extends cc.Component {
             if(!this.space_pressed && this._dash_ready){
                 this.space_pressed = true;
                 this._dash_ready = false;
+                this.scheduleOnce(()=>{
+                    this._dash_ready = true;
+                }, this._dash_cd)
                 this.dash();
             }
         }
@@ -149,20 +182,6 @@ export default class Archor extends cc.Component {
         this.animation.stop();
         this.animation.play("archor_" + newState);
         this.state = newState;
-
-        // if(this.state == "stand"){
-            
-        // }else if(this.state == "run"){
-            
-        // }else if(this.state == "dash"){
-            
-        // }else if(this.state == "attack"){
-            
-        // }else if(this.state == "getHit"){
-            
-        // }else if(this.state == "death"){
-            
-        // }
     }
 
     dash(){
@@ -176,12 +195,12 @@ export default class Archor extends cc.Component {
         
         this.dashAction = cc.moveBy(0.2, direction.x * 150, direction.y * 150);
         this.node.runAction(this.dashAction);
+        // play effect
+        this._DASH = cc.audioEngine.playEffect(this.dash_effect, false);
+        cc.audioEngine.setVolume(this._DASH, 0.15);  // dash is a little too quiet
         this.scheduleOnce(()=>{
            this.isDashing = false;
         }, 0.2)
-        this.scheduleOnce(()=>{
-            this._dash_ready = true;
-        }, this._dash_cd)
     }
 
     auto_attack(event){
@@ -203,6 +222,8 @@ export default class Archor extends cc.Component {
         this.setState("attack");
 
         this.scheduleOnce(()=>{
+            this._ATK = cc.audioEngine.playEffect(this.attack_effect, false);
+            cc.audioEngine.setVolume(this._ATK, 0.7)
             const arrow = cc.instantiate(this.Arrow);
             arrow.setPosition(cc.v2(0, 0));
             cc.find("Canvas/Main Camera").addChild(arrow);
@@ -243,7 +264,6 @@ export default class Archor extends cc.Component {
     }
 
     Ultimate_last_timer(){
-        this.Ultimate_last = 7;
         this.schedule(function timer(){
             this.Ultimate_last -= 1;
             console.log(this.Ultimate_last);
@@ -255,15 +275,12 @@ export default class Archor extends cc.Component {
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
-        // damage_val 代表受到傷害的量值 型別為number
-        // damage_effect 代表受到傷害的效果 型別為string array
-        // 扣血量
-
         const blood_effect = cc.instantiate(this.Blood);
         blood_effect.setPosition(this.node.x, this.node.y);
         blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
 
-        this.HP = this.HP > 50 ? this.HP - 50 : 0;
+        this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
+        this._DMG = cc.audioEngine.playEffect(this.damage_effect, false);
 
         if(this.HP > 0){
             this.getHitting = true;
@@ -274,11 +291,10 @@ export default class Archor extends cc.Component {
             }, 0.3);
         }else{
             this.isDead = true;
-            this.setState("death");
             blood_effect.getComponent("Blood").die = true;
             this.scheduleOnce(() => {
                 console.log("die");
-                this.node.destroy();
+                this.die();
             }, 1);
         }
         cc.find("Canvas/New Node").addChild(blood_effect);
@@ -289,5 +305,34 @@ export default class Archor extends cc.Component {
             this.heal = 0;
             this.HP = (this.HP + 25 > this.HP_max) ? this.HP_max : this.HP + 25;
         }
+    }
+
+    die()
+    {
+        // shut down collider to prevent double detection
+        this.collider.enabled = false;
+
+        this.isDead = true;
+        this.setState("death");
+        
+        this._DIE = cc.audioEngine.playEffect(this.death_effect, false);
+
+        // destroy when died
+        this.scheduleOnce(() => 
+        {
+            this.node.zIndex -= 5;
+            
+            try
+            {
+                cc.find("Game Manager").getComponent("GameManager").player_die();
+            }
+            catch
+            {
+                cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
+            }
+
+            // store data to DATA node
+        cc.find("Data").getComponent("Data").money = this.money;
+        }, 1.2);
     }
 }

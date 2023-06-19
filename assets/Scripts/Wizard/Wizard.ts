@@ -327,7 +327,8 @@ export default class Wizard extends cc.Component {
                 // blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
 
                 cc.audioEngine.playEffect(this.hit_sound_effect, false);
-                cc.find("Game Manager").getComponent("GameManager").camera_shake();
+                if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder") cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                else cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.ishit = false;
                 }, 0.5);
