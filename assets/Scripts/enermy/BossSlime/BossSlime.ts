@@ -31,7 +31,7 @@ export default class BossSlime extends cc.Component {
     // private target: cc.Node = null;
     private target_time: number = 0;      // 重新找目標的計時器
     private target_colddown: number = 0.1;  // 重新找目標的冷卻
-    private target_distance: number = 1000; // 小於這個距離會觸發怪物的追擊
+    private target_distance: number = 100000; // 小於這個距離會觸發怪物的追擊
 
     private attack_distance: number = 100; // 低於這個距離 會進行攻擊
     private attack_counter: number = 0;   // 攻擊的計時器
@@ -145,6 +145,7 @@ export default class BossSlime extends cc.Component {
             if(this.spellCD>=7 && !this.isAttacking && !this.isSmashing && !this.isDead){
                 this.isSpelling = true;
                 //call mobs spawn
+                this.mob_spawn();
                 this.scheduleOnce(()=>{
                     this.isSpelling = false;
                 },1.86);
@@ -152,6 +153,9 @@ export default class BossSlime extends cc.Component {
         }else{
             this.spellCD = 0;
         }
+    }
+    mob_spawn(){
+        
     }
     updateHPBar() {
         this.HP_bar.progress = this.HP_val / this.HP;
@@ -206,7 +210,7 @@ export default class BossSlime extends cc.Component {
         }
         else {
             // 扣血量
-            if (!this.isTransfroming) {
+            if (!this.isTransfroming && !this.isDead) {
                 this.isAttacking = false;
                 this.isSmashing = false;
                 this.isSpelling = false;

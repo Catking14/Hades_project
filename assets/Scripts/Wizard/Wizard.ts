@@ -16,8 +16,15 @@ export default class Wizard extends cc.Component {
     @property(cc.Prefab)
     ultimatePrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    blood: cc.Prefab = null;
+
     @property(cc.AudioClip)
-    sound_effect: cc.AudioClip = null;
+    hit_sound_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    attack_sound_effect: cc.AudioClip = null;
+    @property(cc.AudioClip)
+    spell_sound_effect: cc.AudioClip = null;
 
     @property
     move_speed: cc.Vec2 = cc.v2(200, 160);
@@ -25,12 +32,15 @@ export default class Wizard extends cc.Component {
     @property
     dash_speed: cc.Vec2 = cc.v2(1000, 800);
 
-    @property
-    HP: number = 200;
+    HP: number = 100;
+    HP_max: number = 100;
+    money: number = 0;
+    heal: number = 0;
 
-    _ultimate_cd:number = 10;
-    _dash_ready:boolean = true; 
-    _ultimate:boolean = true;
+    _blood_pool: cc.NodePool = null;
+    _ultimate_cd: number = 10;
+    _dash_ready: boolean = true;
+    _ultimate: boolean = true;
     //direction
     private move_dir: cc.Vec2 = cc.v2(0, 0);
     private face_dir: number = 1;
@@ -68,10 +78,10 @@ export default class Wizard extends cc.Component {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.fire, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.get_mousePos, this);
-        this.scheduleOnce(()=>{
+        this.scheduleOnce(() => {
             this._ultimate = false;
-        },0.1);
-        
+        }, 0.1);
+
     }
     get_mousePos(event) {
         this.mouse_Pos = event.getLocation();
@@ -94,7 +104,7 @@ export default class Wizard extends cc.Component {
                 if (!this.dashbtn && this._dash_ready) {
                     this.dashbtn = true;
                     this.dash();
-                    this.scheduleOnce(() => {this._dash_ready = true;}, this.dashCD);
+                    this.scheduleOnce(() => { this._dash_ready = true; }, this.dashCD);
                 }
                 break;
             case cc.macro.KEY.q:
@@ -104,6 +114,20 @@ export default class Wizard extends cc.Component {
                     this.ultimate();
                 }
                 break;
+            case cc.macro.KEY.e:
+                let heal_level = cc.find("Data").getComponent("Data").heal;
+
+                if (this.heal == 100 - heal_level) {
+                    this.healing();
+                }
+                break;
+                break;
+        }
+    }
+    healing() {
+        if (this.HP < this.HP_max) {
+            this.heal = 0;
+            this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
         }
     }
     ultimate() {
@@ -120,6 +144,7 @@ export default class Wizard extends cc.Component {
         let position = cc.v2(this.mouse_Pos.x + camerapos.x - 480 - this.node.position.x, this.mouse_Pos.y + camerapos.y - 320 - this.node.position.y)
         this.anim.stop();
         this.animstate = this.anim.play("wizard_attack1");
+        cc.audioEngine.playEffect(this.spell_sound_effect, false);
         explosion.setPosition(cc.v2(position.x * this.face_dir, position.y));
         this.node.addChild(explosion);
         this.anim.on('finished', () => {
@@ -182,6 +207,7 @@ export default class Wizard extends cc.Component {
 
         // play attack animation
         this.animstate = this.anim.play("wizard_attack2");
+        cc.audioEngine.playEffect(this.attack_sound_effect, false);
         this.scheduleOnce(() => {
             fireball.setPosition(cc.v2(20, 0));
             this.node.addChild(fireball);
@@ -228,7 +254,7 @@ export default class Wizard extends cc.Component {
             } else if (this.rightbtn) {
                 this.move_dir.x = 1;
                 this.face_dir = 1;
-            } 
+            }
 
         }
     }
@@ -270,12 +296,13 @@ export default class Wizard extends cc.Component {
         this.node.scaleX = this.face_dir;
 
         //ultCD
-        this.schedule(this.ultCD_controll, 1);
+        // this.schedule(this.ultCD_controll, 1);
+        this.ultCD_controll(dt);
     }
-    ultCD_controll() {
+    ultCD_controll(dt) {
         // console.log(this.isultCD, this.ultCD);
         if (this.isultCD) {
-            this.ultCD = this.ultCD + 1;
+            this.ultCD = this.ultCD + dt;
             if (this.ultCD >= 10) this.isultCD = false;
             else this.isultCD = true;
         } else {
@@ -286,11 +313,20 @@ export default class Wizard extends cc.Component {
         // damage_val 代表受到傷害的量值 型別為number
         // damage_effect 代表受到傷害的效果 型別為string array
         // 扣血量
+        let blood_effect = cc.instantiate(this.blood);
         this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
         if (this.HP > 0) {
             if (!this.ishit) {
                 this.ishit = true;
                 this.animstate = this.anim.play("wizard_hit");
+                
+                // let blood_effect = this._blood_pool.get();
+
+                blood_effect.setPosition(this.node.x, this.node.y);
+                blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
+                blood_effect.getComponent("Blood")._blood_node_pool = this._blood_pool;
+
+                cc.audioEngine.playEffect(this.hit_sound_effect, false);
                 cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 this.scheduleOnce(() => {
                     this.ishit = false;
@@ -300,10 +336,13 @@ export default class Wizard extends cc.Component {
         } else {
             this.isdead = true;
             this.animstate = this.anim.play("wizard_death");
+            blood_effect.getComponent("Blood").die = true;
             this.scheduleOnce(() => {
                 console.log("die");
-                this.node.destroy();
+                // this.node.destroy();
+                cc.find("Game Manager").getComponent("GameManager").player_die();
             }, 1);
         }
+        cc.find("Canvas/New Node").addChild(blood_effect);
     }
 }
