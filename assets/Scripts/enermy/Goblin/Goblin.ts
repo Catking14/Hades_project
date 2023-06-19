@@ -21,7 +21,7 @@ export default class Goblin extends cc.Component {
 
     // 速度
     @property(cc.v2)
-    speed = cc.v2(270, 230);
+    speed = cc.v2(250, 230);
 
     // 方向
     private direction: cc.Vec2 = cc.v2(0, 0);
