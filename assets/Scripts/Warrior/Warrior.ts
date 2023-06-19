@@ -359,7 +359,7 @@ export default class Warrior extends cc.Component {
     {
         if(this.HP < this.HP_max)
         {
-            this.heal = 0;
+            this.heal -= 50;
             this.HP = this.HP + 25 > this.HP_max ? this.HP_max : this.HP + 25;
         }
     }
