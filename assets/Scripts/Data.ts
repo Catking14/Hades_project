@@ -82,6 +82,7 @@ export default class Data extends cc.Component {
 
     summarize()
     {
+        console.log(this.total_playtime, this.time);
         // sum data to total
         this.total_playtime += this.time;
         this.total_kills += this.kills;
@@ -92,6 +93,8 @@ export default class Data extends cc.Component {
     {
         let uid = firebase.auth().currentUser.uid;
         let ref = firebase.database().ref("Player/" + uid);
+
+        console.log(this.total_playtime);
 
         ref.set(
             {
@@ -234,6 +237,7 @@ export default class Data extends cc.Component {
 
         this.scene = cc.director.getScene().name;
         // console.log(this.scene);
+        // console.log(cc.find("Data").getComponent("Data").time);
     }
 
     Signup(name: string, email: string, password: string){

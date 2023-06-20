@@ -51,6 +51,7 @@ export default class Loading extends cc.Component {
         if(this.next == "lobby")
         {
             cc.find("Data").getComponent("Data").write_data();
+            cc.find("Data").getComponent("Data").refresh_round();
         }
 
         this.scheduleOnce(() => {cc.director.loadScene(this.next);}, 2);
@@ -58,6 +59,6 @@ export default class Loading extends cc.Component {
 
     update (dt) 
     {
-
-    }
+        // console.log(cc.find("Data").getComponent("Data").time);
+    }   
 }
