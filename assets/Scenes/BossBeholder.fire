@@ -2402,8 +2402,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 90,
-      "height": 90
+      "width": 70,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4848,6 +4848,21 @@
     },
     "_enabled": true,
     "bar_change_speed": 20,
+    "archor_pic": {
+      "__uuid__": "ac563798-6ac0-4e52-a011-f9246fa719e0"
+    },
+    "warrior_pic": {
+      "__uuid__": "12b39205-1f46-458e-9c1c-ce94f84623fe"
+    },
+    "wizard_pic": {
+      "__uuid__": "775b6d4c-308c-46b0-bc9b-6d3104d0ae9c"
+    },
+    "viking_pic": {
+      "__uuid__": "7a195d01-4a0a-4b1e-8052-fd1b618cc9c5"
+    },
+    "assassin_pic": {
+      "__uuid__": "3efab818-f2dd-4c9d-8334-d15dceca786e"
+    },
     "glass_crack": {
       "__uuid__": "b794c663-7f45-40f5-b0f5-9d7608bd8004"
     },
