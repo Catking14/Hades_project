@@ -87,6 +87,7 @@ export default class Assassin extends cc.Component {
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.setMousePos, this);
         this.HP_max = cc.find("Data").getComponent("Data").HP;
+        this.HP = cc.find("Data").getComponent("Data").HP;
         this.dashCD -= cc.find("Data").getComponent("Data").dash;
         this.attack_damage += cc.find("Data").getComponent("Data").damage;
 

@@ -81,6 +81,7 @@ export default class Wizard extends cc.Component {
         this.scheduleOnce(() => {
             this._ultimate = false;
         }, 0.1);
+        this.HP_max = cc.find("Data").getComponent("Data").HP;
         this.HP = cc.find("Data").getComponent("Data").HP;
         this.money = cc.find("Data").getComponent("Data").money;
     }
