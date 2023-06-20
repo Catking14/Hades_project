@@ -110,6 +110,8 @@ export default class Book extends cc.Component {
             slide_array[2].node.on("slide", this.sfx_volume_handler, this);
 
             this.toggle_array = new_page.getChildByName("toggle").getComponentsInChildren(cc.Toggle);
+            this.toggle_array[0].isChecked = this.Data.CameraShakeEnable;
+            this.toggle_array[1].isChecked = !this.Data.CameraShakeEnable;
             this.toggle_array[0].node.on("toggle", this.shake_handler, this);
             this.toggle_array[1].node.on("toggle", this.shake_handler, this);
         }
@@ -117,7 +119,6 @@ export default class Book extends cc.Component {
             let new_page = cc.instantiate(this.left_page_prefab);
             this.node.addChild(new_page);
             this.left_page = new_page;
-            console.log(this._player);
             new_page.getChildByName("hp_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).HP + " / " + this.Data.HP;
             new_page.getChildByName("heal_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).heal;
             new_page.getChildByName("CD_value").getComponent(cc.Label).string = "- " + this.Data.dash;

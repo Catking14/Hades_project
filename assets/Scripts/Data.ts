@@ -250,6 +250,10 @@ export default class Data extends cc.Component {
             this.curSFXVolume = 0.3;
             this.CameraShakeEnable = true;
         })
+        .finally(() => 
+        {
+            this.setVolume();
+        });
     }
 
     update (dt) 
@@ -302,10 +306,28 @@ export default class Data extends cc.Component {
     }
 
     ModifyCurName(NewName: string){
-
+        firebase.auth().currentUser.updateProfile({displayName: NewName})
+        .then(() =>
+        {
+            console.log("Name changed successful");
+        })
+        .catch(error =>
+        {
+            console.log(error.message);
+            alert(error.message);
+        });
     }
 
     ModifyCurPassword(NewPassword: string){
-
+        firebase.auth().currentUser.updatePassword(NewPassword)
+        .then(() =>
+        {
+            console.log("Password changed successful");
+        })
+        .catch(error =>
+        {
+            console.log(error.message);
+            alert(error.message);
+        })
     }
 }
