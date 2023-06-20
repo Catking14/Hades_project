@@ -74,6 +74,13 @@ export default class Data extends cc.Component {
 
     setVolume()
     {
+        if (this.curMasterVolume == undefined || this.curMusicVolume == undefined || this.curSFXVolume == undefined)
+        {
+            this.curMasterVolume = 0.5;
+            this.curMusicVolume = 0.3;
+            this.curSFXVolume = 0.3;
+            this.CameraShakeEnable = true;
+        }
         cc.audioEngine.setMusicVolume(this.curMasterVolume * this.curMusicVolume);
         cc.audioEngine.setEffectsVolume(this.curMasterVolume * this.curSFXVolume);
     }
