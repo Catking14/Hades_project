@@ -43,10 +43,10 @@ export default class Beholder extends cc.Component {
 
     isDead: boolean = false;
     getHitting: boolean = false;
-    HP: number = 1000;
-    HP_val: number = 1000;
-    Shield: number = 1000;
-    Shield_val: number = 1000;
+    HP: number = 500;
+    HP_val: number = 500;
+    Shield: number = 500;
+    Shield_val: number = 500;
 
     dirCount: number = 0;
     isAttacking1: boolean = false;
@@ -303,18 +303,24 @@ export default class Beholder extends cc.Component {
                     this.getHitting = false;
                 }, 0.3);
             } else {
-                this.isDead = true;
-                this.getComponent(cc.Animation).play("Beholder_death");
-                this.getComponent(cc.Animation).on("finished", () => {
-                    let transporter = cc.instantiate(this.transporterPrefab);
-                    transporter.setPosition(this.node.position);
-                    this.node.parent.addChild(transporter);
-
-                    this.coinGen(30);
-                    this.node.destroy();
-                }, this);
+                this.dead();
             }
         }
+    }
+
+    dead(){
+        this.isDead = true;
+        cc.find("Data").getComponent("Data").boss_killed += 1;
+        this.updateHPBar();
+        this.getComponent(cc.Animation).play("Beholder_death");
+        this.scheduleOnce(() => {
+            let transporter = cc.instantiate(this.transporterPrefab);
+            transporter.setPosition(cc.v2(0, 0));
+            this.node.parent.addChild(transporter);
+
+            this.coinGen(30);
+            this.node.destroy();
+        }, 4);
     }
 
     coinGen(num: number) {

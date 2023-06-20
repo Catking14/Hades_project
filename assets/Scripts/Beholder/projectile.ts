@@ -25,7 +25,7 @@ export default class Fireball extends cc.Component {
     onBeginContact(contact, self, other) {
 
         contact.disabled = true;
-        if (other.node.group == "player_attack" || other.node.group == "default") {
+        if (other.node.group == "player_attack") {
             this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
             this.isValid = false;
             this.getComponent(cc.Animation).play("projectile_finish");  
@@ -34,7 +34,7 @@ export default class Fireball extends cc.Component {
             }, this);
         }
         if (other.node.group == "player" && this.isValid) {
-            other.node.getComponent(other.node.name).damage(30);
+            other.node.getComponent(other.node.name).damage(20);
         }
     }
 }

@@ -99,7 +99,7 @@ export default class Assassin extends cc.Component {
 
         this._dash_ready = !this.isDashingCD;
 
-        if(this.isRing){
+        if (this.isRing) {
             this.setState("dash");
             return;
         }
@@ -233,6 +233,7 @@ export default class Assassin extends cc.Component {
                 this.getHitting = true;
                 if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
                     cc.find("BossSlimeManager").getComponent("BossSlimeManager").camera_shake();
+                    console.log(cc.find("BossSlimeManager").getComponent("BossSlimeManager").timer);
                 } else {
                     cc.find("Game Manager").getComponent("GameManager").camera_shake();
                 }
@@ -243,12 +244,12 @@ export default class Assassin extends cc.Component {
             } else {
                 this.isDead = true;
                 this._died = true;
+                this.getComponent(cc.Animation).play("Assassin_death");
                 if (sceneName === "BossSlime" || sceneName === "BossBeholder") {
                     cc.find("BossSlimeManager").getComponent("BossSlimeManager").player_die();
                 } else {
                     cc.find("Game Manager").getComponent("GameManager").player_die();
                 }
-                this.getComponent(cc.Animation).play("Assassin_death");
                 this.getComponent(cc.Animation).on("finished", () => {
                     this.node.destroy();
                 }, this);
@@ -261,23 +262,23 @@ export default class Assassin extends cc.Component {
         cc.find("Canvas/New Node").addChild(blood_effect);
     }
 
-    skillR(){
+    skillR() {
         let shadowR = this.node.parent.getChildByName("Assassin_shadowR");
         let shadowRed = this.node.parent.getChildByName("Assassin_shadowRed");
-        
-        if(this.isRing) return;
+
+        if (this.isRing) return;
 
         if (shadowR) {
-            
+
             let shadowPos = shadowR.position;
             shadowR.setPosition(this.node.position);
             this.node.setPosition(shadowPos);
             shadowR.name = "Assassin_shadowRed";
             cc.audioEngine.playEffect(this.e2Sound, false);
 
-        } else if(!shadowRed){
-            if(this.heal >= 25 - cc.find("Data").getComponent("Data").heal){
-            
+        } else if (!shadowRed) {
+            if (this.heal >= 25 - cc.find("Data").getComponent("Data").heal) {
+
                 this.heal -= 25;
                 shadowR = cc.instantiate(this.shadowPrefab);
                 let camerapos = cc.find("Canvas/Main Camera").position;
@@ -291,7 +292,7 @@ export default class Assassin extends cc.Component {
                 this.node.runAction(cc.moveTo(0.3, Rpos));
                 cc.audioEngine.playEffect(this.e1Sound, false);
                 this.nextAttack = "a1";
-    
+
                 this.isRing = true;
                 this.scheduleOnce(() => { this.isRing = false; }, 0.3);
                 this.scheduleOnce(() => { shadowR.destroy(); }, 5);
@@ -301,7 +302,7 @@ export default class Assassin extends cc.Component {
 
     skillE() {
         let shadow = this.node.parent.getChildByName("Assassin_shadow");
-        if (this.ECD){
+        if (this.ECD) {
             // if(this.heal == 50 - cc.find("Data").getComponent("Data").heal){
             //     this.heal -= 50;
             //     shadow = cc.instantiate(this.shadowPrefab);
@@ -315,8 +316,8 @@ export default class Assassin extends cc.Component {
             //     cc.audioEngine.playEffect(this.e1Sound, false);
             // }
             return;
-        } 
-        
+        }
+
         if (shadow) {
             let shadowPos = shadow.position;
             shadow.setPosition(this.node.position);
