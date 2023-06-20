@@ -10,6 +10,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Fireball extends cc.Component {
 
+    @property(cc.AudioClip)
+    xinSound: cc.AudioClip = null;
+
     onLoad() {
         this.node.scale = 1.4;
         this.node.getComponent(cc.Animation).play("shuriken");
@@ -25,6 +28,8 @@ export default class Fireball extends cc.Component {
 
         contact.disabled = true;
         if (other.node.group == "enemy") {
+            let id = cc.audioEngine.playEffect(this.xinSound, false);
+            cc.audioEngine.setVolume(id, 0.7);
             other.node.getComponent(other.node.name).damage(50);
         }
     }

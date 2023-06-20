@@ -57,6 +57,7 @@ export default class Viking extends cc.Component {
     private isBegin: boolean = false;
     private isDashing: boolean = false;
     private isDashingCD: boolean = false;
+    private dashCD: number = 0.5;
     private isAttacking: boolean = false;
     private getHitting: boolean = false;
     private isDead: boolean = false;
@@ -76,8 +77,9 @@ export default class Viking extends cc.Component {
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.setMousePos, this);
-        this.HP = cc.find("Data").getComponent("Data").HP;
-        this.money = cc.find("Data").getComponent("Data").money;
+        this.HP_max = cc.find("Data").getComponent("Data").HP;
+        this.dashCD -= cc.find("Data").getComponent("Data").dash;
+        this.attack_damage += cc.find("Data").getComponent("Data").damage;
         // this.node.scale = 0.6;
     }
 
@@ -160,11 +162,12 @@ export default class Viking extends cc.Component {
 
         this.scheduleOnce(() => {
             this.isDashingCD = false;
-        }, 1);
+        }, 0.5 + this.dashCD);
     }
 
     attack(event) {
-        // console.log("Viking is attacking");
+        if (cc.find("Data").getComponent("Data").in_shop) return;
+
         if (this.isAttacking) {
             console.log("attackCD");
             this.doNextAttack = true;

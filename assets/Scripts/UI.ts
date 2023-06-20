@@ -28,6 +28,22 @@ export default class UI extends cc.Component {
     @property
     bar_change_speed: number = 10;
 
+    // character pic
+    @property(cc.SpriteFrame)
+    archor_pic: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    warrior_pic: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    wizard_pic: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    viking_pic: cc.SpriteFrame = null;
+
+    @property(cc.SpriteFrame)
+    assassin_pic: cc.SpriteFrame = null;
+
     // track object
     _player: cc.Node = null;
 
@@ -109,6 +125,28 @@ export default class UI extends cc.Component {
         this._mana_cd = this._player.getComponent(this._player.name)._ultimate_cd;
 
         this._black.opacity = 0;
+
+        if(this._player.name == "Archor")
+        {
+            this._icon.getChildByName("pic").getComponent(cc.Sprite).spriteFrame = this.archor_pic;
+        }
+        else if(this._player.name == "Wizard")
+        {
+            this._icon.getChildByName("pic").getComponent(cc.Sprite).spriteFrame = this.wizard_pic;
+        }
+        else if(this._player.name == "Assassin")
+        {
+            this._icon.getChildByName("pic").getComponent(cc.Sprite).spriteFrame = this.assassin_pic;
+        }
+        else if(this._player.name == "Viking")
+        {
+            this._icon.getChildByName("pic").getComponent(cc.Sprite).spriteFrame = this.viking_pic;
+        }
+        else
+        {
+            this._icon.getChildByName("pic").getComponent(cc.Sprite).spriteFrame = this.warrior_pic;
+        }
+
     }
 
     death_effect()
