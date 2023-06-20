@@ -90,7 +90,7 @@ export default class BattleTransporter extends cc.Component {
                 cc.find("Data").getComponent("Data").next_scene = "win_scene";
             }
             
-            cc.director.loadScene("loading");
+            this.scheduleOnce(() => {cc.director.loadScene("loading");}, 0.1);
         }
     }
 }

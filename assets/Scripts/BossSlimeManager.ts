@@ -140,7 +140,7 @@ export default class BossSlimeManager extends cc.Component {
         
         // store data to DATA node
         cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
-        cc.find("Data").getComponent("Data").total_playtime += this.timer;
+        cc.find("Data").getComponent("Data").time += this.timer;
 
         // change scene
         cc.director.loadScene("die_scene");
@@ -195,7 +195,7 @@ export default class BossSlimeManager extends cc.Component {
 
     player_clear_stage(){
         cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
-        cc.find("Data").getComponent("Data").time += this.follow.getComponent(this.follow.name).timer;
+        cc.find("Data").getComponent("Data").time += this.timer;
         cc.find("Data").getComponent("Data").clear++;
     }
 }
