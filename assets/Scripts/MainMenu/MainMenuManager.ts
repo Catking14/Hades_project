@@ -12,6 +12,9 @@ export default class MainMenuManager extends cc.Component {
     @property(cc.Prefab)
     PageThree: cc.Prefab = null;
 
+    @property(cc.AudioClip)
+    bgm: cc.AudioClip = null;
+
     public Data: any;
 
     public Warrior_lock: boolean;
@@ -41,6 +44,7 @@ export default class MainMenuManager extends cc.Component {
     public TotalPlaytime: number;
 
     onLoad(){
+        cc.audioEngine.playMusic(this.bgm, true);
         // update all variables with the data in persistent node.
         this.Data = cc.find("Data").getComponent("Data");
         this.Warrior_lock = this.Data.Warrior_lock;

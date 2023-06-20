@@ -38,7 +38,8 @@ export default class GameStart extends cc.Component {
         }, 0.5)
         
         this.scheduleOnce(()=>{
+            cc.audioEngine.stopMusic();
             cc.director.loadScene("lobby");
-        }, 0.5)
+        }, 1)
     }
 }

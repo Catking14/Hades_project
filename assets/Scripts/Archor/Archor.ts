@@ -14,16 +14,13 @@ export default class Archor extends cc.Component {
     @property(cc.v2)
     direction = cc.v2(0, 0);
 
-    private sprite: cc.Sprite;
     private animation: cc.Animation;
-    private rigidBody: cc.RigidBody;
     private collider: cc.PhysicsBoxCollider;
     private state: string = "";
-    private isBegin: boolean = false;
     private getHitting: boolean = false;
     private isDead: boolean = false;
 
-    private Input = {};
+    private Input = [];
 
     // player status
     private HP: number;
@@ -75,9 +72,8 @@ export default class Archor extends cc.Component {
 
 
     onLoad(){
-        this.sprite = this.node.getComponent(cc.Sprite);
+        this.Input = [];
         this.animation = this.node.getComponent(cc.Animation);
-        this.rigidBody = this.node.getComponent(cc.RigidBody);
         this.collider = this.node.getComponent(cc.PhysicsBoxCollider);
         this.HP_max = 100;
         this.HP = this.HP_max;
@@ -188,6 +184,7 @@ export default class Archor extends cc.Component {
     dash(){
         if(this.isAttacking || this.Ultimating || this.getHitting || this.isDead) return;
 
+
         let direction = cc.v2(0, 0);
         this.isDashing = true;
         this.setState("dash");
@@ -206,6 +203,7 @@ export default class Archor extends cc.Component {
 
     auto_attack(event){
         if(this.isAttacking || this.isUltimate || this.Ultimating || this.getHitting || this.isDead) return;
+        if(cc.find("Data").getComponent("Data").in_shop) return;
 
         this.mousePos = event.getLocation();
         let distance: number;
@@ -238,6 +236,7 @@ export default class Archor extends cc.Component {
     ultimate(event){
         if(this.getHitting || this.isDead) return;
         if(!this.isUltimate)    return;
+        if(cc.find("Data").getComponent("Data").in_shop) return;
 
         this.isUltimate = false;
         this.Ultimating = true;
@@ -275,15 +274,25 @@ export default class Archor extends cc.Component {
     }
 
     damage(damage_val: number, ...damage_effect: Array<string>) {
+        if(this.isDead || this.getHitting) return;
+
+        this.getHitting = true;
+
         const blood_effect = cc.instantiate(this.Blood);
         blood_effect.setPosition(this.node.x, this.node.y);
         blood_effect.scaleX = Math.random() > 0.5 ? 1 : -1;
 
-        this.HP = this.HP > damage_val ? this.HP - damage_val : 0;
         this._DMG = cc.audioEngine.playEffect(this.damage_effect, false);
 
+        if(this.HP > damage_val){
+            cc.find("Data").getComponent("Data").total_damage_taken += damage_val;
+            this.HP -= damage_val;
+        }else{
+            cc.find("Data").getComponent("Data").total_damage_taken += this.HP;
+            this.HP = 0;
+        }
+
         if(this.HP > 0){
-            this.getHitting = true;
             this.setState("getHit");
             this.scheduleOnce(() => {
                 this.setState("stand");
@@ -332,7 +341,7 @@ export default class Archor extends cc.Component {
             }
 
             // store data to DATA node
-        cc.find("Data").getComponent("Data").money = this.money;
+            cc.find("Data").getComponent("Data").money = this.money;
         }, 1.2);
     }
 }

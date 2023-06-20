@@ -30,11 +30,11 @@ export default class Arrow extends cc.Component {
     }
 
     start(){
-        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(this.direction.x * 150, this.direction.y * 150);
+        this.node.getComponent(cc.RigidBody).linearVelocity = cc.v2(this.direction.x * 170, this.direction.y * 170);
     }
 
     update (dt) {
-        if(this.Number_of_Hit == 3) this.node.destroy();
+        if(this.Number_of_Hit == 5) this.node.destroy();
         if(this.in_wall) this.node.getComponent(cc.RigidBody).type = cc.RigidBodyType.Static;
     }
     
@@ -64,7 +64,7 @@ export default class Arrow extends cc.Component {
             if(this.Number_of_Hit == 0){
                 this.schedule(()=>{
                     this.node.destroy();
-                }, 0.2)
+                }, 0.3)
             }
             this.Number_of_Hit++;
         }

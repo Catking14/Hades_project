@@ -134,7 +134,7 @@ export default class Lobby extends cc.Component {
 
     start () 
     {
-        cc.audioEngine.playMusic(this.BGM, false);
+        cc.audioEngine.playMusic(this.BGM, true);
     }
 
     update (dt) 
