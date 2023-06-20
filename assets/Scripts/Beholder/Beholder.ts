@@ -310,7 +310,7 @@ export default class Beholder extends cc.Component {
 
     dead(){
         this.isDead = true;
-        cc.find("Data").getComponent("Data").boss_killed += 1;
+        cc.find("Data").getComponent("Data").total_Boss_killed += 1;
         this.updateHPBar();
         this.getComponent(cc.Animation).play("Beholder_death");
         this.scheduleOnce(() => {
