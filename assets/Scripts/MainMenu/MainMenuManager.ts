@@ -169,10 +169,12 @@ export default class MainMenuManager extends cc.Component {
     ModifyCurName(NewName: string){
         this.curName = NewName;
         // call persistent node to modify the name stored in firebase.
+        cc.find("Data").getComponent("Data").ModifyCurName(NewName);
     }
 
-    ModifyCurPassword(){
+    ModifyCurPassword(NewPassword: string){
         //call persistent node to modify password by communicating with firebase.
+        cc.find("Data").getComponent("Data").ModifyCurName(NewPassword);
     }
 
     MasterVolumeChanged(value: number){

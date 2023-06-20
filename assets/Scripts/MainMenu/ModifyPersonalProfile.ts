@@ -66,9 +66,9 @@ export default class ModifyPersonalProfile extends cc.Component {
         this.NewPasswordEditbox.string = "";
         this.ConfirmPasswordEditbox.string = "";
         if(this.new_password != this.confirm_password){
-            console.log("different password");
+            alert("The new password and the confirm password do not match");
             return;
         }
-        cc.find("Canvas/bg/MainMenu").getComponent("MainMenuManager").ModifyCurPassword();
+        cc.find("Canvas/bg/MainMenu").getComponent("MainMenuManager").ModifyCurPassword(this.confirm_password);
     }
 }

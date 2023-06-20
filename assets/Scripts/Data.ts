@@ -271,4 +271,12 @@ export default class Data extends cc.Component {
             console.log("error", "failed to sign up");
         });
     }
+
+    ModifyCurName(NewName: string){
+
+    }
+
+    ModifyCurPassword(NewPassword: string){
+
+    }
 }
