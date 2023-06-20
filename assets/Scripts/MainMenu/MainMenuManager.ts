@@ -169,35 +169,43 @@ export default class MainMenuManager extends cc.Component {
     ModifyCurName(NewName: string){
         this.curName = NewName;
         // call persistent node to modify the name stored in firebase.
+        cc.find("Data").getComponent("Data").ModifyCurName(NewName);
     }
 
-    ModifyCurPassword(){
+    ModifyCurPassword(NewPassword: string){
         //call persistent node to modify password by communicating with firebase.
+        cc.find("Data").getComponent("Data").ModifyCurName(NewPassword);
     }
 
     MasterVolumeChanged(value: number){
         this.curMasterVolume = value;
         // change volume
         // pass value to persistent node
+        this.Data.curMasterVolume = value;
+        this.Data.setVolume();
     }
 
     MusicVolumeChanged(value: number){
         this.curMusicVolume = value;
         // change volume
         // pass value to persistent node
+        this.Data.curMusicVolume = value;
+        this.Data.setVolume();
     }
 
     SFXVolumeChanged(value: number){
         this.curSFXVolume = value;
         // change volume
         // pass value to persistent node
+        this.Data.curSFXVolume = value;
+        this.Data.setVolume();
     }
 
     CameraShakeEnableChanged(value: boolean){
         this.CameraShakeEnable = value;
-        console.log(this.CameraShakeEnable);
         // change CameraShakeEnable
         // pass value to persistent node
+        this.Data.CameraShakeEnable = value;
     }
 
     handleLogout(){

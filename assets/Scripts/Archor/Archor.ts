@@ -144,7 +144,7 @@ export default class Archor extends cc.Component {
                 this.isUltimate = true;
                 this.Ultimate_last_timer();
                 this._Ult = cc.audioEngine.playEffect(this.ultimate_effect, false);
-                cc.audioEngine.setVolume(this._Ult, 0.7)
+                // cc.audioEngine.setVolume(this._Ult, 0.7)
                 this.scheduleOnce(()=>{
                     this._ultimate = false;
                     this.canUltimate = true;
@@ -198,7 +198,7 @@ export default class Archor extends cc.Component {
         this.node.runAction(this.dashAction);
         // play effect
         this._DASH = cc.audioEngine.playEffect(this.dash_effect, false);
-        cc.audioEngine.setVolume(this._DASH, 0.15);  // dash is a little too quiet
+        // cc.audioEngine.setVolume(this._DASH, 0.15);  // dash is a little too quiet
         this.scheduleOnce(()=>{
            this.isDashing = false;
         }, 0.2)
@@ -224,7 +224,7 @@ export default class Archor extends cc.Component {
 
         this.scheduleOnce(()=>{
             this._ATK = cc.audioEngine.playEffect(this.attack_effect, false);
-            cc.audioEngine.setVolume(this._ATK, 0.7)
+            // cc.audioEngine.setVolume(this._ATK, 0.7)
             const arrow = cc.instantiate(this.Arrow);
             arrow.setPosition(cc.v2(0, 0));
             cc.find("Canvas/Main Camera").addChild(arrow);

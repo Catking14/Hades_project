@@ -185,8 +185,8 @@ export default class BossSlimeManager extends cc.Component {
         cc.find("Canvas/New Node").addChild(p1);
         this.schedule(() => {this.timer += 1}, 1);
         let bgm = cc.audioEngine.playMusic(this.BGM,true);
-        let vol = cc.find("Data").getComponent("Data").curMusicVolume;
-        cc.audioEngine.setVolume(bgm,vol+0.2);
+        let vol = cc.find("Data").getComponent("Data").curMusicVolume * cc.find("Data").getComponent("Data").curMasterVolume;
+        cc.audioEngine.setVolume(bgm,vol * 1.5);
     }
 
     update(dt) {

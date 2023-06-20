@@ -43,7 +43,7 @@ export default class Assassin extends cc.Component {
 
     start() {
         // cc.director.getPhysicsManager().debugDrawFlags = 1;
-        cc.audioEngine.setVolume(0, 0.1);
+        // cc.audioEngine.setVolume(0, 0.1);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);

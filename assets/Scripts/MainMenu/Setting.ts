@@ -30,6 +30,10 @@ export default class Setting extends cc.Component {
         this.MusicVolumeSlider.node.on("slide", this.MusicVolumeChanged, this);
         this.SFXVolumeSlider.node.on("slide", this.SFXVolumeChanged, this);
 
+        this.MasterVolumeSlider.progress = this.curMasterVolume;
+        this.MusicVolumeSlider.progress = this.curMusicVolume;
+        this.SFXVolumeSlider.progress = this.curSFXVolume;
+
         this.Toggle1 = this.node.getChildByName("CameraShake").getChildByName("toggle")
         .getChildByName("toggle1").getComponent(cc.Toggle);
         this.Toggle2 = this.node.getChildByName("CameraShake").getChildByName("toggle")
@@ -44,17 +48,17 @@ export default class Setting extends cc.Component {
 
     MasterVolumeChanged(){
         let progress = this.MasterVolumeSlider.progress; 
-        this.MainMenuManager.MasterVolumeChanged(Math.floor(progress * 100));
+        this.MainMenuManager.MasterVolumeChanged(progress);
     }
 
     MusicVolumeChanged(){
         let progress = this.MusicVolumeSlider.progress; 
-        this.MainMenuManager.MusicVolumeChanged(Math.floor(progress * 100));
+        this.MainMenuManager.MusicVolumeChanged(progress);
     }
 
     SFXVolumeChanged(){
         let progress = this.SFXVolumeSlider.progress; 
-        this.MainMenuManager.SFXVolumeChanged(Math.floor(progress * 100));
+        this.MainMenuManager.SFXVolumeChanged(progress);
     }
 
     ToggleChanged(){
