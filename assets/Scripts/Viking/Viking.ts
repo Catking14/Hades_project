@@ -80,6 +80,7 @@ export default class Viking extends cc.Component {
         this.HP_max = cc.find("Data").getComponent("Data").HP;
         this.dashCD -= cc.find("Data").getComponent("Data").dash;
         this.attack_damage += cc.find("Data").getComponent("Data").damage;
+        this.money = cc.find("Data").getComponent("Data").money;
         // this.node.scale = 0.6;
     }
 

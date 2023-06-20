@@ -1,8 +1,15 @@
 {
   "title": "Hades",
   "packageName": "org.cocos2d.demo",
-  "startScene": "717367ec-d552-40f4-a0fb-5c8247e873da",
-  "excludeScenes": [],
+  "startScene": "2be71a39-2adb-4959-8840-f03efb8e0406",
+  "excludeScenes": [
+    "2e6d7535-3b9b-4f92-8b9e-da72c3cc31e5",
+    "c49cefee-ee22-420d-91db-2a99aca4f966",
+    "a891cbea-485b-4a64-af65-7b44fba62e69",
+    "db92dc4b-66c4-4890-a36b-d3b93cf7b068",
+    "717367ec-d552-40f4-a0fb-5c8247e873da",
+    "6f434628-4745-492c-ba5d-57aa5cf12be3"
+  ],
   "orientation": {
     "landscapeRight": true,
     "landscapeLeft": true,
