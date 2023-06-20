@@ -67,10 +67,17 @@ export default class Data extends cc.Component {
     curName: string = "Hades";
     curEmail: string = "Hades@gmail.com";
 
-    curMasterVolume: number = 50;
-    curMusicVolume: number = 50;
-    curSFXVolume: number = 50;
+    curMasterVolume: number = 0.5;
+    curMusicVolume: number = 0.3;
+    curSFXVolume: number = 0.3;
     CameraShakeEnable: boolean = true;
+
+    setVolume()
+    {
+        console.log(this.curMasterVolume, this.curMusicVolume, this.curSFXVolume);
+        cc.audioEngine.setMusicVolume(this.curMasterVolume * this.curMusicVolume);
+        cc.audioEngine.setEffectsVolume(this.curMasterVolume * this.curSFXVolume);
+    }
 
     refresh_round()
     {
@@ -122,7 +129,11 @@ export default class Data extends cc.Component {
                 Viking_lock: this.Viking_lock,
                 Archor_lock: this.Archor_lock,
                 Wizard_lock: this.Wizard_lock,
-                Assassin_lock: this.Assassin_lock
+                Assassin_lock: this.Assassin_lock,
+                curMasterVolume: this.curMasterVolume,
+                curMusicVolume: this.curMusicVolume,
+                curSFXVolume: this.curSFXVolume,
+                CameraShakeEnable: this.CameraShakeEnable
             }
         )
     }
@@ -194,6 +205,10 @@ export default class Data extends cc.Component {
             this.Archor_lock = info.Archor_lock;
             this.Wizard_lock = info.Wizard_lock;
             this.Assassin_lock = info.Assassin_lock;
+            this.curMasterVolume = info.curMasterVolume;
+            this.curMusicVolume = info.curMusicVolume;
+            this.curSFXVolume = info.curSFXVolume;
+            this.CameraShakeEnable = info.CameraShakeEnable;
         })
         .catch((error) =>
         {
@@ -224,6 +239,10 @@ export default class Data extends cc.Component {
             this.Archor_lock = true;
             this.Wizard_lock = true;
             this.Assassin_lock = true;
+            this.curMasterVolume = 0.5;
+            this.curMusicVolume = 0.3;
+            this.curSFXVolume = 0.3;
+            this.CameraShakeEnable = true;
         })
     }
 

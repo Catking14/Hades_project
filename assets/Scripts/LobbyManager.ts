@@ -83,8 +83,8 @@ export default class Lobby extends cc.Component {
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
 
-        cc.audioEngine.setMusicVolume(this.volume);
-        cc.audioEngine.setEffectsVolume(this.volume + 0.05);
+        // cc.audioEngine.setMusicVolume(this.volume);
+        // cc.audioEngine.setEffectsVolume(this.volume + 0.05);
 
         // generate warrior for default
         let p1;

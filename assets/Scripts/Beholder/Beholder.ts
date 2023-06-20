@@ -64,7 +64,7 @@ export default class Beholder extends cc.Component {
 
     start() {
         cc.director.getPhysicsManager().debugDrawFlags = 0;
-        cc.audioEngine.setEffectsVolume(0.5);
+        // cc.audioEngine.setEffectsVolume(0.5);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         this.HP_bar = this.node.children[1].getComponents(cc.ProgressBar)[0];

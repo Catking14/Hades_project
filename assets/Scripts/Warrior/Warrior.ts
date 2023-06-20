@@ -195,7 +195,7 @@ export default class Warrior extends cc.Component {
 
             // play effect
             this._DASH = cc.audioEngine.playEffect(this.dash_effect, false);
-            cc.audioEngine.setVolume(this._DASH, 0.15);  // dash is a little too quiet
+            // cc.audioEngine.setVolume(this._DASH, 0.15);  // dash is a little too quiet
         }
     }
 

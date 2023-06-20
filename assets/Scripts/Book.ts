@@ -32,8 +32,11 @@ export default class Book extends cc.Component {
 
     start() {
         cc.systemEvent.on("keydown", this.onKeyDown, this);
-        this.set_volume();
         this.Data = cc.find("Data").getComponent("Data");
+        this.master_volume = this.Data.curMasterVolume;
+        this.music_volume = this.Data.curMusicVolume;
+        this.sfx_volume = this.Data.curSfxVolume;
+        this.Data.setVolume();
         if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder")
         {
             this._player = cc.find("BossSlimeManager").getComponent("BossSlimeManager").follow;
@@ -114,7 +117,7 @@ export default class Book extends cc.Component {
             let new_page = cc.instantiate(this.left_page_prefab);
             this.node.addChild(new_page);
             this.left_page = new_page;
-
+            console.log(this._player);
             new_page.getChildByName("hp_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).HP + " / " + this.Data.HP;
             new_page.getChildByName("heal_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).heal;
             new_page.getChildByName("CD_value").getComponent(cc.Label).string = "- " + this.Data.dash;
@@ -123,30 +126,31 @@ export default class Book extends cc.Component {
         }
     }
 
-    set_volume() {
-        cc.audioEngine.setMusicVolume(this.master_volume * this.music_volume);
-        cc.audioEngine.setEffectsVolume(this.master_volume * this.sfx_volume);
-    }
-
     master_volume_handler(event) {
         this.master_volume = event.progress;
-        this.set_volume();
+        this.Data.curMasterVolume = event.progress;
+        this.Data.setVolume();
     }
 
     music_volume_handler(event) {
         this.music_volume = event.progress;
-        this.set_volume();
+        this.Data.curMusicVolume = event.progress;
+        this.Data.setVolume();
     }
 
     sfx_volume_handler(event) {
+        console.log(event.progress);
         this.sfx_volume = event.progress;
-        this.set_volume();
+        this.Data.curSfxVolume = event.progress;
+        this.Data.setVolume();
     }
 
     shake_handler(event) {
         if (this.toggle_array[0].isChecked && !this.toggle_array[1].isChecked) {
+            this.Data.CameraShakeEnable = true;
         }
         else {
+            this.Data.CameraShakeEnable = false;
         }
     }
 }

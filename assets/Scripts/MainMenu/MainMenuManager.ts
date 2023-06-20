@@ -179,25 +179,31 @@ export default class MainMenuManager extends cc.Component {
         this.curMasterVolume = value;
         // change volume
         // pass value to persistent node
+        this.Data.curMasterVolume = value;
+        this.Data.setVolume();
     }
 
     MusicVolumeChanged(value: number){
         this.curMusicVolume = value;
         // change volume
         // pass value to persistent node
+        this.Data.curMusicVolume = value;
+        this.Data.setVolume();
     }
 
     SFXVolumeChanged(value: number){
         this.curSFXVolume = value;
         // change volume
         // pass value to persistent node
+        this.Data.curSFXVolume = value;
+        this.Data.setVolume();
     }
 
     CameraShakeEnableChanged(value: boolean){
         this.CameraShakeEnable = value;
-        console.log(this.CameraShakeEnable);
         // change CameraShakeEnable
         // pass value to persistent node
+        this.Data.CameraShakeEnable = value;
     }
 
     handleLogout(){

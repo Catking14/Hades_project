@@ -71,11 +71,13 @@ export default class Viking extends cc.Component {
 
     start() {
         // cc.director.getPhysicsManager().debugDrawFlags = 1;
-        cc.audioEngine.setVolume(0, 0.1);
+        // cc.audioEngine.setVolume(0, 0.1);
         cc.systemEvent.on("keydown", this.onKeyDown, this);
         cc.systemEvent.on("keyup", this.onKeyUp, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_DOWN, this.attack, this);
         cc.find("Canvas/Main Camera").on(cc.Node.EventType.MOUSE_MOVE, this.setMousePos, this);
+        this.HP = cc.find("Data").getComponent("Data").HP;
+        this.money = cc.find("Data").getComponent("Data").money;
         // this.node.scale = 0.6;
     }
 
