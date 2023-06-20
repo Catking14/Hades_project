@@ -36,7 +36,7 @@ export default class Ghost extends cc.Component {
     private attack_colddown: number = 3;  // 攻擊的CD
     private attack_delay: number = 0.47;   // 攻擊的延遲 (攻擊之前的準備時間)
     private attack_time: number = 0.9;   // 整個攻擊動作所需要的時間
-    private attack_damage: number = 10;   // 攻擊傷害
+    private attack_damage: number = 15;   // 攻擊傷害
 
     private HP_val: number = 0;
     private Shield_val: number = 0;

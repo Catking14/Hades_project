@@ -885,7 +885,7 @@ export default class GameManager extends cc.Component {
                     let r = Math.random();
                     let new_mob: cc.Node;
                     let new_spawn: cc.Node;
-                    if (r < 0.333)
+                    if (r < 0.35)
                     {
                         if (this.monster_num[0] > 0)
                         {
@@ -905,7 +905,7 @@ export default class GameManager extends cc.Component {
                         }
                         new_mob.getComponent(new_mob.name).pool_num = 0;
                     }
-                    else if (r < 0.666)
+                    else if (r < 0.7)
                     {
                         if (this.monster_num[1] > 0)
                         {

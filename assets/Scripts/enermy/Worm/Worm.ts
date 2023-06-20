@@ -37,7 +37,7 @@ export default class Worm extends cc.Component {
     private attack_delay: number = 0.92;   // 攻擊的延遲 (攻擊之前的準備時間)
     private attack_gap: number = 0.58;
     private attack_time: number = 2.43;    // 整個攻擊動作所需要的時間
-    private attack_damage: number = 8;     // 攻擊傷害
+    private attack_damage: number = 4;     // 攻擊傷害
 
     private HP_val: number = 0;
     private Shield_val: number = 0;
