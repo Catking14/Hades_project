@@ -136,7 +136,7 @@
     "volume": 0.1,
     "shake_duration": 0.02,
     "shakes": 4,
-    "shake_scale": 5,
+    "shake_scale": 7,
     "BGM": {
       "__uuid__": "65b10871-26a5-4e16-8617-0934e1a5beb8"
     },
@@ -2188,7 +2188,7 @@
     "smash_effect": {
       "__uuid__": "e16f5591-8343-43d5-992f-154d5de6b888"
     },
-    "HP": 500,
+    "HP": 2000,
     "Shield": 100,
     "speed": {
       "__type__": "cc.Vec2",
