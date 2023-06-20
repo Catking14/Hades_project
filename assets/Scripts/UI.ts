@@ -117,7 +117,7 @@ export default class UI extends cc.Component {
         }
 
         // set initial blood (HP)
-        this._hp = this._player.getComponent(this._player.name).HP;
+        this._hp = cc.find("Data").getComponent("Data").HP;
         this._max_hp = this._hp;
         this._next_hp = this._hp;
 
@@ -231,6 +231,8 @@ export default class UI extends cc.Component {
         {
             this._next_hp = 0;
         }
+
+        // console.log(this._hp, this._max_hp);
 
         // update bar width
         this._hp_bar.width = this._hp_bar_length * (this._hp / this._max_hp);

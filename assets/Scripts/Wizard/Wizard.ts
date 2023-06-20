@@ -27,10 +27,10 @@ export default class Wizard extends cc.Component {
     spell_sound_effect: cc.AudioClip = null;
 
     @property
-    move_speed: cc.Vec2 = cc.v2(200, 160);
+    move_speed: cc.Vec2 = cc.v2(270, 220);
 
     @property
-    dash_speed: cc.Vec2 = cc.v2(1000, 800);
+    dash_speed: cc.Vec2 = cc.v2(550, 450);
 
     HP: number = 100;
     HP_max: number = 100;
@@ -62,7 +62,7 @@ export default class Wizard extends cc.Component {
     private ultbtn: boolean = false;      //key for ult
     //CD
     private ultCD: number = 0;
-    private dashCD: number = 1;
+    private dashCD: number = 0.75;
     //other
     private mouse_Pos;
     // LIFE-CYCLE CALLBACKS:
@@ -81,6 +81,7 @@ export default class Wizard extends cc.Component {
         this.scheduleOnce(() => {
             this._ultimate = false;
         }, 0.1);
+        this.HP_max = cc.find("Data").getComponent("Data").HP;
         this.HP = cc.find("Data").getComponent("Data").HP;
         this.money = cc.find("Data").getComponent("Data").money;
     }

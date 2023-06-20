@@ -19,6 +19,7 @@ export default class Setting extends cc.Component {
         this.curMasterVolume = this.MainMenuManager.curMasterVolume;
         this.curMusicVolume = this.MainMenuManager.curMusicVolume;
         this.curSFXVolume = this.MainMenuManager.curSFXVolume;
+        this.CameraShakeEnable = this.MainMenuManager.CameraShakeEnable;
 
         this.MasterVolumeSlider = this.node.getChildByName("MasterVolume").getChildByName("slider")
         .getComponent(cc.Slider);
@@ -38,6 +39,8 @@ export default class Setting extends cc.Component {
         .getChildByName("toggle1").getComponent(cc.Toggle);
         this.Toggle2 = this.node.getChildByName("CameraShake").getChildByName("toggle")
         .getChildByName("toggle2").getComponent(cc.Toggle);
+        this.Toggle1.isChecked = this.CameraShakeEnable;
+        this.Toggle2.isChecked = !this.CameraShakeEnable;
         this.Toggle1.node.on("toggle", this.ToggleChanged, this);
         this.Toggle2.node.on("toggle", this.ToggleChanged, this);
     }
