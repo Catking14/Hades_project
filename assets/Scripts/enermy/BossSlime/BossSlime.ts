@@ -23,7 +23,7 @@ export default class BossSlime extends cc.Component {
 
     // 血量
     @property
-    HP: number = 1000;
+    HP: number = 1500;
 
     // 護甲
     @property
@@ -50,7 +50,7 @@ export default class BossSlime extends cc.Component {
     private attack_colddown: number = 3;  // 攻擊的CD
     private attack_delay: number = 1;   // 攻擊的延遲 (攻擊之前的準備時間)
     private attack_time: number = 1.93;   // 整個攻擊動作所需要的時間
-    private attack_damage: number = 20;   // 攻擊傷害
+    private attack_damage: number = 30;   // 攻擊傷害
 
     private HP_val: number = 0;
     private Shield_val: number = 0;
@@ -133,7 +133,7 @@ export default class BossSlime extends cc.Component {
     smashCD_controll(dt){
         if(!this.isSmashing&&this.state == "demon"){
             this.smashCD += dt;
-            if(this.smashCD>=10 && !this.isAttacking && !this.isSpelling && !this.isDead){
+            if(this.smashCD>=7 && !this.isAttacking && !this.isSpelling && !this.isDead){
                 this.isSmashing = true;
                 this.collider.enabled = false;
                 this.scheduleOnce(()=>{
@@ -159,7 +159,7 @@ export default class BossSlime extends cc.Component {
     spellCD_controll(dt){
         if(!this.isSpelling&&this.state == "demon"){
             this.spellCD += dt;
-            if(this.spellCD>=7 && !this.isAttacking && !this.isSmashing && !this.isDead){
+            if(this.spellCD>=10 && !this.isAttacking && !this.isSmashing && !this.isDead){
                 this.isSpelling = true;
                 //call mobs spawn
                 this.scheduleOnce(()=>{
@@ -208,7 +208,7 @@ export default class BossSlime extends cc.Component {
 
     dead() {
         this.isDead = true;
-        cc.find("Data").getComponent("Data").boss_killed += 1;
+        cc.find("Data").getComponent("Data").total_boss_killed += 1;
         let Data = cc.find("Data").getComponent("Data");
         let coin_random = 30;
         let new_coin = [];
