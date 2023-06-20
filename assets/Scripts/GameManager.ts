@@ -438,46 +438,49 @@ export default class GameManager extends cc.Component {
 
     camera_shake()
     {
-        // generate random points 
-        let points = [];
-        let camera_pos = this._camera.getPosition();
-        let player_pos = this.follow.getPosition();
-        let idx = 0;
-
-        for(let i = 0;i < this.shakes;i++)
+        if(cc.find("Data").getComponent("Data").CameraShakeEnable)
         {
-            points.push({x: Math.random() * 2 - 1, y: Math.random() * 2 - 1});
+            // generate random points 
+            let points = [];
+            let camera_pos = this._camera.getPosition();
+            let player_pos = this.follow.getPosition();
+            let idx = 0;
+
+            for(let i = 0;i < this.shakes;i++)
+            {
+                points.push({x: Math.random() * 2 - 1, y: Math.random() * 2 - 1});
+            }
+
+            // quinitic interpolation
+            let smooth = (x) =>
+            {
+                return 6 * (x**5) - 15 * (x**4) + 10 * (x**3);
+            }
+
+            // interpolate with linear method and smoothed data
+            let perlin_shake = () =>
+            {
+                let UI = this._camera.getChildByName("UI");
+                let new_x = player_pos.x + smooth(points[idx].x) * this.shake_scale;
+                let new_y = player_pos.y + smooth(points[idx].y) * this.shake_scale;
+
+                // this._camera.setPosition(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale);
+                // camera_pos.lerp(cc.v2(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale), 0.5, camera_pos);
+                camera_pos.lerp(cc.v2(new_x, new_y), 0.15, camera_pos);
+
+                this._camera.setPosition(camera_pos);
+                UI.setPosition(cc.v2(points[idx].x * this.shake_scale, points[idx].y * this.shake_scale));
+
+                idx++;
+            }
+
+            this.schedule(perlin_shake, this.shake_duration);
+
+            this.scheduleOnce(() =>
+            {
+                this.unschedule(perlin_shake);
+            }, this.shake_duration * this.shakes);
         }
-
-        // quinitic interpolation
-        let smooth = (x) =>
-        {
-            return 6 * (x**5) - 15 * (x**4) + 10 * (x**3);
-        }
-
-        // interpolate with linear method and smoothed data
-        let perlin_shake = () =>
-        {
-            let UI = this._camera.getChildByName("UI");
-            let new_x = player_pos.x + smooth(points[idx].x) * this.shake_scale;
-            let new_y = player_pos.y + smooth(points[idx].y) * this.shake_scale;
-
-            // this._camera.setPosition(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale);
-            // camera_pos.lerp(cc.v2(player_pos.x + points[idx].x * this.shake_scale, player_pos.y + points[idx].y * this.shake_scale), 0.5, camera_pos);
-            camera_pos.lerp(cc.v2(new_x, new_y), 0.15, camera_pos);
-
-            this._camera.setPosition(camera_pos);
-            UI.setPosition(cc.v2(points[idx].x * this.shake_scale, points[idx].y * this.shake_scale));
-
-            idx++;
-        }
-
-        this.schedule(perlin_shake, this.shake_duration);
-
-        this.scheduleOnce(() =>
-        {
-            this.unschedule(perlin_shake);
-        }, this.shake_duration * this.shakes);
 
     }
 
@@ -1003,6 +1006,8 @@ export default class GameManager extends cc.Component {
         // store data
         this.unscheduleAllCallbacks();
         
+        // store data to DATA node
+        cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
         cc.find("Data").getComponent("Data").total_playtime += this.timer;
 
         // change scene
@@ -1012,7 +1017,7 @@ export default class GameManager extends cc.Component {
     player_clear_stage()
     {
         cc.find("Data").getComponent("Data").money = this.follow.getComponent(this.follow.name).money;
-        cc.find("Data").getComponent("Data").time += this.follow.getComponent(this.follow.name).timer;
+        cc.find("Data").getComponent("Data").time += this.timer;
         cc.find("Data").getComponent("Data").clear++;
     }
 
