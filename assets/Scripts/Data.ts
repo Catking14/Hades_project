@@ -310,6 +310,7 @@ export default class Data extends cc.Component {
         .then(() =>
         {
             console.log("Name changed successful");
+            alert("Name changed successful");
         })
         .catch(error =>
         {
@@ -323,6 +324,7 @@ export default class Data extends cc.Component {
         .then(() =>
         {
             console.log("Password changed successful");
+            alert("Password changed successful");
         })
         .catch(error =>
         {
