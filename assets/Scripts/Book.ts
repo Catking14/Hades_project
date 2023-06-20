@@ -110,6 +110,8 @@ export default class Book extends cc.Component {
             slide_array[2].node.on("slide", this.sfx_volume_handler, this);
 
             this.toggle_array = new_page.getChildByName("toggle").getComponentsInChildren(cc.Toggle);
+            this.toggle_array[0].isChecked = this.Data.CameraShakeEnable;
+            this.toggle_array[1].isChecked = !this.Data.CameraShakeEnable;
             this.toggle_array[0].node.on("toggle", this.shake_handler, this);
             this.toggle_array[1].node.on("toggle", this.shake_handler, this);
         }
