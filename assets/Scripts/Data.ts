@@ -250,6 +250,10 @@ export default class Data extends cc.Component {
             this.curSFXVolume = 0.3;
             this.CameraShakeEnable = true;
         })
+        .finally(() => 
+        {
+            this.setVolume();
+        });
     }
 
     update (dt) 
