@@ -59,6 +59,7 @@ export default class ShopMenu extends cc.Component {
             cc.find("Data").getComponent("Data").total_money_spent += next_health;
             cc.find("Data").getComponent("Data").next_health *= 1.2;
             cc.find("Data").getComponent("Data").total_upgrades++;
+            cc.find("Data").getComponent("Data").write_data();
 
             cc.audioEngine.playEffect(this.buy, false);
         }
@@ -80,6 +81,7 @@ export default class ShopMenu extends cc.Component {
             cc.find("Data").getComponent("Data").total_money_spent += next_heal;
             cc.find("Data").getComponent("Data").next_heal *= 2;
             cc.find("Data").getComponent("Data").total_upgrades++;
+            cc.find("Data").getComponent("Data").write_data();
 
             cc.audioEngine.playEffect(this.buy, false);
         }
@@ -101,6 +103,7 @@ export default class ShopMenu extends cc.Component {
             cc.find("Data").getComponent("Data").total_money_spent += next_dash;
             cc.find("Data").getComponent("Data").next_dash *= 1.2;
             cc.find("Data").getComponent("Data").total_upgrades++;
+            cc.find("Data").getComponent("Data").write_data();
 
             cc.audioEngine.playEffect(this.buy, false);
         }
@@ -123,6 +126,7 @@ export default class ShopMenu extends cc.Component {
             cc.find("Data").getComponent("Data").total_money_spent += next_damage;
             cc.find("Data").getComponent("Data").next_damage *= 1.2;
             cc.find("Data").getComponent("Data").total_upgrades++;
+            cc.find("Data").getComponent("Data").write_data();
 
             cc.audioEngine.playEffect(this.buy, false);
         }
