@@ -208,7 +208,7 @@ export default class BossSlime extends cc.Component {
 
     dead() {
         this.isDead = true;
-        cc.find("Data").getComponent("Data").boss_killed += 1;
+        cc.find("Data").getComponent("Data").total_Boss_killed += 1;
         let Data = cc.find("Data").getComponent("Data");
         let coin_random = 30;
         let new_coin = [];

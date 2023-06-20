@@ -83,8 +83,8 @@ export default class Lobby extends cc.Component {
         // get cameras
         this._camera = cc.find("Canvas/Main Camera");
 
-        cc.audioEngine.setMusicVolume(this.volume);
-        cc.audioEngine.setEffectsVolume(this.volume + 0.05);
+        // cc.audioEngine.setMusicVolume(this.volume);
+        // cc.audioEngine.setEffectsVolume(this.volume + 0.05);
 
         // generate warrior for default
         let p1;
@@ -99,18 +99,26 @@ export default class Lobby extends cc.Component {
             else if(cur_role == "Wizard")
             {
                 p1 = cc.instantiate(this.wizard);
+                cc.find("Canvas/lobby/Wizard").active = false;
+                cc.find("Canvas/lobby/Warrior").active = true;
             }
             else if(cur_role == "Archor")
             {
                 p1 = cc.instantiate(this.archor);
+                cc.find("Canvas/lobby/Archor").active = false;
+                cc.find("Canvas/lobby/Warrior").active = true;
             }
             else if(cur_role == "Assassin")
             {
                 p1 = cc.instantiate(this.assassin);
+                cc.find("Canvas/lobby/Assassin").active = false;
+                cc.find("Canvas/lobby/Warrior").active = true;
             }
             else
             {
                 p1 = cc.instantiate(this.viking);
+                cc.find("Canvas/lobby/Viking").active = false;
+                cc.find("Canvas/lobby/Warrior").active = true;
             }
         }
         else

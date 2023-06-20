@@ -19,9 +19,12 @@ export default class Book extends cc.Component {
     private animation_flag: boolean = false;
 
     private animation: cc.Animation;
+    private _player;
+    private Data;
     private main_book: cc.Node = null;
     private left_page: cc.Node = null;
     private right_page: cc.Node = null;
+    private toggle_array;
 
     onLoad() {
 
@@ -29,8 +32,19 @@ export default class Book extends cc.Component {
 
     start() {
         cc.systemEvent.on("keydown", this.onKeyDown, this);
-        this.set_volume();
-        console.log("uwu");
+        this.Data = cc.find("Data").getComponent("Data");
+        this.master_volume = this.Data.curMasterVolume;
+        this.music_volume = this.Data.curMusicVolume;
+        this.sfx_volume = this.Data.curSFXVolume;
+        this.Data.setVolume();
+        if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder")
+        {
+            this._player = cc.find("BossSlimeManager").getComponent("BossSlimeManager").follow;
+        }
+        else
+        {
+            this._player = cc.find("Game Manager").getComponent("GameManager").follow;
+        }
     }
 
     onKeyDown(event) {
@@ -87,52 +101,55 @@ export default class Book extends cc.Component {
 
             let slide_array = new_page.getComponentsInChildren(cc.Slider);
 
-            let master_EventHandler = new cc.Component.EventHandler();
-            master_EventHandler.target = this.node;
-            master_EventHandler.component = 'Book';
-            master_EventHandler.handler = 'master_volume_handler';
-            slide_array[0].slideEvents.push(master_EventHandler);
             slide_array[0].progress = this.master_volume;
-
-            let music_EventHandler = new cc.Component.EventHandler();
-            music_EventHandler.target = this.node;
-            music_EventHandler.component = 'Book';
-            music_EventHandler.handler = 'music_volume_handler';
-            slide_array[1].slideEvents.push(music_EventHandler);
             slide_array[1].progress = this.music_volume;
-
-            let sfx_EventHandler = new cc.Component.EventHandler();
-            sfx_EventHandler.target = this.node;
-            sfx_EventHandler.component = 'Book';
-            sfx_EventHandler.handler = 'sfx_volume_handler';
-            slide_array[2].slideEvents.push(sfx_EventHandler);
             slide_array[2].progress = this.sfx_volume;
+
+            slide_array[0].node.on("slide", this.master_volume_handler, this);
+            slide_array[1].node.on("slide", this.music_volume_handler, this);
+            slide_array[2].node.on("slide", this.sfx_volume_handler, this);
+
+            this.toggle_array = new_page.getChildByName("toggle").getComponentsInChildren(cc.Toggle);
+            this.toggle_array[0].node.on("toggle", this.shake_handler, this);
+            this.toggle_array[1].node.on("toggle", this.shake_handler, this);
         }
         else if (name === "statistics") {
             let new_page = cc.instantiate(this.left_page_prefab);
             this.node.addChild(new_page);
             this.left_page = new_page;
+            console.log(this._player);
+            new_page.getChildByName("hp_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).HP + " / " + this.Data.HP;
+            new_page.getChildByName("heal_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).heal;
+            new_page.getChildByName("CD_value").getComponent(cc.Label).string = "- " + this.Data.dash;
+            new_page.getChildByName("damage_value").getComponent(cc.Label).string = "+ " + this.Data.damage;
+            new_page.getChildByName("money_value").getComponent(cc.Label).string = this._player.getComponent(this._player.name).money.toString();
         }
-    }
-
-    set_volume() {
-        cc.audioEngine.setMusicVolume(this.master_volume * this.music_volume);
-        cc.audioEngine.setEffectsVolume(this.master_volume * this.sfx_volume);
     }
 
     master_volume_handler(event) {
         this.master_volume = event.progress;
-        this.set_volume();
-        console.log("uwu");
+        this.Data.curMasterVolume = event.progress;
+        this.Data.setVolume();
     }
 
     music_volume_handler(event) {
         this.music_volume = event.progress;
-        this.set_volume();
+        this.Data.curMusicVolume = event.progress;
+        this.Data.setVolume();
     }
 
     sfx_volume_handler(event) {
         this.sfx_volume = event.progress;
-        this.set_volume();
+        this.Data.curSFXVolume = event.progress;
+        this.Data.setVolume();
+    }
+
+    shake_handler(event) {
+        if (this.toggle_array[0].isChecked && !this.toggle_array[1].isChecked) {
+            this.Data.CameraShakeEnable = true;
+        }
+        else {
+            this.Data.CameraShakeEnable = false;
+        }
     }
 }
