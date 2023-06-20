@@ -74,7 +74,6 @@ export default class Data extends cc.Component {
 
     setVolume()
     {
-        console.log(this.curMasterVolume, this.curMusicVolume, this.curSFXVolume);
         cc.audioEngine.setMusicVolume(this.curMasterVolume * this.curMusicVolume);
         cc.audioEngine.setEffectsVolume(this.curMasterVolume * this.curSFXVolume);
     }

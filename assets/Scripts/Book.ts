@@ -35,7 +35,7 @@ export default class Book extends cc.Component {
         this.Data = cc.find("Data").getComponent("Data");
         this.master_volume = this.Data.curMasterVolume;
         this.music_volume = this.Data.curMusicVolume;
-        this.sfx_volume = this.Data.curSfxVolume;
+        this.sfx_volume = this.Data.curSFXVolume;
         this.Data.setVolume();
         if(cc.director.getScene().name == "BossSlime" || cc.director.getScene().name == "BossBeholder")
         {
@@ -139,9 +139,8 @@ export default class Book extends cc.Component {
     }
 
     sfx_volume_handler(event) {
-        console.log(event.progress);
         this.sfx_volume = event.progress;
-        this.Data.curSfxVolume = event.progress;
+        this.Data.curSFXVolume = event.progress;
         this.Data.setVolume();
     }
 
