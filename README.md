@@ -1,32 +1,35 @@
 # Hades_project
 Software Studio 2023 final project
 
-### 遊戲流程
+In this project, we aimed to use CocosCreator to build a Hades-like game. The game is build in 2D with roguelike system and RPG elements. 
+The final game is deployed by Google Firebase, and you are able to access with this [link](https://hades-project-bc8b0.web.app/).
 
-### 主流程
+## Game Introduction
 
-    主選單 => 大廳 => 戰鬥關卡 => BOSS => 結算
-    收集金幣解鎖新角色、技能
+### Main secnes
+
+    Menu => Lobby => Battle Scenes => BOSS => Summary
+    Retrieve coins dropped by monsters to unlock new characters and skills.
   
-### 遊戲要素
+### Game features
 
-    4種(以上)角色隨金幣解鎖，
-    3種(以上)關卡風格
+    5 main characters.
+    3 different stages.
+    Roguelike experiences with random generated stages.
   
-### 角色
+### Characters
 
-- [x] 坦克
-- [x] 射手
-- [x] 法師
-- [x] 戰士
-- [ ] 奶媽
-- [x] 刺客
+- [x] Viking, with energy shield.
+- [x] Archer, good at long range combat.
+- [x] Wizard, with powerful spell which has AOE.
+- [x] Warrior, expert in close quarter combat.
+- [x] Assassin, able to summon clone and teleport rapidly.
   
-### 素材
+## Assets Used
 
 ---
 
-#### 角色
+#### Characters
 
 <!-- 
 瑟雷西：https://luizmelo.itch.io/ghost-warrior-3
@@ -56,7 +59,7 @@ https://luizmelo.itch.io/knights-pack
 https://luizmelo.itch.io/fire-worm 
 https://aamatniekss.itch.io/fantasy-knight-free-pixelart-animated-character -->
 
-#### 怪物
+#### Mobs
 
 https://luizmelo.itch.io/monsters-creatures-fantasy
 https://clembod.itch.io/bringer-of-death-free
@@ -66,26 +69,22 @@ https://dreamir.itch.io/goblins-pack
 https://ansimuz.itch.io/gothicvania-patreon-collection
 https://darkpixel-kronovi.itch.io/undead-executioner
 
-#### 特效
+#### Effects
 
 https://ansimuz.itch.io/explosion-animations-pack
 https://pimen.itch.io/fire-spell-effect-02
 https://nyknck.itch.io/effectnpt
 
-#### 關卡
+#### Map and stages
 
 https://assetstore.unity.com/packages/2d/environments/topdown-tileset-mega-bundle-rogue-adventure-238463
 
 
 #### UI
 
-按鍵UI:https://greatdocbrown.itch.io/gamepad-ui
+Button UI:https://greatdocbrown.itch.io/gamepad-ui
 
-### cocos creator 版本
-
-    沿用2.4.8
-
-### 評語
+## Notes and Comments
 
 1. 地圖視角類型要早點確定
 2. 大量敵人出現時，如何維持系統運作效能
